@@ -10,11 +10,13 @@ class Screen2VecTrainer:
     """
     """
 
-    def __init__(self, model: Screen2Vec, ):
+    def __init__(self, model: Screen2Vec, dataloader_test, dataloader_train, 
+                vocab_size:int, l_rate: float):
         """
         """
-        self.loss_criterion = nn.NLLLoss()
-        pass
+        self.criterion = nn.NLLLoss()
+        self.model = model
+        self.optimizer = Adam(self.model.parameters())
 
 
     def train(self, epoch):
@@ -41,10 +43,11 @@ class Screen2VecTrainer:
             prediction_output = self.model.forward() #input here
 
             # calculate NLL loss for all prediction stuff
-            prediction_loss = self.loss_criterion(prediction_output)
+            prediction_loss = self.criterion(prediction_output)
             # if in train, backwards and optimization
             if train:
                 loss.backward()
+                self.optimizer.step()
 
     def save(self, epoch, file_path="output/trained.model"):
         """

@@ -18,4 +18,4 @@ class Screen2Vec(nn.Module):
         """
         describe params here
         """
-        # for UI on screen, forward for each of them 
+        pass 
