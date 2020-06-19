@@ -24,15 +24,15 @@ def train():
         vocab = json.load(f)
     train_dataset_rico = RicoDataset(args.train_dataset)
     test_dataset_rico = RicoDataset(args.test_dataset)
-    train_dataset = ScreenDataset(train_dataset_rico)
-    test_dataset = ScreenDataset(test_dataset_rico)
+    train_dataset = ScreenDataset(train_dataset_rico, n)
+    test_dataset = ScreenDataset(test_dataset_rico, n)
 
     train_data_loader = DataLoader(train_dataset, batch_size=args.batch_size)
     test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
     model = UI2Vec()
 
-    trainer = UI2VecTrainer(model, train_data_loader, test_data_loader, len(vocab), 0.01, args.num_predictors, 768)
+    trainer = UI2VecTrainer(model, train_data_loader, test_data_loader, vocab, len(vocab), 0.01, args.num_predictors, 768)
 
     for epoch in range(args.epochs):
         trainer.train(epoch)

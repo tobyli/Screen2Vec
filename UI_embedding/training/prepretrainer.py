@@ -6,19 +6,21 @@ from torch.utils.data import DataLoader
 
 from ..model import UI2Vec
 from ..model import HiddenLabelPredictorModel
+from ..dataset import BertScreenVocab
 
 class UI2VecTrainer:
     """
     """
 
     def __init__(self, embedder: UI2Vec, dataloader_train, dataloader_test, 
-                vocab_size:int, l_rate: float, n: int, bert_size=768):
+                vocab, vocab_size:int, l_rate: float, n: int, bert_size=768):
         """
         """
-        self.criterion = nn.NLLLoss()
+        self.loss = nn.CrossEntropyLoss()
         self.UI2Vec = embedder
         self.model = HiddenLabelPredictorModel(embedder, bert_size*n, bert_size, vocab_size) 
         self.optimizer = Adam(self.model.parameters())
+        self.vocab = vocab
 
 
     def train(self, epoch):
@@ -40,15 +42,16 @@ class UI2VecTrainer:
         """
         # iterate through data_loader
         for data in data_loader:
-            # TODO: make get item work differently
+
             element = data[0]
             context = data[1]
             # load data properly
             # forward the training stuff (prediction models)
             prediction_output = self.model.forward(context) #input here
 
+            element_target = vocab.get_index(element[0])
             # calculate NLL loss for all prediction stuff
-            prediction_loss = self.criterion(prediction_output, element)
+            prediction_loss = self.loss(prediction_output, element_target)
             # if in train, backwards and optimization
             if train:
                 self.optimizer.zero_grad()

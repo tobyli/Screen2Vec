@@ -60,19 +60,28 @@ class RICOTrace(IterableDataset):
             if view_hierarchy_json.endswith('.json') and (not view_hierarchy_json.startswith('.')):
                 json_file_path = self.location + '/' + 'view_hierarchies' + '/' + view_hierarchy_json
                 cur_screen = RicoScreen(json_file_path)
-                self.screens.append(cur_screen)
+                if(len(cur_screen.labeled_text) > 1):
+                    self.screens.append(cur_screen)
 
     def get_screen(self, index):
         return self.screens[index]
 
 class ScreenDataset(Dataset):
-    def __init__(rico:RicoDataset):
+    def __init__(rico:RicoDataset, n):
         self.screens = []
         for trace in rico.traces:
             screens += trace.screens
+        self.n = n
     
     def __getitem__(self, index):
-        return self.screens[index]
+        num_labels = len(self.screens[index].labeled_text)
+
+        hidden_index = random.randint(0, num_labels)
+        hidden_text = self.screens[index].labeled_text[hidden_index]
+        other_indices = self.screens[index].get_closest_UI_obj(hidden_index, self.n)
+        other_text = [self.screens[index].get_text_info(i) for i in other_indices]
+
+        return [hidden_text, other_text]
     
     def __len__(self):
         return len(self.screens)
@@ -104,7 +113,8 @@ class RicoScreen():
             distances = [[distance_between(bounds_to_check,self.labeled_text[x]), x] 
                             for x in len(self.labeled_text)]
             distances.sort()
-            close_indices = [x[1] for x in distances[:5]]
+            # closest will be the same text
+            close_indices = [x[1] for x in distances[1:n+1]]
         return close_indices
 
     def distance_between(bounds_a, bounds_b):
