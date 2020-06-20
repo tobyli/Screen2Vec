@@ -1,1 +1,0 @@
-from .pretrain import Screen2VecTrainer

@@ -1,0 +1,1722 @@
+{
+  "activity_name": "com.facebook.katana/com.facebook.katana.activity.FbMainTabActivity", 
+  "activity": {
+    "root": {
+      "scrollable-horizontal": false, 
+      "draw": true, 
+      "ancestors": [
+        "android.widget.FrameLayout", 
+        "android.view.ViewGroup", 
+        "android.view.View", 
+        "java.lang.Object"
+      ], 
+      "clickable": false, 
+      "pressed": "not_pressed", 
+      "focusable": false, 
+      "long-clickable": false, 
+      "enabled": true, 
+      "bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "visibility": "visible", 
+      "content-desc": [
+        null
+      ], 
+      "rel-bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "focused": false, 
+      "selected": false, 
+      "scrollable-vertical": false, 
+      "children": [
+        {
+          "scrollable-horizontal": false, 
+          "draw": true, 
+          "ancestors": [
+            "android.view.ViewGroup", 
+            "android.view.View", 
+            "java.lang.Object"
+          ], 
+          "clickable": false, 
+          "pressed": "not_pressed", 
+          "focusable": false, 
+          "long-clickable": false, 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "visibility": "visible", 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "focused": false, 
+          "selected": false, 
+          "scrollable-vertical": false, 
+          "children": [
+            {
+              "resource-id": "android:id/action_mode_bar_stub", 
+              "adapter-view": false, 
+              "pointer": "ca10bcb", 
+              "scrollable-horizontal": false, 
+              "ancestors": [
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "selected": false, 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "draw": true, 
+              "focusable": false, 
+              "long-clickable": false, 
+              "visibility": "gone", 
+              "focused": false, 
+              "clickable": false, 
+              "abs-pos": true, 
+              "class": "android.view.ViewStub", 
+              "visible-to-user": false, 
+              "package": "android", 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "pressed": "not_pressed", 
+              "scrollable-vertical": false
+            }, 
+            {
+              "resource-id": "android:id/content", 
+              "adapter-view": false, 
+              "pointer": "c2c0fa8", 
+              "children": [
+                {
+                  "resource-id": "com.facebook.katana:id/tab_content_viewpager", 
+                  "adapter-view": false, 
+                  "pointer": "f780ac1", 
+                  "children": [
+                    {
+                      "scrollable-horizontal": false, 
+                      "draw": true, 
+                      "ancestors": [
+                        "android.widget.FrameLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "clickable": false, 
+                      "pressed": "not_pressed", 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        422, 
+                        1440, 
+                        2392
+                      ], 
+                      "visibility": "visible", 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        1440, 
+                        1970
+                      ], 
+                      "focused": false, 
+                      "selected": false, 
+                      "scrollable-vertical": false, 
+                      "children": [
+                        {
+                          "resource-id": "android:id/content", 
+                          "adapter-view": false, 
+                          "pointer": "a652943", 
+                          "children": [
+                            {
+                              "resource-id": "com.facebook.katana:id/fragment_container", 
+                              "adapter-view": false, 
+                              "pointer": "c772bc0", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                1440, 
+                                1970
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.FrameLayout", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                422, 
+                                1440, 
+                                2392
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }
+                          ], 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            1970
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "android.widget.FrameLayout", 
+                          "visible-to-user": true, 
+                          "package": "android", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            422, 
+                            1440, 
+                            2392
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }
+                      ], 
+                      "adapter-view": false, 
+                      "abs-pos": true, 
+                      "pointer": "eac6ef2", 
+                      "class": "X.1Hm", 
+                      "visible-to-user": true
+                    }, 
+                    {
+                      "scrollable-horizontal": false, 
+                      "draw": true, 
+                      "ancestors": [
+                        "android.widget.FrameLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "clickable": false, 
+                      "pressed": "not_pressed", 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "enabled": true, 
+                      "bounds": [
+                        1440, 
+                        422, 
+                        1440, 
+                        2392
+                      ], 
+                      "visibility": "visible", 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        1440, 
+                        0, 
+                        2880, 
+                        1970
+                      ], 
+                      "focused": false, 
+                      "selected": false, 
+                      "scrollable-vertical": false, 
+                      "children": [
+                        {
+                          "resource-id": "android:id/content", 
+                          "adapter-view": false, 
+                          "pointer": "827169f", 
+                          "children": [
+                            {
+                              "resource-id": "com.facebook.katana:id/fragment_container", 
+                              "adapter-view": false, 
+                              "pointer": "e1e03b5", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                1440, 
+                                1970
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.FrameLayout", 
+                              "visible-to-user": false, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                1440, 
+                                422, 
+                                1440, 
+                                2392
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }
+                          ], 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            1970
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "android.widget.FrameLayout", 
+                          "visible-to-user": false, 
+                          "package": "android", 
+                          "enabled": true, 
+                          "bounds": [
+                            1440, 
+                            422, 
+                            1440, 
+                            2392
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }
+                      ], 
+                      "adapter-view": false, 
+                      "abs-pos": true, 
+                      "pointer": "49250f9", 
+                      "class": "X.1Hm", 
+                      "visible-to-user": false
+                    }
+                  ], 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "com.facebook.widget.CustomViewPager", 
+                    "android.support.v4.view.ViewPager", 
+                    "android.view.ViewGroup", 
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    422, 
+                    1440, 
+                    2392
+                  ], 
+                  "draw": false, 
+                  "focusable": true, 
+                  "long-clickable": false, 
+                  "visibility": "visible", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "com.facebook.apptab.ui.AppTabViewPager", 
+                  "visible-to-user": true, 
+                  "package": "com.facebook.katana", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    422, 
+                    1440, 
+                    2392
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }, 
+                {
+                  "resource-id": "com.facebook.katana:id/header_container", 
+                  "adapter-view": false, 
+                  "pointer": "ae6ea4a", 
+                  "children": [
+                    {
+                      "resource-id": "com.facebook.katana:id/header_chrome_container", 
+                      "adapter-view": false, 
+                      "pointer": "ef07dbb", 
+                      "children": [
+                        {
+                          "resource-id": "com.facebook.katana:id/titlebar", 
+                          "adapter-view": false, 
+                          "pointer": "c56b2d8", 
+                          "children": [
+                            {
+                              "resource-id": "com.facebook.katana:id/fb_logo_up_button", 
+                              "adapter-view": false, 
+                              "pointer": "6782631", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "com.facebook.widget.FbImageView", 
+                                "android.widget.ImageView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                "Back"
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                56, 
+                                168
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "com.facebook.fbui.glyph.GlyphView", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                56, 
+                                252
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/left_action_buttons_wrapper", 
+                              "adapter-view": false, 
+                              "pointer": "7b16116", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                0, 
+                                0
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "gone", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": false, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                0, 
+                                84
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/info_container", 
+                              "adapter-view": false, 
+                              "pointer": "f1f3a97", 
+                              "children": [
+                                {
+                                  "text": "News Feed", 
+                                  "resource-id": "com.facebook.katana:id/title", 
+                                  "adapter-view": false, 
+                                  "pointer": "bf02484", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "X.0xb", 
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    0, 
+                                    0
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "gone", 
+                                  "focused": false, 
+                                  "clickable": true, 
+                                  "abs-pos": true, 
+                                  "class": "com.facebook.resources.ui.FbTextView", 
+                                  "visible-to-user": false, 
+                                  "package": "com.facebook.katana", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    56, 
+                                    84, 
+                                    56, 
+                                    84
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "resource-id": "com.facebook.katana:id/custom_title_wrapper", 
+                                  "adapter-view": false, 
+                                  "pointer": "277f46d", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    0, 
+                                    0
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "gone", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "android.widget.FrameLayout", 
+                                  "visible-to-user": false, 
+                                  "package": "com.facebook.katana", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    56, 
+                                    84, 
+                                    56, 
+                                    84
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "resource-id": "com.facebook.katana:id/search_box", 
+                                  "adapter-view": false, 
+                                  "pointer": "2da78a2", 
+                                  "children": [
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.widget.LinearLayout", 
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        56, 
+                                        84, 
+                                        1062, 
+                                        252
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        1006, 
+                                        168
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "text": "", 
+                                          "resource-id": "com.facebook.katana:id/search_edit_text", 
+                                          "adapter-view": false, 
+                                          "pointer": "68d04f0", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "com.facebook.widget.text.BetterEditTextView", 
+                                            "com.facebook.resources.ui.FbEditText", 
+                                            "X.121", 
+                                            "android.widget.EditText", 
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            1006, 
+                                            168
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "text-hint": "Search", 
+                                          "focused": false, 
+                                          "clickable": true, 
+                                          "abs-pos": true, 
+                                          "class": "com.facebook.ui.search.SearchEditText", 
+                                          "visible-to-user": true, 
+                                          "package": "com.facebook.katana", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            56, 
+                                            84, 
+                                            1062, 
+                                            252
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "com.facebook.katana:id/scoped_search_pill_stub", 
+                                          "adapter-view": false, 
+                                          "pointer": "32c6a69", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": true, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.ViewStub", 
+                                          "visible-to-user": false, 
+                                          "package": "com.facebook.katana", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            56, 
+                                            84, 
+                                            56, 
+                                            84
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "com.facebook.katana:id/clear_text_stub", 
+                                          "adapter-view": false, 
+                                          "pointer": "88b7cee", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": true, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.ViewStub", 
+                                          "visible-to-user": false, 
+                                          "package": "com.facebook.katana", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            56, 
+                                            84, 
+                                            56, 
+                                            84
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "text": "", 
+                                          "resource-id": "com.facebook.katana:id/null_state_badge", 
+                                          "adapter-view": false, 
+                                          "pointer": "188e58f", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "com.facebook.resources.ui.FbTextView", 
+                                            "X.0xb", 
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "com.facebook.widget.text.BetterTextView", 
+                                          "visible-to-user": false, 
+                                          "package": "com.facebook.katana", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            56, 
+                                            84, 
+                                            56, 
+                                            84
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "712e933", 
+                                      "class": "com.facebook.widget.CustomLinearLayout", 
+                                      "visible-to-user": true
+                                    }
+                                  ], 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "com.facebook.widget.CustomLinearLayout", 
+                                    "android.widget.LinearLayout", 
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    "Search"
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    1006, 
+                                    168
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "com.facebook.search.titlebar.GraphSearchTitleSearchBox", 
+                                  "visible-to-user": true, 
+                                  "package": "com.facebook.katana", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    56, 
+                                    84, 
+                                    1062, 
+                                    252
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }
+                              ], 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                56, 
+                                0, 
+                                1062, 
+                                168
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.FrameLayout", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                56, 
+                                84, 
+                                1062, 
+                                252
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/action_buttons_wrapper", 
+                              "adapter-view": false, 
+                              "pointer": "8d5801c", 
+                              "children": [
+                                {
+                                  "resource-id": "com.facebook.katana:id/primary_action_button", 
+                                  "adapter-view": false, 
+                                  "pointer": "1984425", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    "Messaging"
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    189, 
+                                    168
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": true, 
+                                  "abs-pos": true, 
+                                  "class": "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                  "visible-to-user": true, 
+                                  "package": "com.facebook.katana", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    1062, 
+                                    84, 
+                                    1251, 
+                                    252
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "resource-id": "com.facebook.katana:id/secondary_action_button", 
+                                  "adapter-view": false, 
+                                  "pointer": "c3679fa", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    "Contacts"
+                                  ], 
+                                  "rel-bounds": [
+                                    189, 
+                                    0, 
+                                    378, 
+                                    168
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": true, 
+                                  "abs-pos": true, 
+                                  "class": "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                  "visible-to-user": true, 
+                                  "package": "com.facebook.katana", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    1251, 
+                                    84, 
+                                    1440, 
+                                    252
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }
+                              ], 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                1062, 
+                                0, 
+                                1440, 
+                                168
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                1062, 
+                                84, 
+                                1440, 
+                                252
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }
+                          ], 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "X.0x6", 
+                            "com.facebook.ui.titlebar.Fb4aTitleBar", 
+                            "com.facebook.widget.CustomLinearLayout", 
+                            "android.widget.LinearLayout", 
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            168
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "com.facebook.ui.titlebar.search.Fb4aSearchTitleBar", 
+                          "visible-to-user": true, 
+                          "package": "com.facebook.katana", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            84, 
+                            1440, 
+                            252
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }, 
+                        {
+                          "resource-id": "com.facebook.katana:id/navigation_container", 
+                          "adapter-view": false, 
+                          "pointer": "db84bab", 
+                          "children": [
+                            {
+                              "resource-id": "com.facebook.katana:id/news_feed_tab", 
+                              "adapter-view": false, 
+                              "pointer": "fc88208", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                "News Feed"
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                360, 
+                                168
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": true, 
+                              "abs-pos": true, 
+                              "class": "X.0zl", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                252, 
+                                360, 
+                                420
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/friend_requests_tab", 
+                              "adapter-view": false, 
+                              "pointer": "a2dfda1", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                "Friend Requests"
+                              ], 
+                              "rel-bounds": [
+                                360, 
+                                0, 
+                                720, 
+                                168
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": true, 
+                              "abs-pos": true, 
+                              "class": "X.0zl", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                360, 
+                                252, 
+                                720, 
+                                420
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/notifications_tab", 
+                              "adapter-view": false, 
+                              "pointer": "4623bc6", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                "Notifications"
+                              ], 
+                              "rel-bounds": [
+                                720, 
+                                0, 
+                                1080, 
+                                168
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": true, 
+                              "abs-pos": true, 
+                              "class": "X.0zl", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                720, 
+                                252, 
+                                1080, 
+                                420
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "resource-id": "com.facebook.katana:id/bookmarks_tab", 
+                              "adapter-view": false, 
+                              "pointer": "d2df787", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "com.facebook.apptab.glyph.BadgableGlyphView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                "More"
+                              ], 
+                              "rel-bounds": [
+                                1080, 
+                                0, 
+                                1440, 
+                                168
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": true, 
+                              "abs-pos": true, 
+                              "class": "X.0zl", 
+                              "visible-to-user": true, 
+                              "package": "com.facebook.katana", 
+                              "enabled": true, 
+                              "bounds": [
+                                1080, 
+                                252, 
+                                1440, 
+                                420
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }
+                          ], 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "android.widget.LinearLayout", 
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            168, 
+                            1440, 
+                            336
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "com.facebook.widget.CustomLinearLayout", 
+                          "visible-to-user": true, 
+                          "package": "com.facebook.katana", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            252, 
+                            1440, 
+                            420
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }, 
+                        {
+                          "resource-id": "com.facebook.katana:id/navigation_container_divider", 
+                          "adapter-view": false, 
+                          "pointer": "767b6b4", 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            336, 
+                            1440, 
+                            338
+                          ], 
+                          "draw": false, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "android.view.View", 
+                          "visible-to-user": true, 
+                          "package": "com.facebook.katana", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            420, 
+                            1440, 
+                            422
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }, 
+                        {
+                          "resource-id": "com.facebook.katana:id/dsm_indicator_titlebar_stub", 
+                          "adapter-view": false, 
+                          "pointer": "40bd2dd", 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            0, 
+                            0
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "gone", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "android.view.ViewStub", 
+                          "visible-to-user": false, 
+                          "package": "com.facebook.katana", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            84, 
+                            0, 
+                            84
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }
+                      ], 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "com.facebook.widget.CustomLinearLayout", 
+                        "android.widget.LinearLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        84, 
+                        1440, 
+                        422
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "visible", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "com.facebook.common.ui.keyboard.SoftInputDetectingLinearLayout", 
+                      "visible-to-user": true, 
+                      "package": "com.facebook.katana", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        1440, 
+                        422
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "com.facebook.katana:id/data_saver_switcher_bar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "7364e52", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.view.ViewStub", 
+                      "visible-to-user": false, 
+                      "package": "com.facebook.katana", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "com.facebook.katana:id/zero_indicator_titlebar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "3688523", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.view.ViewStub", 
+                      "visible-to-user": false, 
+                      "package": "com.facebook.katana", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "com.facebook.katana:id/dialtone_switcher_bar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "8238a20", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.view.ViewStub", 
+                      "visible-to-user": false, 
+                      "package": "com.facebook.katana", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }
+                  ], 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.widget.FrameLayout", 
+                    "android.view.ViewGroup", 
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    1440, 
+                    422
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "visible", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "com.facebook.resources.ui.FbFrameLayout", 
+                  "visible-to-user": true, 
+                  "package": "com.facebook.katana", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    0, 
+                    1440, 
+                    422
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }, 
+                {
+                  "resource-id": "com.facebook.katana:id/free_data_capping_bar_stub", 
+                  "adapter-view": false, 
+                  "pointer": "ff7bfd9", 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    0, 
+                    0
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "gone", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "android.view.ViewStub", 
+                  "visible-to-user": false, 
+                  "package": "com.facebook.katana", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    0, 
+                    0, 
+                    0
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }, 
+                {
+                  "resource-id": "com.facebook.katana:id/activity_fab", 
+                  "adapter-view": false, 
+                  "pointer": "3c6fd9e", 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    0, 
+                    0
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "gone", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "android.view.ViewStub", 
+                  "visible-to-user": false, 
+                  "package": "com.facebook.katana", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    0, 
+                    0, 
+                    0
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }
+              ], 
+              "scrollable-horizontal": false, 
+              "ancestors": [
+                "android.view.ViewGroup", 
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "selected": false, 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                0, 
+                1440, 
+                2392
+              ], 
+              "draw": true, 
+              "focusable": false, 
+              "long-clickable": false, 
+              "visibility": "visible", 
+              "focused": false, 
+              "clickable": false, 
+              "abs-pos": true, 
+              "class": "android.widget.FrameLayout", 
+              "visible-to-user": true, 
+              "package": "android", 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                0, 
+                1440, 
+                2392
+              ], 
+              "pressed": "not_pressed", 
+              "scrollable-vertical": false
+            }
+          ], 
+          "adapter-view": false, 
+          "abs-pos": true, 
+          "pointer": "d87a69a", 
+          "class": "android.widget.LinearLayout", 
+          "visible-to-user": true
+        }, 
+        {
+          "resource-id": "android:id/navigationBarBackground", 
+          "adapter-view": false, 
+          "pointer": "334507f", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }, 
+        {
+          "resource-id": "android:id/statusBarBackground", 
+          "adapter-view": false, 
+          "pointer": "f07284c", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }
+      ], 
+      "adapter-view": false, 
+      "abs-pos": true, 
+      "pointer": "a35bf45", 
+      "class": "com.android.internal.policy.PhoneWindow$DecorView", 
+      "visible-to-user": true
+    }, 
+    "added_fragments": [], 
+    "active_fragments": []
+  }, 
+  "is_keyboard_deployed": false, 
+  "request_id": "830"
+}
