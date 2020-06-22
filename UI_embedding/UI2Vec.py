@@ -11,7 +11,7 @@ class UI2Vec(nn.Module):
         """
         describe params here
         """
-        super.__init__()
+        super().__init__()
         self.embedder = UIEmbedder(bert_size, num_classes)
         self.lin = nn.Linear(bert_size + class_emb_size, bert_size)
 

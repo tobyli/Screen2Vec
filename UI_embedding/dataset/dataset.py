@@ -1,15 +1,17 @@
 from torch.utils.data import Dataset, DataLoader, IterableDataset
 from .playstore_scraper import get_app_description
 from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
-from .rico_dao import load_rico_screen
+from .rico_dao import load_rico_screen_dict
+from sentence_transformers import SentenceTransformer
 import torch
 import os
+import json
 import random
 import math
 
 
 
-class RICODataset(Dataset):
+class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
@@ -46,14 +48,14 @@ class RICODataset(Dataset):
 
 class RICOTrace(IterableDataset):
     def __init__(self, data_path, fully_load):
-        self.screens = []
+        self.trace_screens = []
         self.location = data_path
         if fully_load:
             self.load_all_screens()
         pass
 
     def __iter__(self):
-        return iter(self.screens)
+        return iter(self.trace_screens)
 
     def load_all_screens(self):
         for view_hierarchy_json in os.listdir(self.location + '/' + 'view_hierarchies'):
@@ -61,16 +63,16 @@ class RICOTrace(IterableDataset):
                 json_file_path = self.location + '/' + 'view_hierarchies' + '/' + view_hierarchy_json
                 cur_screen = RicoScreen(json_file_path)
                 if(len(cur_screen.labeled_text) > 1):
-                    self.screens.append(cur_screen)
+                    self.trace_screens.append(cur_screen)
 
     def get_screen(self, index):
-        return self.screens[index]
+        return self.trace_screens[index]
 
 class ScreenDataset(Dataset):
-    def __init__(rico:RicoDataset, n):
+    def __init__(self, rico: RicoDataset, n):
         self.screens = []
         for trace in rico.traces:
-            screens += trace.screens
+            self.screens += trace.trace_screens
         self.n = n
     
     def __getitem__(self, index):
@@ -89,18 +91,18 @@ class ScreenDataset(Dataset):
 class RicoScreen():
     def __init__(self, data_path):
         self.location = data_path
-        package_name, description, labeled_text = self.get_rico_info()
+        package_name, labeled_text = self.get_rico_info()
         self.labeled_text = labeled_text
         self.package_name = package_name
-        self.app_description = description
+        #self.app_description = description
 
     def get_rico_info(self):
         with open(self.location) as f:
             rico_screen = load_rico_screen_dict(json.load(f))
             package_name = rico_screen.activity_name.split('/')[0]
             labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
-            description = get_app_description(package_name)
-        return package_name, description, labeled_text
+            #description = get_app_description(package_name)
+        return package_name, labeled_text # , description
     
     def get_text_info(self, index):
         return self.labeled_text[index]

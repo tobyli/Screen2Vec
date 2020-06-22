@@ -21,7 +21,7 @@ args = parser.parse_args()
 
 
 with open(args.vocab_path) as f:
-    vocab = json.load(f)
+    vocab = json.load(f, encoding='utf8')
 train_dataset_rico = RicoDataset(args.train_dataset)
 test_dataset_rico = RicoDataset(args.test_dataset)
 train_dataset = ScreenDataset(train_dataset_rico, args.num_predictors)
