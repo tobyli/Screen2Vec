@@ -78,10 +78,12 @@ class ScreenDataset(Dataset):
     def __getitem__(self, index):
         num_labels = len(self.screens[index].labeled_text)
 
-        hidden_index = random.randint(0, num_labels)
-        hidden_text = self.screens[index].labeled_text[hidden_index]
+        hidden_index = random.randint(0, num_labels-1)
+        hidden_text = self.screens[index].get_text_info(hidden_index)
         other_indices = self.screens[index].get_closest_UI_obj(hidden_index, self.n)
-        other_text = [self.screens[index].get_text_info(i) for i in other_indices]
+        while len(other_indices) < self.n:
+            other_indices.append(-1)
+        other_text = [self.screens[index].get_text_info(i)[:2] for i in other_indices]
 
         return [hidden_text, other_text]
     
@@ -105,21 +107,24 @@ class RicoScreen():
         return package_name, labeled_text # , description
     
     def get_text_info(self, index):
-        return self.labeled_text[index]
+        if index >=0:
+            return self.labeled_text[index]
+        else:
+            return ['', 0, [0,0,0,0]]
 
     def get_closest_UI_obj(self, index, n):
         bounds_to_check = self.labeled_text[index][2]
         if len(self.labeled_text) <= n:
             close_indices = [*range(len(self.labeled_text))]
         else:
-            distances = [[distance_between(bounds_to_check,self.labeled_text[x]), x] 
-                            for x in len(self.labeled_text)]
+            distances = [[self.distance_between(bounds_to_check, self.labeled_text[x][2]), x] 
+                            for x in range(len(self.labeled_text))]
             distances.sort()
             # closest will be the same text
             close_indices = [x[1] for x in distances[1:n+1]]
         return close_indices
 
-    def distance_between(bounds_a, bounds_b):
-        x_distance = min(math.abs(bounds_a[0]-bounds_b[2]), math.abs(bounds_a[2] - bounds_b[0]))
-        y_distance = min(math.abs(bounds_a[1]-bounds_b[3]), math.abs(bounds_a[3] - bounds_b[1]))
+    def distance_between(self, bounds_a, bounds_b):
+        x_distance = min(abs(bounds_a[0]-bounds_b[2]), abs(bounds_a[2] - bounds_b[0]))
+        y_distance = min(abs(bounds_a[1]-bounds_b[3]), abs(bounds_a[3] - bounds_b[1]))
         return math.sqrt(x_distance**2 + y_distance**2)

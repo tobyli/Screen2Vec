@@ -20,7 +20,7 @@ def get_all_labeled_texts_from_node_tree(node):
         if node['text'] and node['text'].strip():
             text = node['text']
             if node['class'] and node['class'].strip():
-                text_class = node['class']
+                text_class = convert_class_to_text_label(node['class'])
             if node["bounds"]:
                 bounds = node["bounds"]
             results.append([text, text_class, bounds])

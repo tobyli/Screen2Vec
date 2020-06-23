@@ -12,22 +12,23 @@ class UI2VecTrainer:
     """
     """
 
-    def __init__(self, embedder: UI2Vec, dataloader_train, dataloader_test, 
+    def __init__(self, embedder: UI2Vec, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
                 vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, bert_size=768):
         """
         """
         self.loss = nn.CrossEntropyLoss()
         self.UI2Vec = embedder
-        self.model = HiddenLabelPredictorModel(embedder, bert_size*n, bert_size, vocab_size) 
-        self.optimizer = Adam(self.model.parameters())
+        self.predictor = predictor
+        self.optimizer = Adam(self.predictor.parameters())
         self.vocab = vocab
-
+        self.train_data = dataloader_train
+        self.test_data = dataloader_test
 
     def train(self, epoch):
         self.iteration(epoch, self.train_data)
 
     def test(self, epoch):
-        self.iteration(epoch, self.train_data, train=False)
+        self.iteration(epoch, self.test_data, train=False)
 
     def iteration(self, epoch, data_loader: iter, train=True):
         """
@@ -49,9 +50,8 @@ class UI2VecTrainer:
             context = data[1]
             # load data properly
             # forward the training stuff (prediction models)
-            prediction_output = self.model.forward(context) #input here
-
-            element_target = vocab.get_index(element[0])
+            prediction_output = self.predictor.forward(context) #input here
+            element_target = self.vocab.get_index(element[0])
             # calculate NLL loss for all prediction stuff
             prediction_loss = self.loss(prediction_output, element_target)
             # if in train, backwards and optimization
