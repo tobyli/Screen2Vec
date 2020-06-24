@@ -26,10 +26,12 @@ class UI2VecTrainer:
         self.vocab_size = vocab_size
 
     def train(self, epoch):
-        self.iteration(epoch, self.train_data)
+        loss = self.iteration(epoch, self.train_data)
+        return loss
 
     def test(self, epoch):
-        self.iteration(epoch, self.test_data, train=False)
+        loss = self.iteration(epoch, self.test_data, train=False)
+        return loss
 
     def iteration(self, epoch, data_loader: iter, train=True):
         """
@@ -40,7 +42,7 @@ class UI2VecTrainer:
         :param epoch: index of current epoch 
         :param data_loader: torch.utils.data.DataLoader for iteration
         :param train: boolean value of is train or test
-        :return: None
+        :return: loss
         """
         total_loss = 0
         total_data = 0
@@ -77,6 +79,6 @@ class UI2VecTrainer:
         :return: final_output_path
         """
         output_path = file_path + ".ep%d" % epoch
-        torch.save(self.UI2Vec.state_dict, output_path)
+        torch.save(self.predictor.state_dict, output_path)
         print("EP:%d Model Saved on:" % epoch, output_path)
         return output_path

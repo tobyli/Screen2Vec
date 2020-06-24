@@ -7,6 +7,7 @@ from prediction import HiddenLabelPredictorModel
 from dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
 from dataset.vocab import BertScreenVocab
 from sentence_transformers import SentenceTransformer
+from plotter import plot_loss
 
 
 parser = argparse.ArgumentParser()
@@ -46,9 +47,12 @@ trainer = UI2VecTrainer(model, predictor, train_data_loader, test_data_loader, v
 test_loss_data = []
 train_loss_data = []
 for epoch in range(args.epochs):
+    print(epoch)
     train_loss = trainer.train(epoch)
+    print(train_loss)
     train_loss_data.append(train_loss)
     if test_data_loader is not None:
         test_loss = trainer.test(epoch)
         test_loss_data.append(test_loss)
 trainer.save(args.epochs, args.output_path)
+plot_loss(train_loss_data, test_loss_data)
