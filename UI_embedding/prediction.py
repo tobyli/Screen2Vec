@@ -13,10 +13,8 @@ class HiddenLabelPredictorModel(nn.Module):
     def forward(self, context):
         # add all of the embedded texts into a megatensor
         # if missing (less than n)- add padding
-        #print(context)
         text_embedding = self.model(context[0])
         for index in range(1, len(context)):
             to_add = self.model(context[index])
             text_embedding = torch.cat((text_embedding, to_add),1)
-            print(text_embedding.size())
         return self.lin(text_embedding)

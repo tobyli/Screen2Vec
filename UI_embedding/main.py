@@ -48,7 +48,7 @@ train_loss_data = []
 for epoch in range(args.epochs):
     train_loss = trainer.train(epoch)
     train_loss_data.append(train_loss)
-    trainer.save(epoch, args.output_path)
     if test_data_loader is not None:
         test_loss = trainer.test(epoch)
         test_loss_data.append(test_loss)
+trainer.save(args.epochs, args.output_path)

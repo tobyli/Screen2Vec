@@ -49,18 +49,20 @@ class UI2VecTrainer:
             total_data+=1
             element = data[0]
             context = data[1]
-            # load data properly
-            # forward the training stuff (prediction models)
+            # forward the training stuff (prediction)
             prediction_output = self.predictor.forward(context) #input here
             element_target_index = self.vocab.get_index(element[0])
-            element_target_emb = self.vocab.get_embedding(element_target_index)
-            # calculate NLL loss for all prediction stuff
-            prediction_loss = self.loss(prediction_output, element_target_emb, torch.ones(#batchsize)) #TODO: make 1, -1 into tensors, may need to switch places
-            for index in range(self.vocab_size):
-                if index != element_target_index:
-                    prediction_loss+= self.loss(prediction_output, self.vocab.get_embedding(index), -1)
-            # if in train, backwards and optimization
+            # calculate loss for all prediction stuff
+            for i in range(self.vocab_size):
+                ones_vec = -torch.ones(len(prediction_output))
+                for batch in range(len(element_target_index)):
+                    if element_target_index[batch] == i:
+                        ones_vec[batch] = 1
+                vocab_embedding = self.vocab.get_embedding(i, len(prediction_output))
+                prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
+                total_loss+=prediction_loss
             total_loss+=prediction_loss
+            # if in train, backwards and optimization
             if train:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
@@ -75,7 +77,6 @@ class UI2VecTrainer:
         :return: final_output_path
         """
         output_path = file_path + ".ep%d" % epoch
-        torch.save(self.UI2Vec.cpu(), output_path)
-        self.bert.to(self.device)
+        torch.save(self.UI2Vec.state_dict, output_path)
         print("EP:%d Model Saved on:" % epoch, output_path)
         return output_path

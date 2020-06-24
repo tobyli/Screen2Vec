@@ -25,8 +25,7 @@ class BertScreenVocab(object):
     def get_text(self, index):
         return self.vocab_list[index]
 
-    def get_embedding(self, index):
-        vec = torch.zeros(len(index), self.bert_size)
-        for i in range(len(vec)):
-            vec[i] = torch.tensor(self.embeddings[int(index[i])])
+    def get_embedding(self, index, length):
+        emb = torch.tensor(self.embeddings[index])
+        vec = emb.repeat(length,1)
         return vec
