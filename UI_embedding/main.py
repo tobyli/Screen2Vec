@@ -26,7 +26,7 @@ bert = SentenceTransformer('bert-base-nli-mean-tokens')
 with open(args.vocab_path) as f:
     vocab_list = json.load(f, encoding='utf8')
 
-vocab = BertScreenVocab(vocab_list, bert)
+vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
 
 print("Length of vocab is " + str(len(vocab_list)))
 train_dataset_rico = RicoDataset(args.train_dataset)

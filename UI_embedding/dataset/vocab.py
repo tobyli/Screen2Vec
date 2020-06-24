@@ -1,11 +1,12 @@
 import torch
 class BertScreenVocab(object):
-    def __init__(self, vocab_list, bert_model):
+    def __init__(self, vocab_list, vocab_size, bert_model, bert_size=768):
         self.vocab_list = vocab_list
         self.bert = bert_model
         self.embeddings = self.load_embeddings()
         self.text_to_index = {}
         self.load_indices()
+        self.bert_size = bert_size
     
     def load_indices(self):
         for index in range(len(self.vocab_list)):
@@ -24,4 +25,8 @@ class BertScreenVocab(object):
     def get_text(self, index):
         return self.vocab_list[index]
 
-    # TODO: get embeddings
+    def get_embedding(self, index):
+        vec = torch.zeros(len(index), self.bert_size)
+        for i in range(len(vec)):
+            vec[i] = torch.tensor(self.embeddings[int(index[i])])
+        return vec

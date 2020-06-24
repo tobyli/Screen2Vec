@@ -13,11 +13,9 @@ class UIEmbedder(nn.Module):
         self.class_size = class_emb_size
 
     def forward(self, text, class_name):
-        print(text)
         text_emb = torch.FloatTensor(self.text_embedder.encode(text))
         class_emb = self.UI_embedder(class_name)
         x = torch.cat((text_emb, class_emb), 1)
-        print(x.size())
         for index in range(len(text)):
             if text[index] == '':
                 x[index] = torch.zeros(self.bert_size + self.class_size)

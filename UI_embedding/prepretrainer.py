@@ -16,13 +16,14 @@ class UI2VecTrainer:
                 vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, bert_size=768):
         """
         """
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CosineEmbeddingLoss()
         self.UI2Vec = embedder
         self.predictor = predictor
         self.optimizer = Adam(self.predictor.parameters())
         self.vocab = vocab
         self.train_data = dataloader_train
         self.test_data = dataloader_test
+        self.vocab_size = vocab_size
 
     def train(self, epoch):
         self.iteration(epoch, self.train_data)
@@ -51,9 +52,13 @@ class UI2VecTrainer:
             # load data properly
             # forward the training stuff (prediction models)
             prediction_output = self.predictor.forward(context) #input here
-            element_target = self.vocab.get_index(element[0])
+            element_target_index = self.vocab.get_index(element[0])
+            element_target_emb = self.vocab.get_embedding(element_target_index)
             # calculate NLL loss for all prediction stuff
-            prediction_loss = self.loss(prediction_output, element_target)
+            prediction_loss = self.loss(prediction_output, element_target_emb, torch.ones(#batchsize)) #TODO: make 1, -1 into tensors, may need to switch places
+            for index in range(self.vocab_size):
+                if index != element_target_index:
+                    prediction_loss+= self.loss(prediction_output, self.vocab.get_embedding(index), -1)
             # if in train, backwards and optimization
             total_loss+=prediction_loss
             if train:
