@@ -99,12 +99,16 @@ class RicoScreen():
         #self.app_description = description
 
     def get_rico_info(self):
-        with open(self.location) as f:
-            rico_screen = load_rico_screen_dict(json.load(f))
-            package_name = rico_screen.activity_name.split('/')[0]
-            labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
-            #description = get_app_description(package_name)
-        return package_name, labeled_text # , description
+        try:
+            with open(self.location) as f:
+                rico_screen = load_rico_screen_dict(json.load(f))
+                package_name = rico_screen.activity_name.split('/')[0]
+                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
+                #description = get_app_description(package_name)
+            return package_name, labeled_text # , description
+        except TypeError as e:
+            print(str(e) + ': ' + self.location)
+            return '', []
     
     def get_text_info(self, index):
         if index >=0:
