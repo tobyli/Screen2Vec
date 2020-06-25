@@ -14,10 +14,10 @@ class BertScreenVocab(object):
 
     def load_embeddings(self):
         vocab_emb = self.bert.encode(self.vocab_list)
-        return vocab_emb
+        return torch.as_tensor(vocab_emb)
 
     def get_index(self, text):
-        vec = torch.zeros(len(text))
+        vec = torch.LongTensor(len(text))
         for index in range(len(vec)):
             vec[index] = self.text_to_index[text[index]]
         return vec
@@ -25,7 +25,13 @@ class BertScreenVocab(object):
     def get_text(self, index):
         return self.vocab_list[index]
 
-    def get_embedding(self, index, length):
-        emb = torch.tensor(self.embeddings[index])
+    def get_embedding_for_cosine(self, index, length):
+        # index is an integer
+        emb = self.embeddings[index]
         vec = emb.repeat(length,1)
         return vec
+
+    def get_embeddings_for_softmax(self, index):
+        # index is a tensor
+        result_embeddings = self.embeddings.gather(0, index)
+        return result_embeddings

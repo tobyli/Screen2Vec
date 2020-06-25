@@ -13,10 +13,9 @@ class UI2VecTrainer:
     """
 
     def __init__(self, embedder: UI2Vec, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
-                vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, bert_size=768):
+                vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, cos_loss: int, bert_size=768):
         """
         """
-        self.loss = nn.CosineEmbeddingLoss()
         self.UI2Vec = embedder
         self.predictor = predictor
         self.optimizer = Adam(self.predictor.parameters())
@@ -24,6 +23,11 @@ class UI2VecTrainer:
         self.train_data = dataloader_train
         self.test_data = dataloader_test
         self.vocab_size = vocab_size
+        self.cosine_loss = cos_loss
+        if self.cosine_loss:
+            self.loss = nn.CosineEmbeddingLoss()
+        else:
+            self.loss = nn.CrossEntropyLoss()
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
@@ -55,21 +59,26 @@ class UI2VecTrainer:
             prediction_output = self.predictor.forward(context) #input here
             element_target_index = self.vocab.get_index(element[0])
             # calculate loss for all prediction stuff
-            for i in range(self.vocab_size):
-                ones_vec = -torch.ones(len(prediction_output))
-                for batch in range(len(element_target_index)):
-                    if element_target_index[batch] == i:
-                        ones_vec[batch] = 1
-                vocab_embedding = self.vocab.get_embedding(i, len(prediction_output))
-                prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
+            if self.cosine_loss:
+                for i in range(self.vocab_size):
+                    ones_vec = -torch.ones(len(prediction_output))
+                    for batch in range(len(element_target_index)):
+                        if element_target_index[batch] == i:
+                            ones_vec[batch] = 1
+                    vocab_embedding = self.vocab.get_embedding_for_cosine(i, len(prediction_output))
+                    prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
+                    total_loss+=prediction_loss
+            else: 
+                vocab_embedding = self.vocab.embeddings.transpose(0,1)
+                dot_products = torch.mm(prediction_output, vocab_embedding)
+                prediction_loss = self.loss(dot_products, element_target_index)
                 total_loss+=prediction_loss
-            total_loss+=prediction_loss
             # if in train, backwards and optimization
             if train:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
                 self.optimizer.step()
-        return total_loss/total_data
+        return total_loss/total_data #TODO think about what this amount means wrt batches
 
     def save(self, epoch, file_path="output/trained.model"):
         """

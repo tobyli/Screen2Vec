@@ -19,6 +19,7 @@ parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in 
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to file with full vocab")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
+parser.add_argument("-l", "--loss", type=int, default=1, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 
 
 args = parser.parse_args()
@@ -42,7 +43,7 @@ model = UI2Vec(bert)
 
 predictor = HiddenLabelPredictorModel(model, bert, 768, args.num_predictors) 
 
-trainer = UI2VecTrainer(model, predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.01, args.num_predictors, 768)
+trainer = UI2VecTrainer(model, predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.01, args.num_predictors, args.loss, 768)
 
 test_loss_data = []
 train_loss_data = []
