@@ -1,0 +1,1316 @@
+{
+  "activity_name": "air.com.nbcuni.com.nbcsports.liveextra/air.com.nbcuni.com.nbcsports.liveextra.NationalAlertsWizardActivity", 
+  "activity": {
+    "root": {
+      "scrollable-horizontal": false, 
+      "draw": true, 
+      "ancestors": [
+        "android.widget.FrameLayout", 
+        "android.view.ViewGroup", 
+        "android.view.View", 
+        "java.lang.Object"
+      ], 
+      "clickable": false, 
+      "pressed": "not_pressed", 
+      "focusable": false, 
+      "long-clickable": false, 
+      "enabled": true, 
+      "bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "visibility": "visible", 
+      "content-desc": [
+        null
+      ], 
+      "rel-bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "focused": false, 
+      "selected": false, 
+      "scrollable-vertical": false, 
+      "children": [
+        {
+          "scrollable-horizontal": false, 
+          "draw": true, 
+          "ancestors": [
+            "android.view.ViewGroup", 
+            "android.view.View", 
+            "java.lang.Object"
+          ], 
+          "clickable": false, 
+          "pressed": "not_pressed", 
+          "focusable": false, 
+          "long-clickable": false, 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "visibility": "visible", 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "focused": false, 
+          "selected": false, 
+          "scrollable-vertical": false, 
+          "children": [
+            {
+              "resource-id": "android:id/action_mode_bar_stub", 
+              "adapter-view": false, 
+              "pointer": "ae9e04c", 
+              "scrollable-horizontal": false, 
+              "ancestors": [
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "selected": false, 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "draw": true, 
+              "focusable": false, 
+              "long-clickable": false, 
+              "visibility": "gone", 
+              "focused": false, 
+              "clickable": false, 
+              "abs-pos": true, 
+              "class": "android.view.ViewStub", 
+              "visible-to-user": false, 
+              "package": "android", 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "pressed": "not_pressed", 
+              "scrollable-vertical": false
+            }, 
+            {
+              "scrollable-horizontal": false, 
+              "draw": true, 
+              "ancestors": [
+                "android.view.ViewGroup", 
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "clickable": false, 
+              "pressed": "not_pressed", 
+              "focusable": false, 
+              "long-clickable": false, 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "visibility": "visible", 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "focused": false, 
+              "selected": false, 
+              "scrollable-vertical": false, 
+              "children": [
+                {
+                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/action_bar_root", 
+                  "adapter-view": false, 
+                  "pointer": "6cecdaa", 
+                  "children": [
+                    {
+                      "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/action_mode_bar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "4338d9b", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.internal.widget.ViewStubCompat", 
+                      "visible-to-user": false, 
+                      "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        0, 
+                        84
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "android:id/content", 
+                      "adapter-view": false, 
+                      "pointer": "ffab538", 
+                      "children": [
+                        {
+                          "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/container", 
+                          "adapter-view": false, 
+                          "pointer": "2466911", 
+                          "children": [
+                            {
+                              "scrollable-horizontal": false, 
+                              "draw": true, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "clickable": false, 
+                              "pressed": "not_pressed", 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                1440, 
+                                2392
+                              ], 
+                              "visibility": "visible", 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                1440, 
+                                2308
+                              ], 
+                              "focused": false, 
+                              "selected": false, 
+                              "scrollable-vertical": false, 
+                              "children": [
+                                {
+                                  "text": "We noticed that you are in the SAN FRANCISCO-OAK-SAN JOSE area.", 
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/lbl_welcome", 
+                                  "adapter-view": false, 
+                                  "pointer": "4cbf47c", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    53, 
+                                    311, 
+                                    1387, 
+                                    768
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "font-family": "default", 
+                                  "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    53, 
+                                    395, 
+                                    1387, 
+                                    852
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "text": "Are you a Comcast Sportsnet subscriber for", 
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/lbl_are_you_subscriber", 
+                                  "adapter-view": false, 
+                                  "pointer": "33d1105", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    53, 
+                                    824, 
+                                    1387, 
+                                    1121
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "font-family": "default", 
+                                  "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    53, 
+                                    908, 
+                                    1387, 
+                                    1205
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "text": "Select if applicable", 
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/lbl_select_alerts", 
+                                  "adapter-view": false, 
+                                  "pointer": "b0df55a", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    53, 
+                                    1177, 
+                                    1387, 
+                                    1331
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "font-family": "default", 
+                                  "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    53, 
+                                    1261, 
+                                    1387, 
+                                    1415
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/rsn_listview", 
+                                  "adapter-view": true, 
+                                  "pointer": "34f138b", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.AbsListView", 
+                                    "android.widget.AdapterView", 
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    0, 
+                                    0
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "gone", 
+                                  "focused": false, 
+                                  "clickable": true, 
+                                  "abs-pos": true, 
+                                  "class": "android.widget.ListView", 
+                                  "visible-to-user": false, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    0, 
+                                    84, 
+                                    0, 
+                                    84
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": true
+                                }, 
+                                {
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/rsn_container", 
+                                  "adapter-view": false, 
+                                  "pointer": "921dc68", 
+                                  "children": [
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": true, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": true, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        158, 
+                                        1415, 
+                                        1282, 
+                                        1583
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        105, 
+                                        0, 
+                                        1229, 
+                                        168
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "text": "CSN California", 
+                                          "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/item_checked_rsn_title", 
+                                          "adapter-view": false, 
+                                          "pointer": "b7d4575", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            42, 
+                                            1124, 
+                                            125
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "font-family": "default", 
+                                          "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            158, 
+                                            1457, 
+                                            1282, 
+                                            1540
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/item_checked_rsn_mark", 
+                                          "adapter-view": false, 
+                                          "pointer": "cfe690a", 
+                                          "children": [
+                                            {
+                                              "scrollable-horizontal": false, 
+                                              "draw": true, 
+                                              "ancestors": [
+                                                "android.view.ViewGroup", 
+                                                "android.view.View", 
+                                                "java.lang.Object"
+                                              ], 
+                                              "clickable": false, 
+                                              "pressed": "not_pressed", 
+                                              "focusable": false, 
+                                              "long-clickable": false, 
+                                              "enabled": true, 
+                                              "bounds": [
+                                                1142, 
+                                                1464, 
+                                                1212, 
+                                                1534
+                                              ], 
+                                              "visibility": "visible", 
+                                              "content-desc": [
+                                                null
+                                              ], 
+                                              "rel-bounds": [
+                                                0, 
+                                                0, 
+                                                70, 
+                                                70
+                                              ], 
+                                              "focused": false, 
+                                              "selected": false, 
+                                              "scrollable-vertical": false, 
+                                              "children": [
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_background", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "fb92f98", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    0, 
+                                                    0
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "gone", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": false, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1464, 
+                                                    1142, 
+                                                    1464
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }, 
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_on", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "5e9c3f1", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    0, 
+                                                    0
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "gone", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": false, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1464, 
+                                                    1142, 
+                                                    1464
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }, 
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_off", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "ba20bd6", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    70, 
+                                                    70
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "visible", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": true, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1464, 
+                                                    1212, 
+                                                    1534
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }
+                                              ], 
+                                              "adapter-view": false, 
+                                              "abs-pos": true, 
+                                              "pointer": "40ff57b", 
+                                              "class": "android.widget.FrameLayout", 
+                                              "visible-to-user": true
+                                            }
+                                          ], 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.FrameLayout", 
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            984, 
+                                            49, 
+                                            1054, 
+                                            119
+                                          ], 
+                                          "draw": true, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "com.nbcsports.liveextra.ui.views.ColoredCheckCircle", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            1142, 
+                                            1464, 
+                                            1212, 
+                                            1534
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "b3374ac", 
+                                      "class": "android.widget.FrameLayout", 
+                                      "visible-to-user": true
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": true, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": true, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        158, 
+                                        1618, 
+                                        1282, 
+                                        1786
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        105, 
+                                        203, 
+                                        1229, 
+                                        371
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "text": "CSN Bay Area", 
+                                          "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/item_checked_rsn_title", 
+                                          "adapter-view": false, 
+                                          "pointer": "dddad44", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            42, 
+                                            1124, 
+                                            125
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "font-family": "default", 
+                                          "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            158, 
+                                            1660, 
+                                            1282, 
+                                            1743
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/item_checked_rsn_mark", 
+                                          "adapter-view": false, 
+                                          "pointer": "8c5ae2d", 
+                                          "children": [
+                                            {
+                                              "scrollable-horizontal": false, 
+                                              "draw": true, 
+                                              "ancestors": [
+                                                "android.view.ViewGroup", 
+                                                "android.view.View", 
+                                                "java.lang.Object"
+                                              ], 
+                                              "clickable": false, 
+                                              "pressed": "not_pressed", 
+                                              "focusable": false, 
+                                              "long-clickable": false, 
+                                              "enabled": true, 
+                                              "bounds": [
+                                                1142, 
+                                                1667, 
+                                                1212, 
+                                                1737
+                                              ], 
+                                              "visibility": "visible", 
+                                              "content-desc": [
+                                                null
+                                              ], 
+                                              "rel-bounds": [
+                                                0, 
+                                                0, 
+                                                70, 
+                                                70
+                                              ], 
+                                              "focused": false, 
+                                              "selected": false, 
+                                              "scrollable-vertical": false, 
+                                              "children": [
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_background", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "a3198f3", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    0, 
+                                                    0
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "gone", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": false, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1667, 
+                                                    1142, 
+                                                    1667
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }, 
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_on", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "2aa59b0", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    0, 
+                                                    0
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "gone", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": false, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1667, 
+                                                    1142, 
+                                                    1667
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }, 
+                                                {
+                                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/main_drawer_brand_sub_alert_icon_off", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "7fc0029", 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.ImageView", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    70, 
+                                                    70
+                                                  ], 
+                                                  "draw": false, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "visible", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "android.support.v7.widget.AppCompatImageView", 
+                                                  "visible-to-user": true, 
+                                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    1142, 
+                                                    1667, 
+                                                    1212, 
+                                                    1737
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }
+                                              ], 
+                                              "adapter-view": false, 
+                                              "abs-pos": true, 
+                                              "pointer": "b0b0f62", 
+                                              "class": "android.widget.FrameLayout", 
+                                              "visible-to-user": true
+                                            }
+                                          ], 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.FrameLayout", 
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            984, 
+                                            49, 
+                                            1054, 
+                                            119
+                                          ], 
+                                          "draw": true, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "com.nbcsports.liveextra.ui.views.ColoredCheckCircle", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            1142, 
+                                            1667, 
+                                            1212, 
+                                            1737
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "11e6e57", 
+                                      "class": "android.widget.FrameLayout", 
+                                      "visible-to-user": true
+                                    }, 
+                                    {
+                                      "text": "No", 
+                                      "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/btn_no", 
+                                      "adapter-view": false, 
+                                      "pointer": "70ebfae", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        105, 
+                                        462, 
+                                        1229, 
+                                        630
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": true, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                      "visible-to-user": true, 
+                                      "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        158, 
+                                        1877, 
+                                        1282, 
+                                        2045
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }
+                                  ], 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    53, 
+                                    1331, 
+                                    1387, 
+                                    1996
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "android.widget.LinearLayout", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    53, 
+                                    1415, 
+                                    1387, 
+                                    2080
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "text": "Next", 
+                                  "resource-id": "air.com.nbcuni.com.nbcsports.liveextra:id/btn_next", 
+                                  "adapter-view": false, 
+                                  "pointer": "86c5714", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    0, 
+                                    0
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "gone", 
+                                  "focused": false, 
+                                  "clickable": true, 
+                                  "abs-pos": true, 
+                                  "font-family": "default", 
+                                  "class": "com.nbcsports.liveextra.ui.views.FontTextView", 
+                                  "visible-to-user": false, 
+                                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    0, 
+                                    84, 
+                                    0, 
+                                    84
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }
+                              ], 
+                              "adapter-view": false, 
+                              "abs-pos": true, 
+                              "pointer": "502b881", 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": true
+                            }
+                          ], 
+                          "scrollable-horizontal": false, 
+                          "ancestors": [
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "selected": false, 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            2308
+                          ], 
+                          "draw": true, 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "visibility": "visible", 
+                          "focused": false, 
+                          "clickable": false, 
+                          "abs-pos": true, 
+                          "class": "android.widget.FrameLayout", 
+                          "visible-to-user": true, 
+                          "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            84, 
+                            1440, 
+                            2392
+                          ], 
+                          "pressed": "not_pressed", 
+                          "scrollable-vertical": false
+                        }
+                      ], 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.widget.FrameLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        1440, 
+                        2308
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "visible", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.internal.widget.ContentFrameLayout", 
+                      "visible-to-user": true, 
+                      "package": "android", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        1440, 
+                        2392
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }
+                  ], 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.widget.LinearLayout", 
+                    "android.view.ViewGroup", 
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    1440, 
+                    2308
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "visible", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "android.support.v7.internal.widget.FitWindowsLinearLayout", 
+                  "visible-to-user": true, 
+                  "package": "air.com.nbcuni.com.nbcsports.liveextra", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    84, 
+                    1440, 
+                    2392
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }
+              ], 
+              "adapter-view": false, 
+              "abs-pos": true, 
+              "pointer": "eb3d895", 
+              "class": "android.widget.FrameLayout", 
+              "visible-to-user": true
+            }
+          ], 
+          "adapter-view": false, 
+          "abs-pos": true, 
+          "pointer": "a8ee87f", 
+          "class": "android.widget.LinearLayout", 
+          "visible-to-user": true
+        }, 
+        {
+          "resource-id": "android:id/navigationBarBackground", 
+          "adapter-view": false, 
+          "pointer": "4af6802", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }, 
+        {
+          "resource-id": "android:id/statusBarBackground", 
+          "adapter-view": false, 
+          "pointer": "3ec1513", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }
+      ], 
+      "adapter-view": false, 
+      "abs-pos": true, 
+      "pointer": "c0cf59e", 
+      "class": "com.android.internal.policy.PhoneWindow$DecorView", 
+      "visible-to-user": true
+    }, 
+    "added_fragments": [], 
+    "active_fragments": []
+  }, 
+  "is_keyboard_deployed": false, 
+  "request_id": "32"
+}

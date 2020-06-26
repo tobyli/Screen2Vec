@@ -1,6 +1,12 @@
 import torch
 class BertScreenVocab(object):
     def __init__(self, vocab_list, vocab_size, bert_model, bert_size=768):
+        """
+        vocab_list : list of all possible text labels on screens in dataset
+        vocab_size : length of vocab_list
+        bert_model : sentence BERT model to encode text
+        bert_size : the length of bert_model's embeddings
+        """
         self.vocab_list = vocab_list
         self.bert = bert_model
         self.embeddings = self.load_embeddings()
@@ -17,21 +23,33 @@ class BertScreenVocab(object):
         return torch.as_tensor(vocab_emb)
 
     def get_index(self, text):
+        """
+        given a vector of text labels, identifies the index at which each 
+        (and its embedding) is located, returns those indicies as a tensor
+        """
         vec = torch.LongTensor(len(text))
         for index in range(len(vec)):
             vec[index] = self.text_to_index[text[index]]
         return vec
 
     def get_text(self, index):
+        """
+        returns the text found at index
+        """
         return self.vocab_list[index]
 
-    def get_embedding_for_cosine(self, index, length):
+    def get_embedding_for_cosine(self, index):
+        """
+        returns the embedding at index
+        """
         # index is an integer
         emb = self.embeddings[index]
-        vec = emb.repeat(length,1)
-        return vec
+        return emb
 
     def get_embeddings_for_softmax(self, index):
+        """
+        takes in a tensor of indices, returns the embeddings at those indices
+        """
         # index is a tensor
         result_embeddings = self.embeddings.gather(0, index)
         return result_embeddings

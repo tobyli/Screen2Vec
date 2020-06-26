@@ -42,11 +42,11 @@ class RicoDataset(Dataset):
         # loads a trace
         # trace_id should come from trace_data_path
         if not self.idmap.get(trace_id):
-            trace_to_add = RICOTrace(trace_data_path, True)
+            trace_to_add = RicoTrace(trace_data_path, True)
             self.traces.append(trace_to_add)
             self.idmap[trace_id] = len(self.traces) - 1
 
-class RICOTrace(IterableDataset):
+class RicoTrace(IterableDataset):
     def __init__(self, data_path, fully_load):
         self.trace_screens = []
         self.location = data_path
@@ -69,6 +69,11 @@ class RICOTrace(IterableDataset):
         return self.trace_screens[index]
 
 class ScreenDataset(Dataset):
+    """
+    Used for training element- (not screen-) level embeddings
+    Has many Rico Screens outside of their traces
+    Does not include screen descriptions 
+    """
     def __init__(self, rico: RicoDataset, n):
         self.screens = []
         for trace in rico.traces:
@@ -79,7 +84,7 @@ class ScreenDataset(Dataset):
         num_labels = len(self.screens[index].labeled_text)
 
         hidden_index = random.randint(0, num_labels-1)
-        hidden_text = self.screens[index].get_text_info(hidden_index)
+        hidden_text = self.screens[index].get_text_info(hidden_index)[:2]
         other_indices = self.screens[index].get_closest_UI_obj(hidden_index, self.n)
         while len(other_indices) < self.n:
             other_indices.append(-1)

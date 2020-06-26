@@ -49,10 +49,10 @@ class UI2VecTrainer:
         :return: loss
         """
         total_loss = 0
-        total_data = 0
+        total_batches = 0
         # iterate through data_loader
         for data in data_loader:
-            total_data+=1
+            total_batches+=1
             element = data[0]
             context = data[1]
             # forward the training stuff (prediction)
@@ -65,7 +65,8 @@ class UI2VecTrainer:
                     for batch in range(len(element_target_index)):
                         if element_target_index[batch] == i:
                             ones_vec[batch] = 1
-                    vocab_embedding = self.vocab.get_embedding_for_cosine(i, len(prediction_output))
+                    vocab_embedding = self.vocab.get_embedding_for_cosine(i)
+                    vocab_embedding = vocab_embedding.repeat(len(prediction_output),1)
                     prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
                     total_loss+=prediction_loss
             else: 
@@ -78,7 +79,7 @@ class UI2VecTrainer:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
                 self.optimizer.step()
-        return total_loss/total_data #TODO think about what this amount means wrt batches
+        return total_loss/total_batches #TODO think about what this amount means wrt batches
 
     def save(self, epoch, file_path="output/trained.model"):
         """

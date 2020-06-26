@@ -1,0 +1,1418 @@
+{
+  "activity_name": "air.com.myheritage.mobile/air.com.myheritage.mobile.activities.FamilyTreeActivity", 
+  "activity": {
+    "root": {
+      "scrollable-horizontal": false, 
+      "draw": true, 
+      "ancestors": [
+        "android.widget.FrameLayout", 
+        "android.view.ViewGroup", 
+        "android.view.View", 
+        "java.lang.Object"
+      ], 
+      "clickable": false, 
+      "pressed": "not_pressed", 
+      "focusable": false, 
+      "long-clickable": false, 
+      "enabled": true, 
+      "bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "visibility": "visible", 
+      "content-desc": [
+        null
+      ], 
+      "rel-bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "focused": false, 
+      "selected": false, 
+      "scrollable-vertical": false, 
+      "children": [
+        {
+          "scrollable-horizontal": false, 
+          "draw": true, 
+          "ancestors": [
+            "android.view.ViewGroup", 
+            "android.view.View", 
+            "java.lang.Object"
+          ], 
+          "clickable": false, 
+          "pressed": "not_pressed", 
+          "focusable": false, 
+          "long-clickable": false, 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "visibility": "visible", 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "focused": false, 
+          "selected": false, 
+          "scrollable-vertical": false, 
+          "children": [
+            {
+              "resource-id": "android:id/action_mode_bar_stub", 
+              "adapter-view": false, 
+              "pointer": "b843e3c", 
+              "scrollable-horizontal": false, 
+              "ancestors": [
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "selected": false, 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "draw": true, 
+              "focusable": false, 
+              "long-clickable": false, 
+              "visibility": "gone", 
+              "focused": false, 
+              "clickable": false, 
+              "abs-pos": true, 
+              "class": "android.view.ViewStub", 
+              "visible-to-user": false, 
+              "package": "android", 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "pressed": "not_pressed", 
+              "scrollable-vertical": false
+            }, 
+            {
+              "scrollable-horizontal": false, 
+              "draw": true, 
+              "ancestors": [
+                "android.view.ViewGroup", 
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "clickable": false, 
+              "pressed": "not_pressed", 
+              "focusable": false, 
+              "long-clickable": false, 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "visibility": "visible", 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "focused": false, 
+              "selected": false, 
+              "scrollable-vertical": false, 
+              "children": [
+                {
+                  "resource-id": "air.com.myheritage.mobile:id/action_bar_root", 
+                  "adapter-view": false, 
+                  "pointer": "56a4b41", 
+                  "children": [
+                    {
+                      "resource-id": "air.com.myheritage.mobile:id/action_mode_bar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "67608e6", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.widget.ViewStubCompat", 
+                      "visible-to-user": false, 
+                      "package": "air.com.myheritage.mobile", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        0, 
+                        84
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "android:id/content", 
+                      "adapter-view": false, 
+                      "pointer": "92c18d4", 
+                      "children": [
+                        {
+                          "scrollable-horizontal": false, 
+                          "draw": true, 
+                          "ancestors": [
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "clickable": false, 
+                          "pressed": "not_pressed", 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            84, 
+                            1440, 
+                            2392
+                          ], 
+                          "visibility": "visible", 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            2308
+                          ], 
+                          "focused": false, 
+                          "selected": false, 
+                          "scrollable-vertical": false, 
+                          "children": [
+                            {
+                              "scrollable-horizontal": false, 
+                              "draw": true, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "clickable": false, 
+                              "pressed": "not_pressed", 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                1440, 
+                                2392
+                              ], 
+                              "visibility": "visible", 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                1440, 
+                                2308
+                              ], 
+                              "focused": false, 
+                              "selected": false, 
+                              "scrollable-vertical": false, 
+                              "children": [
+                                {
+                                  "resource-id": "air.com.myheritage.mobile:id/toolbar_actionbar", 
+                                  "adapter-view": false, 
+                                  "pointer": "d7c2179", 
+                                  "children": [
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        252, 
+                                        84, 
+                                        252, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        252, 
+                                        0, 
+                                        252, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/toolbar_center", 
+                                          "adapter-view": false, 
+                                          "pointer": "7145c35", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            80, 
+                                            0, 
+                                            115
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.View", 
+                                          "visible-to-user": false, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            164, 
+                                            252, 
+                                            199
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/toolbar_center_adjusted", 
+                                          "adapter-view": false, 
+                                          "pointer": "dc198ca", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            115, 
+                                            0, 
+                                            115
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.View", 
+                                          "visible-to-user": false, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            199, 
+                                            252, 
+                                            199
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/toolbar_spinner", 
+                                          "adapter-view": true, 
+                                          "pointer": "9f15f04", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.Spinner", 
+                                            "android.widget.AbsSpinner", 
+                                            "android.widget.AdapterView", 
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": true, 
+                                          "abs-pos": true, 
+                                          "class": "android.support.v7.widget.AppCompatSpinner", 
+                                          "visible-to-user": false, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            84, 
+                                            252, 
+                                            84
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "text": "", 
+                                          "resource-id": "air.com.myheritage.mobile:id/toolbar_subtitle", 
+                                          "adapter-view": false, 
+                                          "pointer": "38c7722", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "font-family": "default", 
+                                          "class": "com.myheritage.libs.widget.view.FontTextView", 
+                                          "visible-to-user": false, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            84, 
+                                            252, 
+                                            84
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "71ae6c", 
+                                      "class": "android.widget.RelativeLayout", 
+                                      "visible-to-user": false
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": false, 
+                                      "ancestors": [
+                                        "android.widget.ImageView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": true, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": true, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        0, 
+                                        84, 
+                                        196, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        "Navigate up"
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        196, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "913d059", 
+                                      "class": "android.widget.ImageButton", 
+                                      "visible-to-user": true
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        252, 
+                                        84, 
+                                        1440, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        252, 
+                                        0, 
+                                        1440, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "scrollable-horizontal": false, 
+                                          "draw": true, 
+                                          "ancestors": [
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "clickable": false, 
+                                          "pressed": "not_pressed", 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            139, 
+                                            1440, 
+                                            224
+                                          ], 
+                                          "visibility": "visible", 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            55, 
+                                            1188, 
+                                            140
+                                          ], 
+                                          "focused": false, 
+                                          "selected": false, 
+                                          "scrollable-vertical": false, 
+                                          "children": [
+                                            {
+                                              "text": "Tan Family Tree", 
+                                              "resource-id": "air.com.myheritage.mobile:id/title", 
+                                              "adapter-view": false, 
+                                              "pointer": "caa178d", 
+                                              "scrollable-horizontal": false, 
+                                              "ancestors": [
+                                                "android.widget.TextView", 
+                                                "android.view.View", 
+                                                "java.lang.Object"
+                                              ], 
+                                              "selected": false, 
+                                              "content-desc": [
+                                                null
+                                              ], 
+                                              "rel-bounds": [
+                                                0, 
+                                                0, 
+                                                1188, 
+                                                85
+                                              ], 
+                                              "draw": false, 
+                                              "focusable": false, 
+                                              "long-clickable": false, 
+                                              "visibility": "visible", 
+                                              "focused": false, 
+                                              "clickable": false, 
+                                              "abs-pos": true, 
+                                              "font-family": "default", 
+                                              "class": "com.myheritage.libs.widget.view.FontTextView", 
+                                              "visible-to-user": true, 
+                                              "package": "air.com.myheritage.mobile", 
+                                              "enabled": true, 
+                                              "bounds": [
+                                                252, 
+                                                139, 
+                                                1440, 
+                                                224
+                                              ], 
+                                              "pressed": "not_pressed", 
+                                              "scrollable-vertical": false
+                                            }, 
+                                            {
+                                              "text": "", 
+                                              "resource-id": "air.com.myheritage.mobile:id/subtitle", 
+                                              "adapter-view": false, 
+                                              "pointer": "46b5a90", 
+                                              "scrollable-horizontal": false, 
+                                              "ancestors": [
+                                                "android.widget.TextView", 
+                                                "android.view.View", 
+                                                "java.lang.Object"
+                                              ], 
+                                              "selected": false, 
+                                              "content-desc": [
+                                                null
+                                              ], 
+                                              "rel-bounds": [
+                                                0, 
+                                                0, 
+                                                0, 
+                                                0
+                                              ], 
+                                              "draw": false, 
+                                              "focusable": false, 
+                                              "long-clickable": false, 
+                                              "visibility": "gone", 
+                                              "focused": false, 
+                                              "clickable": false, 
+                                              "abs-pos": true, 
+                                              "font-family": "default", 
+                                              "class": "com.myheritage.libs.widget.view.FontTextView", 
+                                              "visible-to-user": false, 
+                                              "package": "air.com.myheritage.mobile", 
+                                              "enabled": true, 
+                                              "bounds": [
+                                                252, 
+                                                139, 
+                                                252, 
+                                                139
+                                              ], 
+                                              "pressed": "not_pressed", 
+                                              "scrollable-vertical": false
+                                            }
+                                          ], 
+                                          "adapter-view": false, 
+                                          "abs-pos": true, 
+                                          "pointer": "a166024", 
+                                          "class": "android.widget.LinearLayout", 
+                                          "visible-to-user": true
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/clicked_area", 
+                                          "adapter-view": false, 
+                                          "pointer": "2ad9f89", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            210, 
+                                            196
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.View", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            252, 
+                                            84, 
+                                            462, 
+                                            280
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "390a0b7", 
+                                      "class": "android.widget.RelativeLayout", 
+                                      "visible-to-user": true
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.support.v7.widget.LinearLayoutCompat", 
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        1440, 
+                                        84, 
+                                        1440, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        1440, 
+                                        0, 
+                                        1440, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "127eba8", 
+                                      "class": "android.support.v7.widget.ActionMenuView", 
+                                      "visible-to-user": false
+                                    }
+                                  ], 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    1440, 
+                                    196
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "android.support.v7.widget.Toolbar", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.myheritage.mobile", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    0, 
+                                    84, 
+                                    1440, 
+                                    280
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "resource-id": "air.com.myheritage.mobile:id/fragment_container", 
+                                  "adapter-view": false, 
+                                  "pointer": "c6b5ae9", 
+                                  "children": [
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        0, 
+                                        280, 
+                                        1440, 
+                                        2392
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        1440, 
+                                        2112
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/fragment_container", 
+                                          "adapter-view": false, 
+                                          "pointer": "c7b78f6", 
+                                          "children": [
+                                            {
+                                              "scrollable-horizontal": false, 
+                                              "draw": true, 
+                                              "ancestors": [
+                                                "android.view.ViewGroup", 
+                                                "android.view.View", 
+                                                "java.lang.Object"
+                                              ], 
+                                              "clickable": false, 
+                                              "pressed": "not_pressed", 
+                                              "focusable": false, 
+                                              "long-clickable": false, 
+                                              "enabled": true, 
+                                              "bounds": [
+                                                0, 
+                                                280, 
+                                                1440, 
+                                                2392
+                                              ], 
+                                              "visibility": "visible", 
+                                              "content-desc": [
+                                                null
+                                              ], 
+                                              "rel-bounds": [
+                                                0, 
+                                                0, 
+                                                1440, 
+                                                2112
+                                              ], 
+                                              "focused": false, 
+                                              "selected": false, 
+                                              "scrollable-vertical": false, 
+                                              "children": [
+                                                {
+                                                  "resource-id": "air.com.myheritage.mobile:id/family_tree_webview_container", 
+                                                  "adapter-view": false, 
+                                                  "pointer": "73c848a", 
+                                                  "children": [
+                                                    {
+                                                      "scrollable-horizontal": false, 
+                                                      "draw": true, 
+                                                      "ancestors": [
+                                                        "android.view.ViewGroup", 
+                                                        "android.view.View", 
+                                                        "java.lang.Object"
+                                                      ], 
+                                                      "clickable": false, 
+                                                      "pressed": "not_pressed", 
+                                                      "focusable": false, 
+                                                      "long-clickable": false, 
+                                                      "enabled": true, 
+                                                      "bounds": [
+                                                        0, 
+                                                        280, 
+                                                        1440, 
+                                                        2392
+                                                      ], 
+                                                      "visibility": "visible", 
+                                                      "content-desc": [
+                                                        null
+                                                      ], 
+                                                      "rel-bounds": [
+                                                        0, 
+                                                        0, 
+                                                        1440, 
+                                                        2112
+                                                      ], 
+                                                      "focused": false, 
+                                                      "selected": false, 
+                                                      "scrollable-vertical": false, 
+                                                      "children": [
+                                                        {
+                                                          "resource-id": "air.com.myheritage.mobile:id/webview", 
+                                                          "adapter-view": false, 
+                                                          "pointer": "d853571", 
+                                                          "scrollable-horizontal": true, 
+                                                          "ancestors": [
+                                                            "com.myheritage.libs.widget.webcontainer.MHWebView", 
+                                                            "android.webkit.WebView", 
+                                                            "android.widget.AbsoluteLayout", 
+                                                            "android.view.ViewGroup", 
+                                                            "android.view.View", 
+                                                            "java.lang.Object"
+                                                          ], 
+                                                          "selected": false, 
+                                                          "content-desc": [
+                                                            null
+                                                          ], 
+                                                          "rel-bounds": [
+                                                            0, 
+                                                            0, 
+                                                            1440, 
+                                                            2112
+                                                          ], 
+                                                          "draw": false, 
+                                                          "focusable": true, 
+                                                          "long-clickable": false, 
+                                                          "visibility": "visible", 
+                                                          "focused": true, 
+                                                          "clickable": true, 
+                                                          "abs-pos": true, 
+                                                          "class": "com.myheritage.libs.widget.webcontainer.webtree.MHFamilyTreeView", 
+                                                          "visible-to-user": true, 
+                                                          "package": "air.com.myheritage.mobile", 
+                                                          "enabled": true, 
+                                                          "bounds": [
+                                                            0, 
+                                                            280, 
+                                                            1440, 
+                                                            2392
+                                                          ], 
+                                                          "pressed": "not_pressed", 
+                                                          "scrollable-vertical": true
+                                                        }, 
+                                                        {
+                                                          "resource-id": "air.com.myheritage.mobile:id/progress_bar_container", 
+                                                          "adapter-view": false, 
+                                                          "pointer": "b47243a", 
+                                                          "children": [
+                                                            {
+                                                              "scrollable-horizontal": false, 
+                                                              "draw": false, 
+                                                              "ancestors": [
+                                                                "android.view.View", 
+                                                                "java.lang.Object"
+                                                              ], 
+                                                              "clickable": false, 
+                                                              "pressed": "not_pressed", 
+                                                              "focusable": false, 
+                                                              "long-clickable": false, 
+                                                              "enabled": true, 
+                                                              "bounds": [
+                                                                527, 
+                                                                1143, 
+                                                                912, 
+                                                                1528
+                                                              ], 
+                                                              "visibility": "visible", 
+                                                              "content-desc": [
+                                                                null
+                                                              ], 
+                                                              "rel-bounds": [
+                                                                527, 
+                                                                863, 
+                                                                912, 
+                                                                1248
+                                                              ], 
+                                                              "focused": false, 
+                                                              "selected": false, 
+                                                              "scrollable-vertical": false, 
+                                                              "adapter-view": false, 
+                                                              "abs-pos": true, 
+                                                              "pointer": "93048eb", 
+                                                              "class": "android.widget.ProgressBar", 
+                                                              "visible-to-user": false
+                                                            }
+                                                          ], 
+                                                          "scrollable-horizontal": false, 
+                                                          "ancestors": [
+                                                            "android.view.ViewGroup", 
+                                                            "android.view.View", 
+                                                            "java.lang.Object"
+                                                          ], 
+                                                          "selected": false, 
+                                                          "content-desc": [
+                                                            null
+                                                          ], 
+                                                          "rel-bounds": [
+                                                            0, 
+                                                            0, 
+                                                            1440, 
+                                                            2112
+                                                          ], 
+                                                          "draw": true, 
+                                                          "focusable": false, 
+                                                          "long-clickable": false, 
+                                                          "visibility": "gone", 
+                                                          "focused": false, 
+                                                          "clickable": false, 
+                                                          "abs-pos": true, 
+                                                          "class": "android.widget.RelativeLayout", 
+                                                          "visible-to-user": false, 
+                                                          "package": "air.com.myheritage.mobile", 
+                                                          "enabled": true, 
+                                                          "bounds": [
+                                                            0, 
+                                                            280, 
+                                                            1440, 
+                                                            2392
+                                                          ], 
+                                                          "pressed": "not_pressed", 
+                                                          "scrollable-vertical": false
+                                                        }
+                                                      ], 
+                                                      "adapter-view": false, 
+                                                      "abs-pos": true, 
+                                                      "pointer": "6bd7718", 
+                                                      "class": "android.widget.FrameLayout", 
+                                                      "visible-to-user": true
+                                                    }
+                                                  ], 
+                                                  "scrollable-horizontal": false, 
+                                                  "ancestors": [
+                                                    "android.widget.FrameLayout", 
+                                                    "android.view.ViewGroup", 
+                                                    "android.view.View", 
+                                                    "java.lang.Object"
+                                                  ], 
+                                                  "selected": false, 
+                                                  "content-desc": [
+                                                    null
+                                                  ], 
+                                                  "rel-bounds": [
+                                                    0, 
+                                                    0, 
+                                                    1440, 
+                                                    2112
+                                                  ], 
+                                                  "draw": true, 
+                                                  "focusable": false, 
+                                                  "long-clickable": false, 
+                                                  "visibility": "visible", 
+                                                  "focused": false, 
+                                                  "clickable": false, 
+                                                  "abs-pos": true, 
+                                                  "class": "com.myheritage.libs.widget.viewgroup.WebViewContainer", 
+                                                  "visible-to-user": true, 
+                                                  "package": "air.com.myheritage.mobile", 
+                                                  "enabled": true, 
+                                                  "bounds": [
+                                                    0, 
+                                                    280, 
+                                                    1440, 
+                                                    2392
+                                                  ], 
+                                                  "pressed": "not_pressed", 
+                                                  "scrollable-vertical": false
+                                                }
+                                              ], 
+                                              "adapter-view": false, 
+                                              "abs-pos": true, 
+                                              "pointer": "1bb5dd0", 
+                                              "class": "android.widget.FrameLayout", 
+                                              "visible-to-user": true
+                                            }
+                                          ], 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            1440, 
+                                            2112
+                                          ], 
+                                          "draw": true, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.widget.FrameLayout", 
+                                          "visible-to-user": true, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            0, 
+                                            280, 
+                                            1440, 
+                                            2392
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "air.com.myheritage.mobile:id/dim_view", 
+                                          "adapter-view": false, 
+                                          "pointer": "3b1a4f7", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "gone", 
+                                          "focused": false, 
+                                          "clickable": true, 
+                                          "abs-pos": true, 
+                                          "class": "android.view.View", 
+                                          "visible-to-user": false, 
+                                          "package": "air.com.myheritage.mobile", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            0, 
+                                            280, 
+                                            0, 
+                                            280
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "efe3191", 
+                                      "class": "android.widget.RelativeLayout", 
+                                      "visible-to-user": true
+                                    }
+                                  ], 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    196, 
+                                    1440, 
+                                    2308
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "android.widget.FrameLayout", 
+                                  "visible-to-user": true, 
+                                  "package": "air.com.myheritage.mobile", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    0, 
+                                    280, 
+                                    1440, 
+                                    2392
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }
+                              ], 
+                              "adapter-view": false, 
+                              "abs-pos": true, 
+                              "pointer": "4f165c3", 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": true
+                            }, 
+                            {
+                              "resource-id": "air.com.myheritage.mobile:id/waitProgressBar", 
+                              "adapter-view": false, 
+                              "pointer": "89ee36e", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                0, 
+                                0
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "gone", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.ProgressBar", 
+                              "visible-to-user": false, 
+                              "package": "air.com.myheritage.mobile", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                0, 
+                                84
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }
+                          ], 
+                          "adapter-view": false, 
+                          "abs-pos": true, 
+                          "pointer": "c09cd72", 
+                          "class": "android.widget.RelativeLayout", 
+                          "visible-to-user": true
+                        }
+                      ], 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.widget.FrameLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        1440, 
+                        2308
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "visible", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.widget.ContentFrameLayout", 
+                      "visible-to-user": true, 
+                      "package": "android", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        1440, 
+                        2392
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }
+                  ], 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.widget.LinearLayout", 
+                    "android.view.ViewGroup", 
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    1440, 
+                    2308
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "visible", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "android.support.v7.widget.FitWindowsLinearLayout", 
+                  "visible-to-user": true, 
+                  "package": "air.com.myheritage.mobile", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    84, 
+                    1440, 
+                    2392
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }
+              ], 
+              "adapter-view": false, 
+              "abs-pos": true, 
+              "pointer": "acf7c5", 
+              "class": "android.widget.FrameLayout", 
+              "visible-to-user": true
+            }
+          ], 
+          "adapter-view": false, 
+          "abs-pos": true, 
+          "pointer": "e21482f", 
+          "class": "android.widget.LinearLayout", 
+          "visible-to-user": true
+        }, 
+        {
+          "resource-id": "android:id/navigationBarBackground", 
+          "adapter-view": false, 
+          "pointer": "20aaa56", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }, 
+        {
+          "resource-id": "android:id/statusBarBackground", 
+          "adapter-view": false, 
+          "pointer": "8bdfe19", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }
+      ], 
+      "adapter-view": false, 
+      "abs-pos": true, 
+      "pointer": "67c61d3", 
+      "class": "com.android.internal.policy.PhoneWindow$DecorView", 
+      "visible-to-user": true
+    }, 
+    "added_fragments": [], 
+    "active_fragments": []
+  }, 
+  "is_keyboard_deployed": false, 
+  "request_id": "1650"
+}
