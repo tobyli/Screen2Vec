@@ -88,6 +88,6 @@ class UI2VecTrainer:
         :return: final_output_path
         """
         output_path = file_path + ".ep%d" % epoch
-        torch.save(self.predictor.state_dict, output_path)
+        torch.save(self.predictor.state_dict(), output_path)
         print("EP:%d Model Saved on:" % epoch, output_path)
         return output_path
