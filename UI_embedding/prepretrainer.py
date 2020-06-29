@@ -12,11 +12,10 @@ class UI2VecTrainer:
     """
     """
 
-    def __init__(self, embedder: UI2Vec, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
+    def __init__(self, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
                 vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, cos_loss: int, bert_size=768):
         """
         """
-        self.UI2Vec = embedder
         self.predictor = predictor
         self.optimizer = Adam(self.predictor.parameters())
         self.vocab = vocab
@@ -68,18 +67,18 @@ class UI2VecTrainer:
                     vocab_embedding = self.vocab.get_embedding_for_cosine(i)
                     vocab_embedding = vocab_embedding.repeat(len(prediction_output),1)
                     prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
-                    total_loss+=prediction_loss
+                    total_loss+=float(prediction_loss)
             else: 
                 vocab_embedding = self.vocab.embeddings.transpose(0,1)
                 dot_products = torch.mm(prediction_output, vocab_embedding)
                 prediction_loss = self.loss(dot_products, element_target_index)
-                total_loss+=prediction_loss
+                total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
             if train:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
                 self.optimizer.step()
-        return total_loss/total_batches #TODO think about what this amount means wrt batches
+        return total_loss/total_batches 
 
     def save(self, epoch, file_path="output/trained.model"):
         """

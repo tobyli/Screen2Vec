@@ -3,10 +3,14 @@ import torch.nn as nn
 from UI2Vec import UI2Vec
 
 class HiddenLabelPredictorModel(nn.Module):
-    def __init__(self, model: UI2Vec, bert, bert_size, n):
+    """
+    combines the n closest UI elements (text plus class) to predict the embedding
+    of a different one on the same screen
+    """
+    def __init__(self, bert, bert_size, n):
         super().__init__()
         self.lin = nn.Linear(bert_size*n, bert_size)
-        self.model = model
+        self.model = UI2Vec(bert)
         self.n = n
         self.bert_size = bert_size
 

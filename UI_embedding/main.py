@@ -39,11 +39,10 @@ test_dataset = ScreenDataset(test_dataset_rico, args.num_predictors)
 train_data_loader = DataLoader(train_dataset, batch_size=args.batch_size)
 test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
-model = UI2Vec(bert)
 
-predictor = HiddenLabelPredictorModel(model, bert, 768, args.num_predictors) 
+predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors) 
 
-trainer = UI2VecTrainer(model, predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.01, args.num_predictors, args.loss, 768)
+trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.01, args.num_predictors, args.loss, 768)
 
 test_loss_data = []
 train_loss_data = []

@@ -47,6 +47,9 @@ class RicoDataset(Dataset):
             self.idmap[trace_id] = len(self.traces) - 1
 
 class RicoTrace(IterableDataset):
+    """
+    A list of screens
+    """
     def __init__(self, data_path, fully_load):
         self.trace_screens = []
         self.location = data_path
@@ -96,6 +99,10 @@ class ScreenDataset(Dataset):
         return len(self.screens)
 
 class RicoScreen():
+    """
+    The information from one screenshot of a app- package name
+    and labeled text (text, class, and location)
+    """
     def __init__(self, data_path):
         self.location = data_path
         package_name, labeled_text = self.get_rico_info()
