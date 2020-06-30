@@ -26,7 +26,7 @@ args = parser.parse_args()
 
 bert = SentenceTransformer('bert-base-nli-mean-tokens')
 with open(args.vocab_path) as f:
-    vocab_list = json.load(f, encoding='utf8')
+    vocab_list = json.load(f, encoding='utf-8')
 
 vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
 
@@ -42,7 +42,7 @@ test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
 predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors) 
 
-trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.01, args.num_predictors, args.loss, 768)
+trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.0005, args.num_predictors, args.loss, 768)
 
 test_loss_data = []
 train_loss_data = []
@@ -54,5 +54,7 @@ for epoch in range(args.epochs):
     if test_data_loader is not None:
         test_loss = trainer.test(epoch)
         test_loss_data.append(test_loss)
+    if (epoch%20)==0:
+        trainer.save(epoch, args.output_path)
 trainer.save(args.epochs, args.output_path)
 plot_loss(train_loss_data, test_loss_data)
