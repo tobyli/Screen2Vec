@@ -60,6 +60,10 @@ class UI2VecTrainer:
                               bar_format="{l_bar}{r_bar}")
 
         # iterate through data_loader
+        if not self.cosine_loss:
+            #TODO: make less gross by moving loss stuff apart
+            vocab_embeddings = self.vocab.embeddings.transpose(0,1)
+            vocab_embeddings = vocab_embeddings.cuda()
         for idx,data in data_itr:
             total_batches+=1
             element = data[0]
@@ -79,8 +83,9 @@ class UI2VecTrainer:
                     prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
                     total_loss+=float(prediction_loss)
             else: 
-                vocab_embedding = self.vocab.embeddings.transpose(0,1)
-                dot_products = torch.mm(prediction_output, vocab_embedding)
+                prediction_output = prediction_output.cuda()
+                dot_products = torch.mm(prediction_output, vocab_embeddings)
+                dot_products = dot_products.cpu()
                 prediction_loss = self.loss(dot_products, element_target_index)
                 total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
