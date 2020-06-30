@@ -6,7 +6,8 @@ def plot_loss(training_loss, testing_loss):
     fig = plt.figure()
     plot = fig.add_subplot(1,1,1)
     plot.plot(epochs, training_loss, color='blue')
-    plot.plot(epochs, testing_loss, color='red')
+    if testing_loss:
+        plot.plot(epochs, testing_loss, color='red')
     plot.set_title('Loss across epochs')
     #fig.show()
     fig.savefig("loss_figure.png")
