@@ -4,6 +4,8 @@ import torch.nn as nn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 
+import tqdm
+
 from UI2Vec import UI2Vec
 from prediction import HiddenLabelPredictorModel
 from dataset.vocab import BertScreenVocab
@@ -49,8 +51,16 @@ class UI2VecTrainer:
         """
         total_loss = 0
         total_batches = 0
+
+        str_code = "train" if train else "test"
+
+        data_itr = tqdm.tqdm(enumerate(data_loader),
+                              desc="EP_%s:%d" % (str_code, epoch),
+                              total=len(data_loader),
+                              bar_format="{l_bar}{r_bar}")
+
         # iterate through data_loader
-        for data in data_loader:
+        for idx,data in data_itr:
             total_batches+=1
             element = data[0]
             context = data[1]

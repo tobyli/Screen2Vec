@@ -1,5 +1,6 @@
 import argparse
 import json
+import tqdm
 from torch.utils.data import DataLoader
 from UI2Vec import UI2Vec
 from prepretrainer import UI2VecTrainer
@@ -13,7 +14,7 @@ from plotter import plot_loss
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-c", "--train_dataset", required=True, type=str, help="dataset to train model")
-parser.add_argument("-t", "--test_dataset", type=str, default=None, help="dataset to test model")
+parser.add_argument("-t", "--test_dataset", required=False, type=str, default=None, help="dataset to test model")
 parser.add_argument("-o", "--output_path", required=True, type=str, help="where to store model")
 parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in a batch")
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
@@ -32,21 +33,23 @@ vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
 
 print("Length of vocab is " + str(len(vocab_list)))
 train_dataset_rico = RicoDataset(args.train_dataset)
-test_dataset_rico = RicoDataset(args.test_dataset)
 train_dataset = ScreenDataset(train_dataset_rico, args.num_predictors)
-test_dataset = ScreenDataset(test_dataset_rico, args.num_predictors)
-
 train_data_loader = DataLoader(train_dataset, batch_size=args.batch_size)
-test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
+if args.test_dataset:
+    test_dataset_rico = RicoDataset(args.test_dataset)
+    test_dataset = ScreenDataset(test_dataset_rico, args.num_predictors)
+    test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
+else: 
+    test_data_loader = None
 
 predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors) 
 
-trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.0005, args.num_predictors, args.loss, 768)
+trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), 0.0002, args.num_predictors, args.loss, 768)
 
 test_loss_data = []
 train_loss_data = []
-for epoch in range(args.epochs):
+for epoch in tqdm.tqdm(range(args.epochs)):
     print(epoch)
     train_loss = trainer.train(epoch)
     print(train_loss)
