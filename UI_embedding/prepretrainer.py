@@ -19,7 +19,7 @@ class UI2VecTrainer:
         """
         """
         self.predictor = predictor
-        self.optimizer = Adam(self.predictor.parameters())
+        self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
         self.vocab = vocab
         self.train_data = dataloader_train
         self.test_data = dataloader_test
