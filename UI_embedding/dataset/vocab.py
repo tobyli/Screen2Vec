@@ -1,6 +1,8 @@
 import torch
+import numpy as np
+
 class BertScreenVocab(object):
-    def __init__(self, vocab_list, vocab_size, bert_model, bert_size=768):
+    def __init__(self, vocab_list, vocab_size, bert_model, bert_size=768, embedding_path=None):
         """
         vocab_list : list of all possible text labels on screens in dataset
         vocab_size : length of vocab_list
@@ -9,7 +11,7 @@ class BertScreenVocab(object):
         """
         self.vocab_list = vocab_list
         self.bert = bert_model
-        self.embeddings = self.load_embeddings()
+        self.embeddings = self.load_embeddings(embedding_path)
         self.text_to_index = {}
         self.load_indices()
         self.bert_size = bert_size
@@ -18,8 +20,11 @@ class BertScreenVocab(object):
         for index in range(len(self.vocab_list)):
             self.text_to_index[self.vocab_list[index]] = index
 
-    def load_embeddings(self):
-        vocab_emb = self.bert.encode(self.vocab_list)
+    def load_embeddings(self, embedding_path):
+        if embedding_path:
+            vocab_emb = np.load(embedding_path)
+        else:
+            vocab_emb = self.bert.encode(self.vocab_list)
         return torch.as_tensor(vocab_emb)
 
     def get_index(self, text):

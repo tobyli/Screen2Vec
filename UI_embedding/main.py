@@ -19,6 +19,7 @@ parser.add_argument("-o", "--output_path", required=True, type=str, help="where 
 parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in a batch")
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to file with full vocab")
+parser.add_argument("-m", "--embedding_path",  type=str, default=None, help="path to file with precomputed vocab embeddings")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
 parser.add_argument("-l", "--loss", type=int, default=1, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
@@ -30,7 +31,7 @@ bert = SentenceTransformer('bert-base-nli-mean-tokens')
 with open(args.vocab_path) as f:
     vocab_list = json.load(f, encoding='utf-8')
 
-vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
+vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, args.embedding_path)
 
 print("Length of vocab is " + str(len(vocab_list)))
 train_dataset_rico = RicoDataset(args.train_dataset)
