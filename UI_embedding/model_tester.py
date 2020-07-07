@@ -58,6 +58,7 @@ for data in data_loader:
 
     temp = np.argpartition(-distances, args.range)
     closest_idx = temp[:args.range]
+    print(closest_idx)
     if element_target_index in closest_idx:
         correct +=1
     total+=1
@@ -65,7 +66,8 @@ for data in data_loader:
     if (i<100):
         i+=1
         print("intended: " + vocab.get_text(element_target_index))
+
+        # problem: somehow this is an array 
         print("predicted: " + vocab.get_text(closest_idx[0]))
-# find which vocab vector has the largest dot product
 
 print(correct/total)
