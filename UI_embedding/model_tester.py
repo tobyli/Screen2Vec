@@ -64,7 +64,8 @@ for data in data_loader:
 
     if (i<100):
         i+=1
-        print("intended: " + vocab.get_text(element_target_index) + " predicted: " + vocab.get_text(closest_idx[0]))
+        print("intended: " + vocab.get_text(element_target_index))
+        print("predicted: " + vocab.get_text(closest_idx[0]))
 # find which vocab vector has the largest dot product
 
 print(correct/total)
