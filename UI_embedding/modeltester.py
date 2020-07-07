@@ -6,11 +6,11 @@ import json
 import scipy
 import numpy as np
 from torch.utils.data import DataLoader
-from UI_embedding.UI2Vec import UI2Vec
-from UI_embedding.prediction import HiddenLabelPredictorModel
-from UI_embedding.prepretrainer import UI2VecTrainer
-from UI_embedding.dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
-from UI_embedding.dataset.vocab import BertScreenVocab
+from UI2Vec import UI2Vec
+from prediction import HiddenLabelPredictorModel
+from prepretrainer import UI2VecTrainer
+from dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
+from dataset.vocab import BertScreenVocab
 
 
 parser = argparse.ArgumentParser()
