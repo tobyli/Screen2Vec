@@ -54,7 +54,7 @@ for data in data_loader:
     prediction_output = model(context) #input here
     element_target_index = vocab.get_index(element[0])
     # find which vocab vector has the smallest cosine distance
-    distances = scipy.spatial.distance.cdist(prediction_output.detach().numpy(), vocab.embeddings, "cosine")
+    distances = scipy.spatial.distance.cdist(prediction_output.detach().numpy(), vocab.embeddings, "cosine")[0]
 
     temp = np.argpartition(-distances, args.range)
     closest_idx = temp[:args.range]
