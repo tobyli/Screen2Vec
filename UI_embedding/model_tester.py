@@ -58,7 +58,6 @@ for data in data_loader:
 
     temp = np.argpartition(-distances, args.range)
     closest_idx = temp[:args.range]
-    print(closest_idx)
     if element_target_index in closest_idx:
         correct +=1
     total+=1
