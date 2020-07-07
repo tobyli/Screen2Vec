@@ -41,7 +41,7 @@ train_data_loader = DataLoader(train_dataset, batch_size=args.batch_size)
 if args.test_dataset:
     test_dataset_rico = RicoDataset(args.test_dataset)
     test_dataset = ScreenDataset(test_dataset_rico, args.num_predictors)
-    test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size)
+    test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size, drop_last=True)
 else: 
     test_data_loader = None
 
