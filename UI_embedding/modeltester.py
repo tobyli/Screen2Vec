@@ -91,7 +91,10 @@ if args.extra:
     clustering_model.fit(corpus_embeddings)
     assignment = clustering_model.labels_
 
-    for cl_no in range(num_clusters):
-        clustered_words = [corpus_text[idx] for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-        print(cl_no)
-        print(clustered_words[:10])
+    with open("cluster_output.txt", "w", encoding="utf-8") as f:
+        for cl_no in range(num_clusters):
+            clustered_words = [corpus_text[idx] + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+            print(cl_no)
+            print(clustered_words[:10])
+            f.write(str(cl_no) + ":\n")
+            f.writelines(clustered_words)
