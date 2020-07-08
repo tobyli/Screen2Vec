@@ -19,7 +19,7 @@ parser.add_argument("-m", "--model", required=True, type=str, help="path to pret
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one when model was trained")
 parser.add_argument("-r", "--range", type=float, default=0.1, help="what proportion of results to look in")
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to json of text in vocab")
-parser.add_argument("-x", "--extra", type=int, default=0, help="1 to display some extra results")
+parser.add_argument("-x", "--extra", type=int, default=0, help="1 to display clustering results")
 args = parser.parse_args()
 
 n = args.num_predictors
@@ -76,3 +76,22 @@ for data in data_loader:
         print("predicted: " + vocab.get_text(closest_idx[0]))
 
 print(correct/total)
+
+
+if args.extra:
+    from sklearn.cluster import KMeans
+
+    corpus = [screen.labeled_text for screen in dataset.screens]
+    corpus_text = [bundle[0] for text in corpus for bundle in text] 
+    corpus_class = torch.tensor([bundle[1] for text in corpus for bundle in text])
+    corpus_embeddings = model.model((corpus_text, corpus_class)).detach().numpy()
+
+    num_clusters = 50
+    clustering_model = KMeans(n_clusters=num_clusters)
+    clustering_model.fit(corpus_embeddings)
+    assignment = clustering_model.labels_
+
+    for cl_no in range(num_clusters):
+        clustered_words = [corpus_text[idx] for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+        print(cl_no)
+        print(clustered_words[:10])
