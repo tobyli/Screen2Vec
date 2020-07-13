@@ -76,6 +76,10 @@ class UI2VecTrainer:
                 dot_products = dot_products.cpu()
                 prediction_loss = self.loss(dot_products, element_target_index)
                 total_loss+=float(prediction_loss)
+                if train:
+                    self.optimizer.zero_grad()
+                    prediction_loss.backward()
+                    self.optimizer.step()
         else:
             for idx,data in data_itr:
                 total_batches+=1
@@ -96,10 +100,10 @@ class UI2VecTrainer:
                     total_loss+=float(prediction_loss)
 
             # if in train, backwards and optimization
-            if train:
-                self.optimizer.zero_grad()
-                prediction_loss.backward()
-                self.optimizer.step()
+                if train:
+                    self.optimizer.zero_grad()
+                    prediction_loss.backward()
+                    self.optimizer.step()
         return total_loss/total_batches
 
     def save(self, epoch, file_path="output/trained.model"):
