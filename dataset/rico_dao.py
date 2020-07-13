@@ -1,4 +1,4 @@
-from rico_models import RicoActivity, RicoScreen, ScreenInfo
+from .rico_models import RicoActivity, RicoScreen, ScreenInfo
 import json
 import numpy as np
 

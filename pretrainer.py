@@ -5,20 +5,24 @@ from torch.optim import Adam
 from torch.utils.data import DataLoader
 
 from Screen2Vec import Screen2Vec
+from prediction import TracePredictor
+from vocab import ScreenVocab
 
 class Screen2VecTrainer:
     """
     """
 
-    def __init__(self, model: Screen2Vec, dataloader_train, dataloader_test, 
-                vocab_size:int, l_rate: float):
+    def __init__(self, predictor: TracePredictor, vocab: ScreenVocab, dataloader_train, dataloader_test, 
+                l_rate: float, neg_samp: int):
         """
         """
-        self.criterion = nn.NLLLoss()
-        self.model = 
-        self.optimizer = Adam(self.model.parameters())
+        self.predictor = predictor 
+        self.criterion = nn.CrossEntropyLoss()
+        self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
+        self.vocab = vocab
         self.train_data = dataloader_train
         self.test_data = dataloader_test
+        self.neg_sample_num = neg_samp
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
@@ -28,7 +32,7 @@ class Screen2VecTrainer:
         loss = self.iteration(epoch, self.test_data, train=False)
         return loss
 
-    def iteration(self, epoch, data_loader: iter, train=True)
+    def iteration(self, epoch, data_loader: iter, train=True):
         """
         loop over the data_loader for training or testing
         if train , backward operation is activated
@@ -43,14 +47,19 @@ class Screen2VecTrainer:
         total_loss = 0
         total_batches = 0
         for data in data_loader:
+            total_batches+=1
             # load data properly
-            UIs, descr, trace_screen_lengths = data
-            #TODO; take all but last screen in trace
+            UIs, descr, trace_screen_lengths, indices = data
+            UIs_comp, comp_descr, comp_tsl = self.vocab.negative_sample(self.neg_sample_num, indices)
             # forward the training stuff (prediction models)
-            prediction_output = self.model.forward() #input here
-
+            c,result = self.predictor(UIs, descr, trace_screen_lengths) #input here
+            h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl).squeeze(0)
+            
+            neg_dot_products = torch.mm(c, h_comp.transpose(0,1))
+            pos_dot_products = torch.mm(c, result.transpose(0,1))
             # calculate NLL loss for all prediction stuff
-            prediction_loss = self.criterion(prediction_output)
+            dot_products = torch.cat((pos_dot_products, neg_dot_products), dim=1)
+            prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
             total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
             if train:
@@ -67,7 +76,6 @@ class Screen2VecTrainer:
         :return: final_output_path
         """
         output_path = file_path + ".ep%d" % epoch
-        torch.save(self.bert.cpu(), output_path)
-        self.bert.to(self.device)
+        torch.save(self.predictor.state_dict(), output_path)
         print("EP:%d Model Saved on:" % epoch, output_path)
         return output_path

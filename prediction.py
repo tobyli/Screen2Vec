@@ -7,16 +7,14 @@ class TracePredictor(nn.Module):
         super().__init__()
         self.model = embedding_model
         self.bert_size = self.model.bert_size
-        self.combiner = nn.rnn(self.bert_size, self.bert_size, batch_first=True)
+        self.combiner = nn.LSTM(self.bert_size, self.bert_size, batch_first=True)
 
-    def forward(self, context):
-        # process context TODO: make this correct
-        UIs, descr, trace_screen_lengths = context
-        self.model(context)
-        # create initial hidden state
-        h = torch.zeros(self.bert_size, batch_size)
+    def forward(self, UIs, descr, trace_screen_lengths):
+        # embed all of the screens
+        screens = self.model(UIs, descr, trace_screen_lengths)
+        #take all but last element of each trace, store as context
+        context = torch.narrow(screens, 1, 0, screens.size()[1]-1)
+        result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1)
         # run through model
-        input = torch.nn.utils.rnn.pack_padded_sequence(context, orig_lengths, batch_first=True)
-        output, h = self.combiner(input, h)
-        output, orig_lengths = torch.nn.utils.rnn.pad_packed_sequence(output, batch_first=True)
-        return output
+        output, (h,c) = self.combiner(context)
+        return c[0], result

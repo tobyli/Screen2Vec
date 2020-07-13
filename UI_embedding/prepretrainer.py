@@ -6,9 +6,9 @@ from torch.utils.data import DataLoader
 
 import tqdm
 
-from UI2Vec import UI2Vec
-from prediction import HiddenLabelPredictorModel
-from dataset.vocab import BertScreenVocab
+from .UI2Vec import UI2Vec
+from .prediction import HiddenLabelPredictorModel
+from .dataset.vocab import BertScreenVocab
 
 class UI2VecTrainer:
     """
@@ -61,18 +61,30 @@ class UI2VecTrainer:
 
         # iterate through data_loader
         if not self.cosine_loss:
-            #TODO: make less gross by moving loss stuff apart
             vocab_embeddings = self.vocab.embeddings.transpose(0,1)
             vocab_embeddings = vocab_embeddings.cuda()
-        for idx,data in data_itr:
-            total_batches+=1
-            element = data[0]
-            context = data[1]
-            # forward the training stuff (prediction)
-            prediction_output = self.predictor.forward(context) #input here
-            element_target_index = self.vocab.get_index(element[0])
-            # calculate loss for all prediction stuff
-            if self.cosine_loss:
+            for idx,data in data_itr:
+                total_batches+=1
+                element = data[0]
+                context = data[1]
+                # forward the training stuff (prediction)
+                prediction_output = self.predictor(context) #input here
+                element_target_index = self.vocab.get_index(element[0])
+                # calculate loss for all prediction stuff
+                prediction_output = prediction_output.cuda()
+                dot_products = torch.mm(prediction_output, vocab_embeddings)
+                dot_products = dot_products.cpu()
+                prediction_loss = self.loss(dot_products, element_target_index)
+                total_loss+=float(prediction_loss)
+        else:
+            for idx,data in data_itr:
+                total_batches+=1
+                element = data[0]
+                context = data[1]
+                # forward the training stuff (prediction)
+                prediction_output = self.predictor(context) #input here
+                element_target_index = self.vocab.get_index(element[0])
+                # calculate loss for all prediction stuff
                 for i in range(self.vocab_size):
                     ones_vec = -torch.ones(len(prediction_output))
                     for batch in range(len(element_target_index)):
@@ -82,18 +94,13 @@ class UI2VecTrainer:
                     vocab_embedding = vocab_embedding.repeat(len(prediction_output),1)
                     prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
                     total_loss+=float(prediction_loss)
-            else: 
-                prediction_output = prediction_output.cuda()
-                dot_products = torch.mm(prediction_output, vocab_embeddings)
-                dot_products = dot_products.cpu()
-                prediction_loss = self.loss(dot_products, element_target_index)
-                total_loss+=float(prediction_loss)
+
             # if in train, backwards and optimization
             if train:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
                 self.optimizer.step()
-        return total_loss/total_batches 
+        return total_loss/total_batches
 
     def save(self, epoch, file_path="output/trained.model"):
         """

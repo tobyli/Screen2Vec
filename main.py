@@ -1,4 +1,5 @@
 import argparse
+import json
 import torch
 from torch.utils.data import DataLoader
 from Screen2Vec import Screen2Vec
@@ -6,11 +7,13 @@ from pretrainer import Screen2VecTrainer
 from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from UI_embedding.prediction import HiddenLabelPredictorModel
+from vocab import ScreenVocab
 
 
 def pad_collate(batch):
     UIs = [trace[0] for trace in batch]
     descr = [trace[1] for trace in batch]
+    correct_indices = [trace[2] for trace in batch]
 
     trace_screen_lengths = []
     for trace_idx in range(len(UIs)):
@@ -19,8 +22,8 @@ def pad_collate(batch):
         UIs[trace_idx] = torch.nn.utils.rnn.pad_sequence(UIs[trace_idx])
         UIs[trace_idx].transpose(0,1)
     UIs = torch.nn.utils.rnn.pad_sequence(UIs)
-    UIs.transpose(1,2)
-    return UIs, descr, trace_screen_lengths
+    UIs.transpose(1,2) #may want to not do this?
+    return UIs, descr, trace_screen_lengths, correct_indices
 
 parser = argparse.ArgumentParser()
 
@@ -34,9 +37,6 @@ parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number
 parser.add_argument("-l", "--loss", type=int, default=1, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 
-
-
-
 args = parser.parse_args()
 
 bert = SentenceTransformer('bert-base-nli-mean-tokens')
@@ -45,20 +45,29 @@ bert_size = 768
 loaded_model = HiddenLabelPredictorModel(bert, bert_size, args.num_predictors)
 loaded_model.load_state_dict(torch.load(args.model))
 
+
+
 train_dataset = RicoDataset(loaded_model.model, args.train_dataset, args.num_predictors)
-test_dataset = RicoDataset(loaded_model.model, args.test_dataset, args.num_predictors)
+
+
+vocab = ScreenVocab(train_dataset)
 
 train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
-test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
 
-model = Screen2Vec(loaded_model.model, bert, bert_size)
+if args.test_dataset:
+    test_dataset = RicoDataset(loaded_model.model, args.test_dataset, args.num_predictors)
+    test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
+else:
+    test_data_loader = None
 
-trainer = Screen2VecTrainer(model, train_data_loader, test_data_loader)
+model = Screen2Vec(bert_size)
+
+trainer = Screen2VecTrainer(model, vocab, train_data_loader, test_data_loader, args.rate)
 
 for epoch in range(args.epochs):
     trainer.train(epoch)
     trainer.save(epoch, args.output_path)
-    if test_data_loader is not None:
+    if args.test_dataset is not None:
         trainer.test(epoch)
 
 
