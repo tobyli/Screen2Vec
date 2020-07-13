@@ -1,6 +1,6 @@
 from collections.abc import Iterable
-from rico_models import RicoScreen, RicoActivity, ScreenInfo
-from convert_class_to_label import convert_class_to_text_label
+from .rico_models import RicoScreen, RicoActivity, ScreenInfo
+from .convert_class_to_label import convert_class_to_text_label
 
 def get_all_texts_from_node_tree(node):
     results = []

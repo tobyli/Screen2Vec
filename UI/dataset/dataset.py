@@ -1,7 +1,7 @@
 from torch.utils.data import Dataset, DataLoader, IterableDataset
-from playstore_scraper import get_app_description
-from rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
-from rico_dao import load_rico_screen_dict
+from .playstore_scraper import get_app_description
+from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
+from .rico_dao import load_rico_screen_dict
 from sentence_transformers import SentenceTransformer
 import torch
 import os

@@ -1,6 +1,6 @@
 import json
 import numpy as np
-from rico_models import RicoActivity, RicoScreen, ScreenInfo
+from .rico_models import RicoActivity, RicoScreen, ScreenInfo
 
 def rico_node_decoder(rico_node_dict: dict):
     return rico_node_dict
