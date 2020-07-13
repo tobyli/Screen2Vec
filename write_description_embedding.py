@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--dataset", required=True, type=str, help="dataset to precompute embeddings for")
 parser.add_argument("-m", "--model", required=True, type=str, help="path where pretrained part was stored")
+parser.add_argument("-p", "--prefix", required=True, type=str, help="prefix to output files")
 
 args = parser.parse_args()
 
@@ -44,14 +45,14 @@ for trace in train_dataset.traces:
     UIs.append(u_temp)
     UI_embedding.append(u_e_temp)
 
-with open('uis.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'uis.json', 'w', encoding='utf-8') as f:
     json.dump(UIs, f, indent=4)
 
-with open('ui_emb.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'ui_emb.json', 'w', encoding='utf-8') as f:
     json.dump(UI_embedding, f, indent=4)
 
-with open('descr.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'descr.json', 'w', encoding='utf-8') as f:
     json.dump(descriptions, f, indent=4)
 
-with open('dsc_emb.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'dsc_emb.json', 'w', encoding='utf-8') as f:
     json.dump(description_embeddings, f, indent=4)
