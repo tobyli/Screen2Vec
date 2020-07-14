@@ -55,7 +55,8 @@ ui_data = ScreensList(flat_screens)
 ui_loader = DataLoader(ui_data, batch_size=len(flat_screens))
 embedding = torch.empty(len(flat_screens), 768)
 for data in ui_loader:
-    embedding = loaded_model.model(data)
+    embedding = loaded_model.model(data).detach
+
 
 print(embedding.size())
 screen_index = 0
