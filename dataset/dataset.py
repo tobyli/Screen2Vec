@@ -38,7 +38,7 @@ class RicoDataset(Dataset):
 
     def load_all_traces(self):
         for trace_idx in range(len(self.ui)):
-            self.load_trace(self.ui[trace_idx], self.ui_e[trace_idx], self.d[trace_idx], self.d_e[trace_idx])
+            self.load_trace(self.ui[trace_idx], self.ui_e[trace_idx], self.d, self.d_e)
 
     def load_trace(self, ui, ui_e, d, d_e):
         # loads a trace
@@ -64,10 +64,11 @@ class RicoTrace():
     def load_all_screens(self):
         for screen_idx in range(len(self.ui)):
             screen_to_add = RicoScreen(self.ui[screen_idx], self.ui_e[screen_idx], self.d[screen_idx], self.d_e[screen_idx])
-            self.trace_screens.append(screen_to_add)
+            if len(screen_to_add.UI_embeddings) > 0:
+                self.trace_screens.append(screen_to_add)
 
     def get_screen(self, index):
-        return self._trace_screens[index]
+        return self.trace_screens[index]
 
 class ScreenDataset(Dataset):
     """
