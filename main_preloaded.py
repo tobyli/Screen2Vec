@@ -10,6 +10,7 @@ from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from prediction import TracePredictor
 from vocab import ScreenVocab
+from UI_embedding.plotter import plot_loss
 
 
 def pad_collate(batch):
@@ -49,8 +50,14 @@ bert_size = 768
 
 with open(args.train_data + "uis.json") as f:
     tr_uis = json.load(f, encoding='utf-8')
-with open(args.train_data + "ui_emb.json") as f:
-    tr_ui_emb = json.load(f, encoding='utf-8')
+print(len(tr_uis))
+tr_ui_emb = []
+for i in range(10):
+    with open(args.train_data + str(i) + "_ui_emb.json") as f:
+        tr_ui_emb += json.load(f, encoding='utf-8')
+print(len(tr_ui_emb))
+print("eh")
+
 with open(args.train_data + "descr.json") as f:
     tr_descr = json.load(f, encoding='utf-8')
 tr_descr_emb = np.load(args.train_data + "dsc_emb.npy")
@@ -59,10 +66,11 @@ with open(args.test_data + "uis.json") as f:
     te_uis = json.load(f, encoding='utf-8')
 with open(args.test_data + "ui_emb.json") as f:
     te_ui_emb = json.load(f, encoding='utf-8')
+print(len(te_ui_emb))
 with open(args.test_data + "descr.json") as f:
     te_descr = json.load(f, encoding='utf-8')
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
-
+print(len(te_descr_emb))
 
 train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb)
 test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb)
@@ -98,5 +106,5 @@ for epoch in tqdm.tqdm(range(args.epochs)):
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
         trainer.save(epoch, args.output_path)
-
+    plot_loss(train_loss_data, test_loss_data)
 
