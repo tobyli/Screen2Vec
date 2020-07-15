@@ -53,6 +53,7 @@ bert_size = 768
 
 tr_ui_emb = []
 for i in range(10):
+    print(i)
     with open(args.train_data + str(i) + "_ui_emb.json") as f:
         tr_ui_emb += json.load(f, encoding='utf-8')
 
