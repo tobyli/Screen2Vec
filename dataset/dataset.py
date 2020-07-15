@@ -15,12 +15,10 @@ class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
-    def __init__(self, num_preds, ui, ui_e, d, d_e, fully_load=True):
+    def __init__(self, num_preds, ui_e, d_e, fully_load=True):
         self.traces = []
         self.n = num_preds + 1
-        self.ui = ui
         self.ui_e = ui_e
-        self.d = d
         self.d_e = d_e
         if fully_load:
             self.load_all_traces()
@@ -37,12 +35,12 @@ class RicoDataset(Dataset):
         return len(self.traces)
 
     def load_all_traces(self):
-        for trace_idx in range(len(self.ui)):
-            self.load_trace(self.ui[trace_idx], self.ui_e[trace_idx], self.d, self.d_e)
+        for trace_idx in range(len(self.d_e)):
+            self.load_trace(self.ui_e[trace_idx], self.d_e)
 
-    def load_trace(self, ui, ui_e, d, d_e):
+    def load_trace(self, ui_e, d_e):
         # loads a trace
-        trace_to_add = RicoTrace(ui, ui_e, d, d_e)
+        trace_to_add = RicoTrace(ui_e, d_e)
         if len(trace_to_add.trace_screens) >= self.n:
             self.traces.append(trace_to_add)
 
@@ -50,10 +48,8 @@ class RicoTrace():
     """
     A list of screens
     """
-    def __init__(self, ui, ui_e, d, d_e):
-        self.ui = ui
+    def __init__(self, ui_e, d_e):
         self.ui_e = ui_e
-        self.d = d
         self.d_e = d_e
         self.trace_screens = []
         self.load_all_screens()
@@ -62,8 +58,8 @@ class RicoTrace():
         return iter(self.trace_screens)
 
     def load_all_screens(self):
-        for screen_idx in range(len(self.ui)):
-            screen_to_add = RicoScreen(self.ui[screen_idx], self.ui_e[screen_idx], self.d[screen_idx], self.d_e[screen_idx])
+        for screen_idx in range(len(self.ui_e)):
+            screen_to_add = RicoScreen(self.ui_e[screen_idx], self.d_e[screen_idx])
             if len(screen_to_add.UI_embeddings) > 0:
                 self.trace_screens.append(screen_to_add)
 
@@ -102,10 +98,8 @@ class RicoScreen():
     The information from one screenshot of a app- package name
     and labeled text (text, class, and location)
     """
-    def __init__(self, ui, ui_e, d, d_e):
-        self.labeled_text = ui
+    def __init__(self, ui_e, d_e):
         self.UI_embeddings = ui_e
-        self.app_description = d
         self.descr_emb = d_e
 
     
@@ -115,17 +109,17 @@ class RicoScreen():
         else:
             return ['', 0, [0,0,0,0]]
 
-    def get_closest_UI_obj(self, index, n):
-        bounds_to_check = self.labeled_text[index][2]
-        if len(self.labeled_text) <= n:
-            close_indices = [*range(len(self.labeled_text))]
-        else:
-            distances = [[self.distance_between(bounds_to_check, self.labeled_text[x][2]), x] 
-                            for x in range(len(self.labeled_text))]
-            distances.sort()
-            # closest will be the same text
-            close_indices = [x[1] for x in distances[1:n+1]]
-        return close_indices
+    # def get_closest_UI_obj(self, index, n):
+    #     bounds_to_check = self.labeled_text[index][2]
+    #     if len(self.labeled_text) <= n:
+    #         close_indices = [*range(len(self.labeled_text))]
+    #     else:
+    #         distances = [[self.distance_between(bounds_to_check, self.labeled_text[x][2]), x] 
+    #                         for x in range(len(self.labeled_text))]
+    #         distances.sort()
+    #         # closest will be the same text
+    #         close_indices = [x[1] for x in distances[1:n+1]]
+    #     return close_indices
 
     def distance_between(self, bounds_a, bounds_b):
         x_distance = min(abs(bounds_a[0]-bounds_b[2]), abs(bounds_a[2] - bounds_b[0]))
