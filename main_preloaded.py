@@ -26,7 +26,6 @@ def pad_collate(batch):
         UIs[trace_idx] = torch.nn.utils.rnn.pad_sequence(UIs[trace_idx])
     UIs = torch.nn.utils.rnn.pad_sequence(UIs)
     UIs = UIs.transpose(0,1) #may want to not do this?
-    print(UIs.size())
     return UIs, descr, torch.tensor(trace_screen_lengths), correct_indices
 
 parser = argparse.ArgumentParser()
