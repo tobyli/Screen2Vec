@@ -74,7 +74,8 @@ te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 train_dataset = RicoDataset(args.num_predictors, tr_ui_emb, tr_descr_emb)
 test_dataset = RicoDataset(args.num_predictors, te_ui_emb, te_descr_emb)
 
-vocab = ScreenVocab(train_dataset)
+vocab_train = ScreenVocab(train_dataset)
+vocab_test = ScreenVocab(test_dataset)
 
 train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
 test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
@@ -91,7 +92,7 @@ test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=a
 model = Screen2Vec(bert_size)
 predictor = TracePredictor(model)
 
-trainer = Screen2VecTrainer(predictor, vocab, train_data_loader, test_data_loader, args.rate, args.neg_samp)
+trainer = Screen2VecTrainer(predictor, vocab_train, vocab_test, train_data_loader, test_data_loader, args.rate, args.neg_samp)
 
 predictor.cuda()
 test_loss_data = []

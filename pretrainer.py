@@ -14,14 +14,15 @@ class Screen2VecTrainer:
     """
     """
 
-    def __init__(self, predictor: TracePredictor, vocab: ScreenVocab, dataloader_train, dataloader_test, 
+    def __init__(self, predictor: TracePredictor, vocab_train: ScreenVocab, vocab_test: ScreenVocab, dataloader_train, dataloader_test, 
                 l_rate: float, neg_samp: int):
         """
         """
         self.predictor = predictor 
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
-        self.vocab = vocab
+        self.vocab_train = vocab_train
+        self.vocab_test = vocab_test
         self.train_data = dataloader_train
         self.test_data = dataloader_test
         self.neg_sample_num = neg_samp
@@ -62,7 +63,10 @@ class Screen2VecTrainer:
             UIs = UIs.cuda()
             descr = descr.cuda()
             trace_screen_lengths = trace_screen_lengths.cuda()
-            UIs_comp, comp_descr, comp_tsl = self.vocab.negative_sample(self.neg_sample_num, indices)
+            if train:
+                UIs_comp, comp_descr, comp_tsl = self.vocab_train.negative_sample(self.neg_sample_num, indices)
+            else:
+                UIs_comp, comp_descr, comp_tsl = self.vocab_test.negative_sample(self.neg_sample_num, indices)
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
