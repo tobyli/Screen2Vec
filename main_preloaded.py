@@ -26,7 +26,6 @@ def pad_collate(batch):
         UIs[trace_idx] = torch.nn.utils.rnn.pad_sequence(UIs[trace_idx])
     UIs = torch.nn.utils.rnn.pad_sequence(UIs)
     UIs = UIs.transpose(0,1) #may want to not do this?
-    print(UIs.size())
     return UIs, descr, torch.tensor(trace_screen_lengths), correct_indices
 
 parser = argparse.ArgumentParser()
@@ -107,5 +106,5 @@ for epoch in tqdm.tqdm(range(args.epochs)):
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
         trainer.save(epoch, args.output_path)
-    plot_loss(train_loss_data, test_loss_data)
+plot_loss(train_loss_data, test_loss_data)
 

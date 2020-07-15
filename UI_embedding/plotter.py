@@ -11,3 +11,4 @@ def plot_loss(training_loss, testing_loss):
     plot.set_title('Loss across epochs')
     #fig.show()
     fig.savefig("loss_figure.png")
+    fig.close()
