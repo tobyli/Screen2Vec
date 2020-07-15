@@ -13,8 +13,8 @@ class TracePredictor(nn.Module):
         # embed all of the screens
         screens = self.model(UIs, descr, trace_screen_lengths)
         #take all but last element of each trace, store as context
-        context = torch.narrow(screens, 1, 0, screens.size()[1]-1)
-        result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1)
+        context = torch.narrow(screens, 1, 0, screens.size()[1]-1).cuda()
+        result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1).cuda()
         # run through model
         output, (h,c) = self.combiner(context)
         return c[0], result

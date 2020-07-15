@@ -4,6 +4,8 @@ import torch.nn as nn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 
+import tqdm
+
 from Screen2Vec import Screen2Vec
 from prediction import TracePredictor
 from vocab import ScreenVocab
@@ -46,19 +48,33 @@ class Screen2VecTrainer:
         # iterate through data_loader
         total_loss = 0
         total_batches = 0
-        for data in data_loader:
+
+        str_code = "train" if train else "test"
+        data_itr = tqdm.tqdm(enumerate(data_loader),
+                              desc="EP_%s:%d" % (str_code, epoch),
+                              total=len(data_loader),
+                              bar_format="{l_bar}{r_bar}")
+
+        for idx, data in data_itr:
             total_batches+=1
             # load data properly
             UIs, descr, trace_screen_lengths, indices = data
+            UIs = UIs.cuda()
+            descr = descr.cuda()
+            trace_screen_lengths = trace_screen_lengths.cuda()
             UIs_comp, comp_descr, comp_tsl = self.vocab.negative_sample(self.neg_sample_num, indices)
+            UIs_comp = UIs_comp.cuda()
+            comp_descr = comp_descr.cuda()
+            comp_tsl = comp_tsl.cuda()
             # forward the training stuff (prediction models)
             c,result = self.predictor(UIs, descr, trace_screen_lengths) #input here
             h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl).squeeze(0)
             
-            neg_dot_products = torch.mm(c, h_comp.transpose(0,1))
-            pos_dot_products = torch.mm(c, result.transpose(0,1))
+            neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
+            pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
             # calculate NLL loss for all prediction stuff
             dot_products = torch.cat((pos_dot_products, neg_dot_products), dim=1)
+            dot_products = dot_products.cpu()
             prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
             total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
