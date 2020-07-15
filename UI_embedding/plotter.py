@@ -9,6 +9,4 @@ def plot_loss(training_loss, testing_loss):
     if testing_loss:
         plot.plot(epochs, testing_loss, color='red')
     plot.set_title('Loss across epochs')
-    #fig.show()
     fig.savefig("loss_figure.png")
-    fig.close()
