@@ -66,7 +66,7 @@ class Screen2VecTrainer:
             if train:
                 UIs_comp, comp_descr, comp_tsl = self.vocab_train.negative_sample(self.neg_sample_num, indices)
             else:
-                UIs_comp, comp_descr, comp_tsl = self.vocab_test.negative_sample(self.neg_sample_num, indices)
+                UIs_comp, comp_descr, comp_tsl = self.vocab_test.negative_sample(self.neg_sample_num/8, indices)
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
