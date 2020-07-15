@@ -106,5 +106,5 @@ for epoch in tqdm.tqdm(range(args.epochs)):
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
         trainer.save(epoch, args.output_path)
-    plot_loss(train_loss_data, test_loss_data)
+plot_loss(train_loss_data, test_loss_data)
 
