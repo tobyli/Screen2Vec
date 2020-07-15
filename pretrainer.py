@@ -85,6 +85,7 @@ class Screen2VecTrainer:
             if train:
                 prediction_loss.backward()
                 self.optimizer.step()
+            torch.cuda.empty_cache()
         return total_loss/total_batches
         
 
