@@ -37,11 +37,10 @@ parser.add_argument("-o", "--output_path", required=True, type=str, help="where 
 parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in a batch")
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
-parser.add_argument("-l", "--loss", type=int, default=1, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
-
+parser.add_argument("-v", "--net-version", type=str, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
 
 
 args = parser.parse_args()
@@ -73,8 +72,8 @@ with open(args.test_data + "descr.json") as f:
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
 
-train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb)
-test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb)
+train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb, args.net_version)
+test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb, args.net_version)
 
 vocab_train = ScreenVocab(train_dataset)
 vocab_test = ScreenVocab(test_dataset)
@@ -83,14 +82,26 @@ train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size
 test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
 
 
+#handle different versions of network here
+if args.net_version in [0,2]:
+    adus = 0
+else:
+    # case where coordinates are part of UI rnn
+    adus = 4
+if args.net_version in [0,1]:
+    adss = 0
+else:
+    # case where screen layout vec is used
+    adss = 64
 
-model = Screen2Vec(bert_size)
+model = Screen2Vec(bert_size, num_classes=24, additional_ui_size=adus, additional_size_screen=adss)
 predictor = TracePredictor(model)
+predictor.cuda()
 if args.prev_model:
     predictor.load_state_dict(torch.load(args.prev_model))
 trainer = Screen2VecTrainer(predictor, vocab_train, vocab_test, train_data_loader, test_data_loader, args.rate, args.neg_samp)
 
-predictor.cuda()
+
 test_loss_data = []
 train_loss_data = []
 for epoch in tqdm.tqdm(range(args.epochs)):

@@ -15,11 +15,12 @@ class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
-    def __init__(self, num_preds, ui, ui_e, d, d_e, fully_load=True):
+    def __init__(self, num_preds, ui, ui_e, d, d_e, net_version=0, fully_load=True):
         self.traces = []
         self.n = num_preds + 1
         self.ui_e = ui_e
         self.d_e = d_e
+        self.setting = net_version
         if fully_load:
             self.load_all_traces(ui, d)
 
@@ -29,8 +30,12 @@ class RicoDataset(Dataset):
         if len(indexed_trace.trace_screens) >= self.n:
             starting_index = random.randint(0, len(indexed_trace.trace_screens)-self.n)
             screens = indexed_trace.trace_screens[starting_index:starting_index+self.n-1]
-        return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
-    
+        if self.setting in [0,2]:
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+        else:
+            # get the right part of labeled text
+            return [[torch.tensor(screen.UI_embeddings + screen.labeled_text[2]) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+
     def __len__(self):
         return len(self.traces)
 

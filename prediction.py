@@ -17,4 +17,4 @@ class TracePredictor(nn.Module):
         result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1).cuda()
         # run through model
         output, (h,c) = self.combiner(context)
-        return c[0], result
+        return h[0], result
