@@ -55,11 +55,11 @@ class Screen2VecTrainer:
                               desc="EP_%s:%d" % (str_code, epoch),
                               total=len(data_loader),
                               bar_format="{l_bar}{r_bar}")
-
+        if not train:
+            torch.set_grad_enabled(False)
         for idx, data in data_itr:
             total_batches+=1
-            if not train:
-                torch.set_grad_enabled(False)
+
             # load data properly
             UIs, descr, trace_screen_lengths, indices = data
             UIs = UIs.cuda()
@@ -87,9 +87,9 @@ class Screen2VecTrainer:
             if train:
                 prediction_loss.backward()
                 self.optimizer.step()
-            else: 
-                torch.set_grad_enabled(True)
             torch.cuda.empty_cache()
+        if not train: 
+            torch.set_grad_enabled(True)
         return total_loss/total_batches
         
 

@@ -33,8 +33,7 @@ class RicoDataset(Dataset):
         if self.setting in [0,2]:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
         else:
-            # get the right part of labeled text
-            return [[torch.tensor(screen.UI_embeddings + screen.labeled_text[2]) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
 
     def __len__(self):
         return len(self.traces)
@@ -45,7 +44,7 @@ class RicoDataset(Dataset):
 
     def load_trace(self, ui, ui_e, d, d_e):
         # loads a trace
-        trace_to_add = RicoTrace(ui, ui_e, d, d_e)
+        trace_to_add = RicoTrace(ui, ui_e, d, d_e, self.setting)
         if len(trace_to_add.trace_screens) >= self.n:
             self.traces.append(trace_to_add)
 
@@ -53,18 +52,20 @@ class RicoTrace():
     """
     A list of screens
     """
-    def __init__(self, ui, ui_e, d, d_e):
+    def __init__(self, ui, ui_e, d, d_e, setting=0):
         self.ui_e = ui_e
         self.d_e = d_e
         self.trace_screens = []
+        self.setting = setting
         self.load_all_screens(ui, d)
+
 
     def __iter__(self):
         return iter(self.trace_screens)
 
     def load_all_screens(self, ui, d):
         for screen_idx in range(len(self.ui_e)):
-            screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e)
+            screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, self.setting)
             if len(screen_to_add.UI_embeddings) > 0:
                 self.trace_screens.append(screen_to_add)
 
@@ -103,11 +104,16 @@ class RicoScreen():
     The information from one screenshot of a app- package name
     and labeled text (text, class, and location)
     """
-    def __init__(self, ui, ui_e, d, d_e):
+    def __init__(self, ui, ui_e, d, d_e, setting=0):
         self.labeled_text = ui
         self.UI_embeddings = ui_e
         self.descr = d
         self.descr_emb = d_e
+        self.setting = setting
+        if setting in [1,3]:
+            self.coords = self.load_coords()
+        else:
+            self.coords = []
 
     
     def get_text_info(self, index):
@@ -132,3 +138,9 @@ class RicoScreen():
         x_distance = min(abs(bounds_a[0]-bounds_b[2]), abs(bounds_a[2] - bounds_b[0]))
         y_distance = min(abs(bounds_a[1]-bounds_b[3]), abs(bounds_a[3] - bounds_b[1]))
         return math.sqrt(x_distance**2 + y_distance**2)
+
+    def load_coords(self):
+        coords = []
+        for ui in self.labeled_text:
+            coords.append(ui[2])
+        return coords

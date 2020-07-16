@@ -12,6 +12,7 @@ class ScreenVocab(object):
         self.indices = indices
         # maps trace and screen indices to overall index
         self.reverse_indices = reverse_indices
+        self.setting = self.dataset.setting
 
     def get_set_of(self, num_negatives, disallowed):
         random_indices = random.sample(range(0, len(self.indices)), num_negatives)
@@ -52,7 +53,10 @@ class ScreenVocab(object):
     def negative_sample(self, num_negatives, disallowed):
         disallowed = [self.reverse_indices[dis[0]][dis[1]] for dis in disallowed]
         screens = self.get_negative_sample(num_negatives,disallowed)
-        UIs = [torch.tensor(screen.UI_embeddings) for screen in screens]
+        if self.setting in [0,2]:
+            UIs = [torch.tensor(screen.UI_embeddings) for screen in screens]
+        else:
+            UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
         descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
