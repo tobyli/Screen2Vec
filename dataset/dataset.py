@@ -8,6 +8,7 @@ import os
 import json
 import random
 import math
+import numpy as np
 
 
 
@@ -15,14 +16,14 @@ class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
-    def __init__(self, num_preds, ui, ui_e, d, d_e, net_version=0, fully_load=True):
+    def __init__(self, num_preds, ui, ui_e, d, d_e, l_idx, l, net_version=0, fully_load=True):
         self.traces = []
         self.n = num_preds + 1
         self.ui_e = ui_e
         self.d_e = d_e
         self.setting = net_version
         if fully_load:
-            self.load_all_traces(ui, d)
+            self.load_all_traces(ui, d, l, l_idx)
 
     def __getitem__(self, index):
         indexed_trace = self.traces[index]
@@ -30,21 +31,29 @@ class RicoDataset(Dataset):
         if len(indexed_trace.trace_screens) >= self.n:
             starting_index = random.randint(0, len(indexed_trace.trace_screens)-self.n)
             screens = indexed_trace.trace_screens[starting_index:starting_index+self.n-1]
-        if self.setting in [0,2]:
+        if self.setting==0:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
-        else:
+        elif self.setting==1:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+        elif self.setting==1:
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
+        else:
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
 
     def __len__(self):
         return len(self.traces)
 
-    def load_all_traces(self, ui, d):
-        for trace_idx in range(len(self.d_e)):
-            self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx])
+    def load_all_traces(self, ui, d, l, l_idx):
+        if self.setting in [0,1]:
+            for trace_idx in range(len(self.d_e)):
+                self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx])
+        else:
+            for trace_idx in range(len(self.d_e)):
+                self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l, l_idx[trace_idx])
 
-    def load_trace(self, ui, ui_e, d, d_e):
+    def load_trace(self, ui, ui_e, d, d_e, l=None, l_idx=None):
         # loads a trace
-        trace_to_add = RicoTrace(ui, ui_e, d, d_e, self.setting)
+        trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, l_idx, self.setting)
         if len(trace_to_add.trace_screens) >= self.n:
             self.traces.append(trace_to_add)
 
@@ -52,20 +61,24 @@ class RicoTrace():
     """
     A list of screens
     """
-    def __init__(self, ui, ui_e, d, d_e, setting=0):
+    def __init__(self, ui, ui_e, d, d_e, l, l_idx, setting=0):
         self.ui_e = ui_e
         self.d_e = d_e
         self.trace_screens = []
         self.setting = setting
-        self.load_all_screens(ui, d)
+        self.load_all_screens(ui, d, l, l_idx)
 
 
     def __iter__(self):
         return iter(self.trace_screens)
 
-    def load_all_screens(self, ui, d):
+    def load_all_screens(self, ui, d, l, l_idx):
         for screen_idx in range(len(self.ui_e)):
-            screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, self.setting)
+            if self.setting in [0,1]:
+                screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, self.setting)
+            else:
+                layout = l[l_idx[screen_idx]]
+                screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, layout, self.setting)
             if len(screen_to_add.UI_embeddings) > 0:
                 self.trace_screens.append(screen_to_add)
 
@@ -104,11 +117,12 @@ class RicoScreen():
     The information from one screenshot of a app- package name
     and labeled text (text, class, and location)
     """
-    def __init__(self, ui, ui_e, d, d_e, setting=0):
+    def __init__(self, ui, ui_e, d, d_e, l, setting=0):
         self.labeled_text = ui
         self.UI_embeddings = ui_e
         self.descr = d
         self.descr_emb = d_e
+        self.layout = l
         self.setting = setting
         if setting in [1,3]:
             self.coords = self.load_coords()

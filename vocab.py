@@ -59,7 +59,10 @@ class ScreenVocab(object):
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
-        descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
+        if self.setting in [0,1]:
+            descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
+        else:
+            descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in screens]).squeeze(1).unsqueeze(0)
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0)
 
         #Note to self: may need to add tensor dimension for "batch"
