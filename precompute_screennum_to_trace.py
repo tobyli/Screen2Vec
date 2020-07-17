@@ -8,13 +8,15 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--dataset", required=True, type=str, help="dataset to precompute embeddings for")
 parser.add_argument("-p", "--prefix", required=True, type=str, help="prefix to output files")
+parser.add_argument("-l", "--location", required=True, type=str, help="path to layout folder")
 
 args = parser.parse_args()
 
 with open(args.prefix + 'trace_idx.json') as f:
     trace_idx = json.load(f, encoding='utf-8')
 
-with open("/Users/lindsay/Screen2Vec/ui_layout_vectors/ui_names.json") as f:
+#TODO: fix this
+with open(args.location) as f:
     ui_name_list = json.load(f, encoding='utf-8')
 ui_name_list = ui_name_list["ui_names"]
 
