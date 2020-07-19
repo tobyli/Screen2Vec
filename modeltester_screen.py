@@ -94,7 +94,9 @@ if args.net_version in [2,3]:
     with open(args.test_data + "layout_emb_idx.json") as f:
         layout_emb_idx = json.load(f, encoding='utf-8')
     layouts = np.load(args.folder + "/Screen2Vec/ui_layout_vectors/ui_vectors.npy")
-
+else:
+    layout_emb_idx = None
+    layouts = None
 
 dataset = RicoDataset(args.num_predictors, tr_uis, ui_emb, tr_descr, descr_emb, layout_emb_idx, layouts, args.net_version)       
 
