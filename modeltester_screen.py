@@ -84,7 +84,6 @@ ui_emb = tr_ui_emb + te_ui_emb
 descr_emb = np.concatenate((tr_descr_emb, te_descr_emb))
 uis = te_uis + tr_uis
 descr = tr_descr + te_descr
-
 # ui_emb = tr_ui_emb
 # descr_emb = tr_descr_emb
 # uis = tr_uis
@@ -98,7 +97,8 @@ else:
     layout_emb_idx = None
     layouts = None
 
-dataset = RicoDataset(args.num_predictors, tr_uis, ui_emb, tr_descr, descr_emb, layout_emb_idx, layouts, args.net_version)       
+
+dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout_emb_idx, layouts, args.net_version)       
 
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
