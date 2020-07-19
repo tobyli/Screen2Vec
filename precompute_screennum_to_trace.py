@@ -15,7 +15,6 @@ args = parser.parse_args()
 with open(args.prefix + 'trace_idx.json') as f:
     trace_idx = json.load(f, encoding='utf-8')
 
-#TODO: fix this
 with open(args.location) as f:
     ui_name_list = json.load(f, encoding='utf-8')
 ui_name_list = ui_name_list["ui_names"]
