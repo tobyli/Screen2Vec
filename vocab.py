@@ -78,7 +78,6 @@ class ScreenVocab(Dataset):
         if self.setting in [0,2]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in return_screens]
         else:
-            print("working")
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in return_screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
