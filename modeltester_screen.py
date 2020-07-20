@@ -109,6 +109,8 @@ while end_index != -1:
     vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths).squeeze(0)
     comp = torch.cat((comp, comp_part), dim = 0)
+
+print(comp.size())
 i = 0
 for data in data_loader:
 # run it through the network
@@ -121,7 +123,7 @@ for data in data_loader:
     # find which vocab vector has the smallest cosine distance
     distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp.detach().numpy(), "cosine")[0]
 
-    temp = np.argpartition(-distances, int(args.range * len(distances)))
+    temp = np.argpartition(distances, int(args.range * len(distances)))
     closest_idx = temp[:int(args.range * len(distances))]
 
     if int(vocab_rvs_indx[index[0][0]][index[0][1]]) in closest_idx:
