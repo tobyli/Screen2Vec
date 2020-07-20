@@ -16,7 +16,6 @@ from UI_embedding.plotter import plot_loss
 def pad_collate(batch):
     UIs = [trace[0] for trace in batch]
     descr = torch.tensor([trace[1] for trace in batch])
-    print(descr.size())
     correct_indices = [trace[2] for trace in batch]
 
     trace_screen_lengths = []
@@ -41,7 +40,7 @@ parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
-parser.add_argument("-f", "--folder", type=str, default=0, help="path to Screen2Vec folder")
+parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
 parser.add_argument("-v", "--net-version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
 
 
@@ -124,6 +123,8 @@ for epoch in tqdm.tqdm(range(args.epochs)):
         test_loss = trainer.test(epoch)
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
+        print("saved on epoch " + str(epoch))
         trainer.save(epoch, args.output_path)
 plot_loss(train_loss_data, test_loss_data, args.output_path)
+trainer.save(args.epochs, args.output_path)
 
