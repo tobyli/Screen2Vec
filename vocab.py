@@ -67,13 +67,13 @@ class ScreenVocab(Dataset):
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0)
 
     def get_all_screens(self, start_index, size):
-        return_screens = []
+        all_screens = []
         for trace in self.screens:
             for screen in trace.trace_screens:
-                return_screens.append(screen)
-        end_index = min(start_index+size, len(return_screens))
-        return_screens = return_screens[start_index: end_index]
-        if end_index == len(return_screens):
+                all_screens.append(screen)
+        end_index = min(start_index+size, len(all_screens))
+        return_screens = all_screens[start_index: end_index]
+        if end_index == len(all_screens):
             end_index = -1
         if self.setting in [0,2]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in return_screens]
