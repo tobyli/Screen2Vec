@@ -35,7 +35,7 @@ class RicoDataset(Dataset):
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
         elif self.setting==1:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
-        elif self.setting==1:
+        elif self.setting==2:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
         else:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
