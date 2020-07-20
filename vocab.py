@@ -73,7 +73,7 @@ class ScreenVocab(Dataset):
                 return_screens.append(screen)
         end_index = min(start_index+size, len(return_screens))
         return_screens = return_screens[start_index: end_index]
-        if end_index+size >= len(return_screens):
+        if end_index == len(return_screens):
             end_index = -1
         if self.setting in [0,2]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in return_screens]
