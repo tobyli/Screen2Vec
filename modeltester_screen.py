@@ -126,11 +126,12 @@ for data in data_loader:
     temp = np.argpartition(distances, int(args.range * len(distances)))
     closest_idx = temp[:int(args.range * len(distances))]
 
-    if int(vocab_rvs_indx[index[0][0]][index[0][1]]) in closest_idx:
+    if vocab_rvs_indx[index[0][0]][index[0][1]] in closest_idx:
+        print(vocab_rvs_indx[index[0][0]][index[0][1]])
         correct +=1
     total+=1
 
-
+print(comp.size())
 print(correct/total)
 
 
