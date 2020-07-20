@@ -83,8 +83,6 @@ class RicoTrace():
     def load_all_screens(self, ui, d, l, l_idx):
         for screen_idx in range(len(self.ui_e)):
             if self.setting in [0,1]:
-                print(len(ui))
-                print(len(self.ui_e))
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, self.setting)
             else:
                 layout = l[l_idx[screen_idx]]

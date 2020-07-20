@@ -82,7 +82,7 @@ te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
 ui_emb = tr_ui_emb + te_ui_emb
 descr_emb = np.concatenate((tr_descr_emb, te_descr_emb))
-uis = te_uis + tr_uis
+uis = tr_uis + te_uis
 descr = tr_descr + te_descr
 # ui_emb = tr_ui_emb
 # descr_emb = tr_descr_emb
