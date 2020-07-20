@@ -2,8 +2,9 @@ import torch
 import numpy as np
 import random
 from dataset.dataset import RicoDataset
+from torch.utils.data import Dataset
 
-class ScreenVocab(object):
+class ScreenVocab(Dataset):
     def __init__(self, dataset:RicoDataset):
         self.dataset = dataset
         self.screens = dataset.traces
@@ -65,11 +66,15 @@ class ScreenVocab(object):
             descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in screens]).squeeze(1).unsqueeze(0)
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0)
 
-    def get_all_screens(self):
+    def get_all_screens(self, start_index, size):
         return_screens = []
         for trace in self.screens:
             for screen in trace.trace_screens:
                 return_screens.append(screen)
+        end_index = min(start_index+size, len(return_screens))
+        return_screens = return_screens[start_index: end_index]
+        if end_index+size >= len(return_screens):
+            end_index = -1
         if self.setting in [0,2]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in return_screens]
         else:
@@ -80,4 +85,5 @@ class ScreenVocab(object):
             descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
         else:
             descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in return_screens]).squeeze(1).unsqueeze(0)
-        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), self.indices, self.reverse_indices
+        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), self.indices, self.reverse_indices, end_index
+    
