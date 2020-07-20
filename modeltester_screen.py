@@ -103,9 +103,12 @@ dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
-vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_indx_map, vocab_rvs_indx = vocab.get_all_screens()
-comp = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths).squeeze(0)
-
+end_index = 0
+comp = torch.empty(0,bert_size)
+while end_index != -1:
+    vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
+    comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths).squeeze(0)
+    comp = torch.cat((comp, comp_part), dim = 0)
 i = 0
 for data in data_loader:
 # run it through the network
