@@ -115,7 +115,7 @@ i = 0
 for data in data_loader:
 # run it through the network
     UIs, descr, trace_screen_lengths, index = data
-    print(i)
+    #print(i)
     i+=1
     # forward the training stuff (prediction)
     c,result = predictor(UIs, descr, trace_screen_lengths, False)
@@ -126,8 +126,9 @@ for data in data_loader:
     temp = np.argpartition(distances, int(args.range * len(distances)))
     closest_idx = temp[:int(args.range * len(distances))]
 
+    print(vocab_rvs_indx[index[0][0]][index[0][1]])
     if vocab_rvs_indx[index[0][0]][index[0][1]] in closest_idx:
-        print(vocab_rvs_indx[index[0][0]][index[0][1]])
+
         correct +=1
     total+=1
 
