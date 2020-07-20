@@ -121,7 +121,7 @@ for data in data_loader:
     # find which vocab vector has the smallest cosine distance
     distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp.detach().numpy(), "cosine")[0]
 
-    temp = np.argpartition(distances, int(args.range * len(distances)))
+    temp = np.argpartition(-distances, int(args.range * len(distances)))
     closest_idx = temp[:int(args.range * len(distances))]
 
     if int(vocab_rvs_indx[index[0][0]][index[0][1]]) in closest_idx:
