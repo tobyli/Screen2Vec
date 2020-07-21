@@ -83,10 +83,11 @@ class RicoTrace():
         return iter(self.trace_screens)
 
     def load_all_screens(self, ui, d, l, l_idx, s_n):
-        print(len(s_n))
-        print(len(self.ui_e))
+        
         if len(s_n) != len(self.ui_e):
-            print(len(ui))
+            print(len(s_n))
+            print(s_n)
+            print(len(self.ui_e))
             print(self.name)
         for screen_idx in range(len(self.ui_e)):
             if s_n:
