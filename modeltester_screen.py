@@ -59,6 +59,9 @@ predictor = TracePredictor(orig_model)
 predictor.load_state_dict(torch.load(args.model))
 
 correct = 0
+topone = 0
+topfive = 0
+topten = 0
 total = 0
 
 with open(args.train_data + "uis.json") as f:
@@ -71,6 +74,12 @@ for i in range(10):
 with open(args.train_data + "descr.json") as f:
     tr_descr = json.load(f, encoding='utf-8')
 tr_descr_emb = np.load(args.train_data + "dsc_emb.npy")
+with open(args.train_data + 'screen_names.json') as f:
+    tr_screen_names = json.load(f, encoding='utf-8')
+with open(args.train_data + 'trace_names.json') as f:
+    tr_trace_names = json.load(f, encoding='utf-8')
+
+
 with open(args.test_data + "uis.json") as f:
     te_uis = json.load(f, encoding='utf-8')
 with open(args.test_data + "ui_emb.json") as f:
@@ -78,12 +87,17 @@ with open(args.test_data + "ui_emb.json") as f:
 with open(args.test_data + "descr.json") as f:
     te_descr = json.load(f, encoding='utf-8')
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
-
+with open(args.test_data + 'screen_names.json') as f:
+    te_screen_names = json.load(f, encoding='utf-8')
+with open(args.test_data + 'trace_names.json') as f:
+    te_trace_names = json.load(f, encoding='utf-8')
 
 ui_emb = tr_ui_emb + te_ui_emb
 descr_emb = np.concatenate((tr_descr_emb, te_descr_emb))
 uis = tr_uis + te_uis
 descr = tr_descr + te_descr
+screen_names = tr_screen_names + te_screen_names
+trace_names = tr_trace_names + te_trace_names
 # ui_emb = tr_ui_emb
 # descr_emb = tr_descr_emb
 # uis = tr_uis
@@ -98,7 +112,7 @@ else:
     layouts = None
 
 
-dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout_emb_idx, layouts, args.net_version)       
+dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout_emb_idx, layouts, args.net_version, True, screen_names, trace_names)       
 
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
@@ -110,7 +124,7 @@ while end_index != -1:
     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths).squeeze(0)
     comp = torch.cat((comp, comp_part), dim = 0)
 
-print(comp.size())
+comp = comp.detach().numpy()
 i = 0
 for data in data_loader:
 # run it through the network
@@ -121,36 +135,48 @@ for data in data_loader:
     c,result = predictor(UIs, descr, trace_screen_lengths, False)
     
     # find which vocab vector has the smallest cosine distance
-    distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp.detach().numpy(), "cosine")[0]
+    distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp, "cosine")[0]
 
-    temp = np.argpartition(distances, int(args.range * len(distances)))
-    closest_idx = temp[:int(args.range * len(distances))]
+    temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+    closest_idx = temp[0]
+    closest_oneperc = temp[:int(0.01 * len(distances))]
+    closest_fiveperc = temp[:int(0.05 * len(distances))]
+    closest_tenperc = temp[:int(0.1 * len(distances))]
 
-    if vocab_rvs_indx[index[0][0]][index[0][1]] in closest_idx:
-
+    if vocab_rvs_indx[index[0][0]][index[0][1]]==closest_idx:
         correct +=1
+        topone +=1
+        topfive +=1
+        topten +=1
+    elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_oneperc:
+        topone +=1
+        topfive +=1
+        topten +=1
+    elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_fiveperc:
+        topfive +=1
+        topten +=1
+    elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_tenperc:
+        topten +=1
+    
     total+=1
 
-print(comp.size())
+
 print(correct/total)
+print(topone/total)
+print(topfive/total)
+print(topten/total)
 
+from sklearn.cluster import KMeans
 
-    # from sklearn.cluster import KMeans
+num_clusters = 50
+clustering_model = KMeans(n_clusters=num_clusters)
+clustering_model.fit(comp)
+assignment = clustering_model.labels_
 
-    # corpus = [screen.labeled_text for screen in dataset.screens]
-    # corpus_text = [bundle[0] for text in corpus for bundle in text] 
-    # corpus_class = torch.tensor([bundle[1] for text in corpus for bundle in text])
-    # corpus_embeddings = model.model((corpus_text, corpus_class)).detach().numpy()
-
-    # num_clusters = 50
-    # clustering_model = KMeans(n_clusters=num_clusters)
-    # clustering_model.fit(corpus_embeddings)
-    # assignment = clustering_model.labels_
-
-    # with open("cluster_output.txt", "w", encoding="utf-8") as f:
-    #     for cl_no in range(num_clusters):
-    #         clustered_words = [corpus_text[idx] + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-    #         print(cl_no)
-    #         print(clustered_words[:10])
-    #         f.write(str(cl_no) + ":\n")
-    #         f.writelines(clustered_words)
+with open("cluster_output.txt", "w", encoding="utf-8") as f:
+    for cl_no in range(num_clusters):
+        clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+        f.write("______________" + "\n")
+        f.write(str(cl_no) + ":\n")
+        f.write("______________" + "\n")
+        f.writelines(clustered_words)

@@ -12,8 +12,6 @@ parser.add_argument("-l", "--location", required=True, type=str, help="path to l
 
 args = parser.parse_args()
 
-with open(args.prefix + 'trace_idx.json') as f:
-    trace_idx = json.load(f, encoding='utf-8')
 
 with open(args.location) as f:
     ui_name_list = json.load(f, encoding='utf-8')
@@ -48,8 +46,8 @@ for package_dir in os.listdir(args.dataset):
                 layout_emb_idx.append(layout_emb_idx_trace)
                 screen_names.append(screen_names_trace)
 
-with open(args.prefix + 'layout_emb_idx.json', 'w', encoding='utf-8') as f:
+with open('layout_emb_idx.json', 'w', encoding='utf-8') as f:
     json.dump(layout_emb_idx, f, indent=4)
 
-with open(args.prefix + 'screen_names.json', 'w', encoding='utf-8') as f:
+with open('screen_names.json', 'w', encoding='utf-8') as f:
     json.dump(screen_names, f, indent=4)

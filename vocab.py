@@ -87,3 +87,8 @@ class ScreenVocab(Dataset):
             descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in return_screens]).squeeze(1).unsqueeze(0)
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), self.indices, self.reverse_indices, end_index
     
+    def get_names(self, overall_index):
+        trace_index, screen_index = self.indices[overall_index]
+        trace_name = self.screens[trace_index].name
+        screen_name = self.screens[trace_index].trace_screens[screen_index].name
+        return trace_name, screen_name
