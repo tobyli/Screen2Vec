@@ -74,8 +74,9 @@ class RicoTrace():
         self.d_e = d_e
         self.trace_screens = []
         self.setting = setting
-        self.load_all_screens(ui, d, l, l_idx, s_n)
         self.name = t_n
+        self.load_all_screens(ui, d, l, l_idx, s_n)
+        
 
 
     def __iter__(self):
