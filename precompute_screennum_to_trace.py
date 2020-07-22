@@ -26,7 +26,7 @@ for package_dir in os.listdir(args.dataset):
         for trace_dir in os.listdir(args.dataset + '/' + package_dir):
             if os.path.isdir(args.dataset + '/' + package_dir + '/' + trace_dir) and (not trace_dir.startswith('.')):
                 trace_id = package_dir + trace_dir[-1]
-                print(trace_id)
+                #print(trace_id)
                 layout_emb_idx_trace = []
                 screen_names_trace = []
                 for view_hierarchy_json in os.listdir(args.dataset + '/' + package_dir + '/' + trace_dir + '/' + 'view_hierarchies'):
@@ -43,6 +43,7 @@ for package_dir in os.listdir(args.dataset):
                             print(name)
                             print(e)
                             layout_emb_idx_trace.append(-1)
+                            screen_names_trace.append(name)
                 layout_emb_idx.append(layout_emb_idx_trace)
                 screen_names.append(screen_names_trace)
 
