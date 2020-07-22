@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-m", "--model", required=True, type=str, help="path to pretrained model to test")
 parser.add_argument("-r", "--range", type=float, default=0.1, help="what proportion of results to look in")
-parser.add_argument("-v", "--net-version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
 parser.add_argument("-c", "--train_data", required=True, type=str, default=None, help="prefix of precomputed data to train model")
 parser.add_argument("-t", "--test_data", required=False, type=str, default=None, help="prefix of precomputed data to test model")
 parser.add_argument("-f", "--folder", required=True, type=str, help="path to Screen2Vec folder")
@@ -125,6 +125,17 @@ while end_index != -1:
     comp = torch.cat((comp, comp_part), dim = 0)
 
 comp = comp.detach().numpy()
+
+comp_dict = {}
+
+
+for emb_idx in range(len(comp)):
+    names = vocab.get_names(emb_idx)
+    comp_dict[names[1]] = comp[emb_idx].tolist()
+
+
+with open('model' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
+    json.dump(comp_dict, f, indent=4)
 i = 0
 for data in data_loader:
 # run it through the network
