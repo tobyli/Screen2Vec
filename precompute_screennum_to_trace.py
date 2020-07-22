@@ -46,8 +46,8 @@ for package_dir in os.listdir(args.dataset):
                 layout_emb_idx.append(layout_emb_idx_trace)
                 screen_names.append(screen_names_trace)
 
-with open('layout_emb_idx.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'layout_emb_idx.json', 'w', encoding='utf-8') as f:
     json.dump(layout_emb_idx, f, indent=4)
 
-with open('screen_names.json', 'w', encoding='utf-8') as f:
+with open(args.prefix + 'screen_names.json', 'w', encoding='utf-8') as f:
     json.dump(screen_names, f, indent=4)
