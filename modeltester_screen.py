@@ -138,6 +138,7 @@ mistakes = []
 with open('model' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
     json.dump(comp_dict, f, indent=4)
 i = 0
+eek = 0
 for data in data_loader:
 # run it through the network
     UIs, descr, trace_screen_lengths, index = data
@@ -151,6 +152,10 @@ for data in data_loader:
 
     temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
     closest_idx = temp[0]
+    # if closest_idx != 26:
+    #     print(closest_idx)
+    # else:
+    #     eek+=1
     closest_oneperc = temp[:int(0.01 * len(distances))]
     closest_fiveperc = temp[:int(0.05 * len(distances))]
     closest_tenperc = temp[:int(0.1 * len(distances))]
@@ -174,29 +179,31 @@ for data in data_loader:
         names = vocab.get_names(vocab_rvs_indx[index[0][0]][index[0][1]])
         bad_names = vocab.get_names(closest_idx)
         mistakes.append((names, bad_names))
+        print(closest_idx)
 
 
     total+=1
 
-with open('mistakes' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
+with open('mistakes_' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
     json.dump(mistakes, f, indent=4)
 
 print(correct/total)
 print(topone/total)
 print(topfive/total)
 print(topten/total)
+#print(eek)
 
-from sklearn.cluster import KMeans
+# from sklearn.cluster import KMeans
 
-num_clusters = 50
-clustering_model = KMeans(n_clusters=num_clusters)
-clustering_model.fit(comp)
-assignment = clustering_model.labels_
+# num_clusters = 50
+# clustering_model = KMeans(n_clusters=num_clusters)
+# clustering_model.fit(comp)
+# assignment = clustering_model.labels_
 
-with open("cluster_output.txt", "w", encoding="utf-8") as f:
-    for cl_no in range(num_clusters):
-        clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-        f.write("______________" + "\n")
-        f.write(str(cl_no) + ":\n")
-        f.write("______________" + "\n")
-        f.writelines(clustered_words)
+# with open("cluster_output.txt", "w", encoding="utf-8") as f:
+#     for cl_no in range(num_clusters):
+#         clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+#         f.write("______________" + "\n")
+#         f.write(str(cl_no) + ":\n")
+#         f.write("______________" + "\n")
+#         f.writelines(clustered_words)
