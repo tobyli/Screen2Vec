@@ -152,10 +152,10 @@ for data in data_loader:
 
     temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
     closest_idx = temp[0]
-    # if closest_idx != 26:
-    #     print(closest_idx)
-    # else:
-    #     eek+=1
+    if closest_idx not in [30805, 38443]:
+        print(closest_idx)
+    else:
+        eek+=1
     closest_oneperc = temp[:int(0.01 * len(distances))]
     closest_fiveperc = temp[:int(0.05 * len(distances))]
     closest_tenperc = temp[:int(0.1 * len(distances))]
@@ -191,7 +191,7 @@ print(correct/total)
 print(topone/total)
 print(topfive/total)
 print(topten/total)
-#print(eek)
+print(eek)
 
 # from sklearn.cluster import KMeans
 
