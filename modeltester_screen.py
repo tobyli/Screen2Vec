@@ -179,7 +179,6 @@ for data in data_loader:
         names = vocab.get_names(vocab_rvs_indx[index[0][0]][index[0][1]])
         bad_names = vocab.get_names(closest_idx)
         mistakes.append((names, bad_names))
-        print(closest_idx)
 
 
     total+=1
@@ -192,6 +191,7 @@ print(topone/total)
 print(topfive/total)
 print(topten/total)
 print(eek)
+print(eek/total)
 
 # from sklearn.cluster import KMeans
 
