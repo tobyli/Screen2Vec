@@ -133,6 +133,7 @@ for emb_idx in range(len(comp)):
     names = vocab.get_names(emb_idx)
     comp_dict[names[1]] = comp[emb_idx].tolist()
 
+mistakes = []
 
 with open('model' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
     json.dump(comp_dict, f, indent=4)
@@ -169,8 +170,16 @@ for data in data_loader:
     elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_tenperc:
         topten +=1
     
+    if vocab_rvs_indx[index[0][0]][index[0][1]] not in closest_fiveperc:
+        names = vocab.get_names(vocab_rvs_indx[index[0][0]][index[0][1]])
+        bad_names = vocab.get_names(closest_idx)
+        mistakes.append((names, bad_names))
+
+
     total+=1
 
+with open('mistakes' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
+    json.dump(mistakes, f, indent=4)
 
 print(correct/total)
 print(topone/total)
