@@ -16,14 +16,13 @@ class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
-    def __init__(self, num_preds, ui, ui_e, d, d_e, l_idx, l, net_version=0, fully_load=True, screen_names=None, trace_names=None):
+    def __init__(self, num_preds, ui, ui_e, d, d_e, l_idx, l, net_version=0, fully_load=True, screen_names=None):
         self.traces = []
         self.n = num_preds + 1
         self.ui_e = ui_e
         self.d_e = d_e
         self.setting = net_version
         self.s_n = screen_names
-        self.t_n = trace_names
         if fully_load:
             self.load_all_traces(ui, d, l, l_idx)
 
@@ -48,20 +47,20 @@ class RicoDataset(Dataset):
     def load_all_traces(self, ui, d, l, l_idx):
         if self.setting in [0,1]:
             for trace_idx in range(len(self.d_e)):
-                if self.t_n:
-                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, None, self.s_n[trace_idx], self.t_n[trace_idx])
+                if self.s_n:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, None, self.s_n[trace_idx])
                 else:
                     self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx])
         else:
             for trace_idx in range(len(self.d_e)):
-                if self.t_n:
-                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l, l_idx[trace_idx],self.s_n[trace_idx], self.t_n[trace_idx])
+                if self.s_n:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l, l_idx[trace_idx],self.s_n[trace_idx])
                 else:
                     self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l, l_idx[trace_idx])
 
-    def load_trace(self, ui, ui_e, d, d_e, l=None, l_idx=None, s_n=None, t_n=None):
+    def load_trace(self, ui, ui_e, d, d_e, l=None, l_idx=None, s_n=None):
         # loads a trace
-        trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, l_idx, self.setting, s_n, t_n)
+        trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, l_idx, self.setting, s_n)
         if len(trace_to_add.trace_screens) >= self.n:
             self.traces.append(trace_to_add)
 
@@ -69,12 +68,11 @@ class RicoTrace():
     """
     A list of screens
     """
-    def __init__(self, ui, ui_e, d, d_e, l, l_idx, setting=0, s_n = None, t_n = None):
+    def __init__(self, ui, ui_e, d, d_e, l, l_idx, setting=0, s_n = None):
         self.ui_e = ui_e
         self.d_e = d_e
         self.trace_screens = []
         self.setting = setting
-        self.name = t_n
         self.load_all_screens(ui, d, l, l_idx, s_n)
         
 

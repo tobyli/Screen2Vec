@@ -130,8 +130,8 @@ comp_dict = {}
 
 
 for emb_idx in range(len(comp)):
-    names = vocab.get_names(emb_idx)
-    comp_dict[names[1]] = comp[emb_idx].tolist()
+    names = vocab.get_name(emb_idx)
+    comp_dict[names] = comp[emb_idx].tolist()
 
 mistakes = []
 
@@ -173,8 +173,8 @@ for data in data_loader:
     if abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) <10 and abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) != 0:
         eek+=1
     if vocab_rvs_indx[index[0][0]][index[0][1]] not in closest_fiveperc:
-        names = vocab.get_names(vocab_rvs_indx[index[0][0]][index[0][1]])
-        bad_names = vocab.get_names(closest_idx)
+        names = vocab.get_name(vocab_rvs_indx[index[0][0]][index[0][1]])
+        bad_names = vocab.get_name(closest_idx)
         mistakes.append((names, bad_names))
 
 
@@ -199,7 +199,7 @@ assignment = clustering_model.labels_
 
 with open("cluster_output.txt", "w", encoding="utf-8") as f:
     for cl_no in range(num_clusters):
-        clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+        clustered_words = [str(vocab.get_name(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
         f.write("______________" + "\n")
         f.write(str(cl_no) + ":\n")
         f.write("______________" + "\n")
