@@ -76,8 +76,6 @@ with open(args.train_data + "descr.json") as f:
 tr_descr_emb = np.load(args.train_data + "dsc_emb.npy")
 with open(args.train_data + 'screen_names.json') as f:
     tr_screen_names = json.load(f, encoding='utf-8')
-with open(args.train_data + 'trace_names.json') as f:
-    tr_trace_names = json.load(f, encoding='utf-8')
 
 
 with open(args.test_data + "uis.json") as f:
@@ -89,15 +87,13 @@ with open(args.test_data + "descr.json") as f:
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 with open(args.test_data + 'screen_names.json') as f:
     te_screen_names = json.load(f, encoding='utf-8')
-with open(args.test_data + 'trace_names.json') as f:
-    te_trace_names = json.load(f, encoding='utf-8')
+
 
 ui_emb = tr_ui_emb + te_ui_emb
 descr_emb = np.concatenate((tr_descr_emb, te_descr_emb))
 uis = tr_uis + te_uis
 descr = tr_descr + te_descr
 screen_names = tr_screen_names + te_screen_names
-trace_names = tr_trace_names + te_trace_names
 # ui_emb = tr_ui_emb
 # descr_emb = tr_descr_emb
 # uis = tr_uis
@@ -112,7 +108,7 @@ else:
     layouts = None
 
 
-dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout_emb_idx, layouts, args.net_version, True, screen_names, trace_names)       
+dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layout_emb_idx, layouts, args.net_version, True, screen_names)       
 
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
