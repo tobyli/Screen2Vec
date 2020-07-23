@@ -190,17 +190,17 @@ print(topten/total)
 print(eek)
 print(eek/total)
 
-# from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans
 
-# num_clusters = 50
-# clustering_model = KMeans(n_clusters=num_clusters)
-# clustering_model.fit(comp)
-# assignment = clustering_model.labels_
+num_clusters = 50
+clustering_model = KMeans(n_clusters=num_clusters)
+clustering_model.fit(comp)
+assignment = clustering_model.labels_
 
-# with open("cluster_output.txt", "w", encoding="utf-8") as f:
-#     for cl_no in range(num_clusters):
-#         clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-#         f.write("______________" + "\n")
-#         f.write(str(cl_no) + ":\n")
-#         f.write("______________" + "\n")
-#         f.writelines(clustered_words)
+with open("cluster_output.txt", "w", encoding="utf-8") as f:
+    for cl_no in range(num_clusters):
+        clustered_words = [str(vocab.get_names(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+        f.write("______________" + "\n")
+        f.write(str(cl_no) + ":\n")
+        f.write("______________" + "\n")
+        f.writelines(clustered_words)
