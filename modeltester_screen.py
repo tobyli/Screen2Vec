@@ -145,17 +145,13 @@ for data in data_loader:
     #print(i)
     i+=1
     # forward the training stuff (prediction)
-    c,result = predictor(UIs, descr, trace_screen_lengths, False)
+    c,result,_ = predictor(UIs, descr, trace_screen_lengths, False)
     
     # find which vocab vector has the smallest cosine distance
     distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp, "cosine")[0]
 
     temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
     closest_idx = temp[0]
-    if closest_idx not in [30805, 38443]:
-        print(closest_idx)
-    else:
-        eek+=1
     closest_oneperc = temp[:int(0.01 * len(distances))]
     closest_fiveperc = temp[:int(0.05 * len(distances))]
     closest_tenperc = temp[:int(0.1 * len(distances))]
@@ -174,7 +170,8 @@ for data in data_loader:
         topten +=1
     elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_tenperc:
         topten +=1
-    
+    if abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) <10 and abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) != 0:
+        eek+=1
     if vocab_rvs_indx[index[0][0]][index[0][1]] not in closest_fiveperc:
         names = vocab.get_names(vocab_rvs_indx[index[0][0]][index[0][1]])
         bad_names = vocab.get_names(closest_idx)

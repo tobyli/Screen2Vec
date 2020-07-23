@@ -73,14 +73,15 @@ class Screen2VecTrainer:
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
             # forward the training stuff (prediction models)
-            c,result = self.predictor(UIs, descr, trace_screen_lengths) #input here
+            c, result, context = self.predictor(UIs, descr, trace_screen_lengths) #input here
             h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl).squeeze(0)
             
 
             neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
+            neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
             pos_dot_products = torch.bmm(c.unsqueeze(1), result.unsqueeze(2).cuda()).squeeze(-1)
             # calculate NLL loss for all prediction stuff
-            dot_products = torch.cat((pos_dot_products, neg_dot_products), dim=1)
+            dot_products = torch.cat((pos_dot_products, neg_dot_products, neg_self_dot_products), dim=1)
             dot_products = dot_products.cpu()
             prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
             total_loss+=float(prediction_loss)
