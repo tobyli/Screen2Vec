@@ -64,6 +64,7 @@ class UI2VecTrainer:
             vocab_embeddings = self.vocab.embeddings.transpose(0,1)
             vocab_embeddings = vocab_embeddings.cuda()
             for idx,data in data_itr:
+                self.optimizer.zero_grad()
                 total_batches+=1
                 element = data[0]
                 context = data[1]
@@ -82,6 +83,7 @@ class UI2VecTrainer:
                     self.optimizer.step()
         else:
             for idx,data in data_itr:
+                self.optimizer.zero_grad()
                 total_batches+=1
                 element = data[0]
                 context = data[1]

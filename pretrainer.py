@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
+import numpy as np
 
 import tqdm
 
@@ -55,9 +56,11 @@ class Screen2VecTrainer:
                               desc="EP_%s:%d" % (str_code, epoch),
                               total=len(data_loader),
                               bar_format="{l_bar}{r_bar}")
+        
         if not train:
             torch.set_grad_enabled(False)
         for idx, data in data_itr:
+            self.optimizer.zero_grad()
             total_batches+=1
 
             # load data properly
@@ -79,11 +82,16 @@ class Screen2VecTrainer:
 
             neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
             neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
-            pos_dot_products = torch.bmm(c.unsqueeze(1), result.unsqueeze(2).cuda()).squeeze(-1)
+            #pos_dot_products = torch.bmm(c.unsqueeze(1), result.unsqueeze(2).cuda()).squeeze(-1)
+            #TODO check this
+            pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
             # calculate NLL loss for all prediction stuff
+            correct = torch.from_numpy(np.arange(0,len(UIs)))
+
             dot_products = torch.cat((pos_dot_products, neg_dot_products, neg_self_dot_products), dim=1)
             dot_products = dot_products.cpu()
-            prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
+            # prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
+            prediction_loss = self.criterion(dot_products, correct.long())
             total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
             if train:
