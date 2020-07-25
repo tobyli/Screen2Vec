@@ -133,9 +133,11 @@ class LayoutTrainer():
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
+        return loss
 
     def test(self, epoch):
         loss = self.iteration(epoch, self.test_data, train=False)
+        return loss
 
     def iteration(self, epoch, all_data, train=True):
         total_loss = 0
