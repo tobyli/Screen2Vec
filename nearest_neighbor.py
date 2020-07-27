@@ -27,7 +27,7 @@ with open(args.emb_path) as f:
 def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
     src_embedding = rico_id_embedding_dict[src_id]
     screen_info_similarity_list = []
-    app_name_1 = src_id.split("/")[3]
+    app_name_1 = src_id.split("/")[5]
     for rico_id, embedding in rico_id_embedding_dict.items():
         if (embedding is None or src_embedding is None):
             continue
@@ -35,7 +35,7 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
             continue
         if ((isinstance(src_embedding, int)) and src_embedding == 0):
             continue
-        app_name_2 = rico_id.split("/")[3]
+        app_name_2 = rico_id.split("/")[5]
         if app_name_1 == app_name_2:
             continue
         entry = {}
