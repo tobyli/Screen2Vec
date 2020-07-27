@@ -41,6 +41,7 @@ for package_dir in os.listdir(args.dataset):
                             screens.append(screen_pixels)
                         except TypeError as e:
                             print(str(e) + ': ' + args.dataset)
+                            screens.append(np.zeros(64))
                 encoded_screens = model(torch.tensor(screens).type(torch.FloatTensor)).tolist()
                 layout_encodings.append(encoded_screens)
                 
