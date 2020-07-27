@@ -43,7 +43,7 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
         entry['score'] = scipy.spatial.distance.cosine(src_embedding, embedding)
         screen_info_similarity_list.append(entry)
     screen_info_similarity_list.sort(key=lambda x: x['score'])
-    return screen_info_similarity_list[0:n+1]
+    return screen_info_similarity_list[0:n]
 
 def vector_compose(screen1, screen2, screen3, emb_dict):
     """
@@ -73,4 +73,6 @@ else:
         n+=1
         key = random.choice(keys)
         print("___________________________________")
+        print(key)
+        print("_-_-_-_-_-_-")
         print(get_most_relevant_embeddings(key, embeddings, 5))
