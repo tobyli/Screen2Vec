@@ -15,7 +15,7 @@ from UI_embedding.plotter import plot_loss
 
 def pad_collate(batch):
     UIs = [trace[0] for trace in batch]
-    descr = torch.tensor([trace[1] for trace in batch])
+    descr = torch.FloatTensor([trace[1] for trace in batch])
     correct_indices = [trace[2] for trace in batch]
 
     trace_screen_lengths = []
@@ -41,7 +41,7 @@ parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning ra
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
-parser.add_argument("-v", "--net-version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
 
 
 args = parser.parse_args()
@@ -73,21 +73,22 @@ with open(args.test_data + "descr.json") as f:
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
 if args.net_version in [2,3]:
-    with open(args.test_data + "layout_emb_idx.json") as f:
-        layout_emb_idx = json.load(f, encoding='utf-8')
-    layouts = np.load(args.folder + "/Screen2Vec/ui_layout_vectors/ui_vectors.npy")
+    with open(args.train_data + "layout_embeddings.json") as f:
+        train_layouts = json.load(f, encoding='utf-8')
+    with open(args.test_data + "layout_embeddings.json") as f:
+        test_layouts = json.load(f, encoding='utf-8')
 else:
-    layouts = None
-    layout_emb_idx = None
+    train_layouts = None
+    test_layouts = None
 
-train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb, layout_emb_idx, layouts, args.net_version)
-test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb, layout_emb_idx, layouts, args.net_version)
+train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb, train_layouts, args.net_version)
+test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb, test_layouts, args.net_version)
 
 vocab_train = ScreenVocab(train_dataset)
 vocab_test = ScreenVocab(test_dataset)
 
-train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
-test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size)
+train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size=args.batch_size, shuffle=True)
+test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size, shuffle=True)
 
 
 #handle different versions of network here

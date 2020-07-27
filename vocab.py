@@ -63,7 +63,7 @@ class ScreenVocab(Dataset):
         if self.setting in [0,1]:
             descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
         else:
-            descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in screens]).squeeze(1).unsqueeze(0)
+            descr = torch.FloatTensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in screens]).squeeze(1).unsqueeze(0)
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0)
 
     def get_all_screens(self, start_index, size):
@@ -84,7 +84,7 @@ class ScreenVocab(Dataset):
         if self.setting in [0,1]:
             descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
         else:
-            descr = torch.tensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in return_screens]).squeeze(1).unsqueeze(0)
+            descr = torch.FloatTensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in return_screens]).squeeze(1).unsqueeze(0)
         return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), self.indices, self.reverse_indices, end_index
     
     def get_name(self, overall_index):
