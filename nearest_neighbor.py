@@ -19,10 +19,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-e", "--emb_path", type=str, default="", help="path to stored embeddings")
 parser.add_argument("-s", "--selected", type=list, default=[], help="path to stored embeddings")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
 args = parser.parse_args()
 
-with open("model" + str(args.net_version) + ".json") as f:
+with open(args.emb_path) as f:
     embeddings = json.load(f, encoding='utf-8')
 
 def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
