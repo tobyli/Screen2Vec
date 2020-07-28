@@ -17,6 +17,10 @@ def pad_collate(batch):
     UIs = [trace[0] for trace in batch]
     descr = torch.FloatTensor([trace[1] for trace in batch])
     correct_indices = [trace[2] for trace in batch]
+    if batch[0][3]:
+        layouts = torch.FloatTensor([trace[3] for trace in batch])
+    else:
+        layouts = None
 
     trace_screen_lengths = []
     for trace_idx in range(len(UIs)):
@@ -26,7 +30,7 @@ def pad_collate(batch):
         UIs[trace_idx] = torch.nn.utils.rnn.pad_sequence(UIs[trace_idx])
     UIs = torch.nn.utils.rnn.pad_sequence(UIs)
     UIs = UIs.transpose(0,1) #may want to not do this?
-    return UIs, descr, torch.tensor(trace_screen_lengths), correct_indices
+    return UIs, descr, torch.tensor(trace_screen_lengths), correct_indices, layouts
 
 parser = argparse.ArgumentParser()
 
@@ -41,7 +45,7 @@ parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning ra
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, and 3 to use both")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description")
 
 
 args = parser.parse_args()
@@ -72,7 +76,7 @@ with open(args.test_data + "descr.json") as f:
     te_descr = json.load(f, encoding='utf-8')
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
-if args.net_version in [2,3]:
+if args.net_version in [2,3,4]:
     with open(args.train_data + "layout_embeddings.json") as f:
         train_layouts = json.load(f, encoding='utf-8')
     with open(args.test_data + "layout_embeddings.json") as f:
@@ -102,8 +106,12 @@ if args.net_version in [0,1]:
 else:
     # case where screen layout vec is used
     adss = 64
+if args.net_version == 4:
+    shrink = True
+else:
+    shrink = False
 
-model = Screen2Vec(bert_size, num_classes=24, additional_ui_size=adus, additional_size_screen=adss)
+model = Screen2Vec(bert_size, num_classes=24, additional_ui_size=adus, additional_size_screen=adss, shrink=shrink)
 predictor = TracePredictor(model)
 predictor.cuda()
 if args.prev_model:

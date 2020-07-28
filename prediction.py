@@ -9,9 +9,9 @@ class TracePredictor(nn.Module):
         self.bert_size = self.model.bert_size
         self.combiner = nn.LSTM(self.bert_size, self.bert_size, batch_first=True)
 
-    def forward(self, UIs, descr, trace_screen_lengths, cuda=True):
+    def forward(self, UIs, descr, trace_screen_lengths, layouts=None, cuda=True):
         # embed all of the screens
-        screens = self.model(UIs, descr, trace_screen_lengths)
+        screens = self.model(UIs, descr, trace_screen_lengths, layouts)
         #take all but last element of each trace, store as context
         if cuda:
             context = torch.narrow(screens, 1, 0, screens.size()[1]-1).cuda()

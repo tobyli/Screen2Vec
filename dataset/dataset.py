@@ -33,13 +33,13 @@ class RicoDataset(Dataset):
             starting_index = random.randint(0, len(indexed_trace.trace_screens)-self.n)
             screens = indexed_trace.trace_screens[starting_index:starting_index+self.n-1]
         if self.setting==0:
-            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
         elif self.setting==1:
-            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1]]
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
         elif self.setting==2:
-            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]
         else:
-            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [np.concatenate((screen.descr_emb, screen.layout)) for screen in screens], [index, starting_index + self.n - 1]]
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]
 
     def __len__(self):
         return len(self.traces)
@@ -137,7 +137,7 @@ class RicoScreen():
         self.layout = l
         self.setting = setting
         self.name = s_n
-        if setting in [1,3]:
+        if setting in [1,3,4]:
             self.coords = self.load_coords()
         else:
             self.coords = []

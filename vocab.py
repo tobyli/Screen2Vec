@@ -60,11 +60,12 @@ class ScreenVocab(Dataset):
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
-        if self.setting in [0,1]:
-            descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
-        else:
-            descr = torch.FloatTensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in screens]).squeeze(1).unsqueeze(0)
-        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0)
+        descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
+        if self.setting in [2,3,4]:
+            layouts = torch.FloatTensor([screen.layout for screen in screens]).unsqueeze(0)
+        else: 
+            layouts = None
+        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), layouts
 
     def get_all_screens(self, start_index, size):
         all_screens = []
@@ -81,11 +82,12 @@ class ScreenVocab(Dataset):
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in return_screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
-        if self.setting in [0,1]:
-            descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
-        else:
-            descr = torch.FloatTensor([np.concatenate((screen.descr_emb, screen.layout)) for screen in return_screens]).squeeze(1).unsqueeze(0)
-        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0), self.indices, self.reverse_indices, end_index
+        descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
+        if self.setting in [2,3,4]:
+            layouts = torch.FloatTensor([screen.layout for screen in return_screens]).unsqueeze(0)
+        else: 
+            layouts = None
+        return UIs, descr, torch.tensor(UI_lengths).unsqueeze(0),layouts, self.indices, self.reverse_indices, end_index
     
     def get_name(self, overall_index):
         trace_index, screen_index = self.indices[overall_index]

@@ -64,26 +64,27 @@ class Screen2VecTrainer:
             total_batches+=1
 
             # load data properly
-            UIs, descr, trace_screen_lengths, indices = data
+            UIs, descr, trace_screen_lengths, indices, layouts = data
             UIs = UIs.cuda()
             descr = descr.cuda()
             trace_screen_lengths = trace_screen_lengths.cuda()
+            layouts = layouts.cuda()
             if train:
-                UIs_comp, comp_descr, comp_tsl = self.vocab_train.negative_sample(self.neg_sample_num, indices)
+                UIs_comp, comp_descr, comp_tsl, comp_layouts = self.vocab_train.negative_sample(self.neg_sample_num, indices)
             else:
-                UIs_comp, comp_descr, comp_tsl = self.vocab_test.negative_sample(int(self.neg_sample_num/8), indices)
+                UIs_comp, comp_descr, comp_tsl, comp_layouts = self.vocab_test.negative_sample(int(self.neg_sample_num/8), indices)
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
+            comp_layouts = comp_layouts.cuda()
             # forward the training stuff (prediction models)
-            c, result, context = self.predictor(UIs, descr, trace_screen_lengths) #input here
-            h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl).squeeze(0)
+            c, result, context = self.predictor(UIs, descr, trace_screen_lengths, layouts) #input here
+            h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl, comp_layouts).squeeze(0)
             
 
             neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
             neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
             #pos_dot_products = torch.bmm(c.unsqueeze(1), result.unsqueeze(2).cuda()).squeeze(-1)
-            #TODO check this
             pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
             # calculate NLL loss for all prediction stuff
             correct = torch.from_numpy(np.arange(0,len(UIs)))
