@@ -6,7 +6,7 @@ import json
 import scipy
 import numpy as np
 from torch.utils.data import DataLoader
-from Screen2Vec import Screen2Vec
+from Screen2Vec import Screen2Vec, Screen2VecUse
 from pretrainer import Screen2VecTrainer
 from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
@@ -56,13 +56,17 @@ if args.net_version in [0,1]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version == 4:
-    shrink = True
+if args.net_version in [0,1,2,3]:
+    desc_size = 768
+elif args.net_version == 4:
+    desc_size = 384
 else:
-    shrink = False
+    desc_size = 0
 
-
-orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, shrink=shrink)
+if args.net_version == 5:
+    orig_model = Screen2VecUse(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
+else:
+    orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
 predictor = TracePredictor(orig_model)
 predictor.load_state_dict(torch.load(args.model))
 
@@ -107,7 +111,7 @@ screen_names = tr_screen_names + te_screen_names
 # uis = tr_uis
 # descr = tr_descr
 
-if args.net_version in [2,3,4]:
+if args.net_version not in [0,1]:
     with open(args.train_data + "layout_embeddings.json") as f:
         train_layouts = json.load(f, encoding='utf-8')
     with open(args.test_data + "layout_embeddings.json") as f:
