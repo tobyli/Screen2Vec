@@ -5,6 +5,10 @@ from dataset.dataset import RicoDataset
 from torch.utils.data import Dataset
 
 class ScreenVocab(Dataset):
+    """
+    holds the collection of screens from a RicoDataset
+    used for negative sampling across traces
+    """
     def __init__(self, dataset:RicoDataset):
         self.dataset = dataset
         self.screens = dataset.traces
