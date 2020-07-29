@@ -65,7 +65,7 @@ class ScreenVocab(Dataset):
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
         descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
-        if self.setting in [2,3,4]:
+        if self.setting not in [0,1]:
             layouts = torch.FloatTensor([screen.layout for screen in screens]).unsqueeze(0)
         else: 
             layouts = None
@@ -87,7 +87,7 @@ class ScreenVocab(Dataset):
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
         descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
-        if self.setting in [2,3,4]:
+        if self.setting not in [0,1]:
             layouts = torch.FloatTensor([screen.layout for screen in return_screens]).unsqueeze(0)
         else: 
             layouts = None

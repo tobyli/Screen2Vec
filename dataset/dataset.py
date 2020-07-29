@@ -137,7 +137,7 @@ class RicoScreen():
         self.layout = l
         self.setting = setting
         self.name = s_n
-        if setting in [1,3,4]:
+        if setting not in [0,2]:
             self.coords = self.load_coords()
         else:
             self.coords = []

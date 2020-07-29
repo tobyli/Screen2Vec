@@ -45,7 +45,7 @@ parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning ra
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description, 5 to compute without description")
 
 
 args = parser.parse_args()
@@ -76,7 +76,7 @@ with open(args.test_data + "descr.json") as f:
     te_descr = json.load(f, encoding='utf-8')
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
-if args.net_version in [2,3,4]:
+if args.net_version not in [0,1]:
     with open(args.train_data + "layout_embeddings.json") as f:
         train_layouts = json.load(f, encoding='utf-8')
     with open(args.test_data + "layout_embeddings.json") as f:
@@ -106,12 +106,14 @@ if args.net_version in [0,1]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version == 4:
-    shrink = True
+if args.net_version in [0,1,2,3]:
+    desc_size = 768
+elif args.net_version == 4:
+    desc_size = 384
 else:
-    shrink = False
+    desc_size = 0
 
-model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, shrink=shrink)
+model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
 predictor = TracePredictor(model)
 predictor.cuda()
 if args.prev_model:
