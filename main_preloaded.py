@@ -111,7 +111,7 @@ if args.net_version == 4:
 else:
     shrink = False
 
-model = Screen2Vec(bert_size, num_classes=24, additional_ui_size=adus, additional_size_screen=adss, shrink=shrink)
+model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, shrink=shrink)
 predictor = TracePredictor(model)
 predictor.cuda()
 if args.prev_model:
