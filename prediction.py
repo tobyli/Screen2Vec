@@ -3,6 +3,9 @@ import torch.nn as nn
 from Screen2Vec import Screen2Vec
 
 class TracePredictor(nn.Module):
+    """
+    predicts the embeddings of the next screen in a trace based on its preceding screens
+    """
     def __init__(self, embedding_model: Screen2Vec):
         super().__init__()
         self.model = embedding_model
@@ -12,7 +15,8 @@ class TracePredictor(nn.Module):
     def forward(self, UIs, descr, trace_screen_lengths, layouts=None, cuda=True):
         # embed all of the screens
         screens = self.model(UIs, descr, trace_screen_lengths, layouts)
-        #take all but last element of each trace, store as context
+        # take all but last element of each trace, store as context
+        # last element is the desired result/target
         if cuda:
             context = torch.narrow(screens, 1, 0, screens.size()[1]-1).cuda()
             result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1).cuda()
