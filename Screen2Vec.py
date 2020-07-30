@@ -25,10 +25,14 @@ class Screen2Vec(nn.Module):
 
     def forward(self, UIs, descr, trace_screen_lengths, layouts=None):
         """
-        UIs: batch_size x screen_size x trace_length x bert_size + additional_ui_size
-        descr: batch_size x trace_length x bert_size
-        trace_screen_lengths: batch_size x trace_length w
-        layouts: None if not used, or batch_size x trace_length x additonal_size_screen
+        UIs:    embeddings of all UI elements on each screen, padded to the same length
+                batch_size x screen_size x trace_length x bert_size + additional_ui_size
+        descr:  Sentence BERT embeddings of app descriptions
+                batch_size x trace_length x bert_size
+        trace_screen_lengths: length of UIs before zero padding was performed
+                batch_size x trace_length
+        layouts: (None if not used in this net version) the autoencoded layout vector for the screen
+                batch_size x trace_length x additonal_size_screen
         """
         batch_size = UIs.size()[0]
         screen_embeddings = torch.empty(batch_size, UIs.size()[2], self.bert_size)
@@ -40,14 +44,18 @@ class Screen2Vec(nn.Module):
             h = h[0]
 
             # combine UIs with rest of information
+            # version 4: shrinking the description before combining
             if self.desc_size < 768 and self.desc_size > 0:
                 descriptions = self.desc_shrinker(descr[batch_num])
             else: descriptions = descr[batch_num]
+            # if training with description, concatenate it on here
             if self.desc_size > 0:
                 concat_emb = torch.cat((h, descriptions), dim=1)
             else: concat_emb = h
+            # if using layouts, concatenate them on here
             if layouts is not None:
                 concat_emb = torch.cat((concat_emb, layouts[batch_num]), dim=1)
+            
             # bring down to bert size through a linear layer
             final_emb = self.lin(concat_emb)
             screen_embeddings[batch_num] = final_emb
@@ -79,10 +87,14 @@ class Screen2VecUse(nn.Module):
 
     def forward(self, UIs, descr, trace_screen_lengths, layouts=None):
         """
-        UIs: batch_size x screen_size x trace_length x bert_size + additional_ui_size
-        descr: batch_size x trace_length x bert_size
-        trace_screen_lengths: batch_size x trace_length w
-        layouts: None if not used, or batch_size x trace_length x additonal_size_screen
+        UIs:    embeddings of all UI elements on each screen, padded to the same length
+                batch_size x screen_size x trace_length x bert_size + additional_ui_size
+        descr:  Sentence BERT embeddings of app descriptions
+                batch_size x trace_length x bert_size
+        trace_screen_lengths: length of UIs before zero padding was performed
+                batch_size x trace_length
+        layouts: (None if not used in this net version) the autoencoded layout vector for the screen
+                batch_size x trace_length x additonal_size_screen
         """
         batch_size = UIs.size()[0]
         screen_embeddings = torch.empty(batch_size, UIs.size()[2], self.bert_size)
