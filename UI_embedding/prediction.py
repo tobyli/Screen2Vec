@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from .UI2Vec import UI2Vec
+from UI2Vec import UI2Vec
 
 class HiddenLabelPredictorModel(nn.Module):
     """

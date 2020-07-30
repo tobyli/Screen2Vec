@@ -21,7 +21,7 @@ parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epoc
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to file with full vocab")
 parser.add_argument("-m", "--embedding_path",  type=str, default=None, help="path to file with precomputed vocab embeddings")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
-parser.add_argument("-l", "--loss", type=int, default=1, help="1 to use cosine embedding loss, 0 to use softmax dot product")
+parser.add_argument("-l", "--loss", type=int, default=0, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 
 

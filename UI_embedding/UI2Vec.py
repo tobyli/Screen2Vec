@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .embedding import UIEmbedder
+from embedding import UIEmbedder
 
 class UI2Vec(nn.Module):
 
