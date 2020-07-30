@@ -13,6 +13,17 @@ class TracePredictor(nn.Module):
         self.combiner = nn.LSTM(self.bert_size, self.bert_size, batch_first=True)
 
     def forward(self, UIs, descr, trace_screen_lengths, layouts=None, cuda=True):
+        """
+        UIs:    embeddings of all UI elements on each screen, padded to the same length
+                batch_size x screen_size x trace_length x bert_size + additional_ui_size
+        descr:  Sentence BERT embeddings of app descriptions
+                batch_size x trace_length x bert_size
+        trace_screen_lengths: length of UIs before zero padding was performed
+                batch_size x trace_length
+        layouts: (None if not used in this net version) the autoencoded layout vector for the screen
+                batch_size x trace_length x additonal_size_screen
+        cuda:   True if TracePredictor has been sent to GPU, False if not
+        """
         # embed all of the screens using Screen2Vec
         screens = self.model(UIs, descr, trace_screen_lengths, layouts)
 
@@ -25,6 +36,6 @@ class TracePredictor(nn.Module):
             context = torch.narrow(screens, 1, 0, screens.size()[1]-1)
             result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1)
         
-        # run through model
+        # run screens in trace through model to predict last one
         output, (h,c) = self.combiner(context)
         return h[0], result, context
