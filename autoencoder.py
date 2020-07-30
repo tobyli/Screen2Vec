@@ -52,16 +52,15 @@ class ScreenLayout():
                     self.load_screen_contents(child_node)
                     
     def convert_to_image(self):
-        p = np.full((100,56,3), 255)
-        blue = np.array([0,1])
-        red = np.array([0,1])
+        p = np.full((100,56,3), 255, dtype=np.uint)
         for y in range(len(self.pixels)):
             for x in range(len(self.pixels[0])):
-                if (self.pixels[y][x] == [0,1]).all():
+                if (self.pixels[y][x] == [1,0]).all() or (self.pixels[y][x] == [1,1]).all():
                     p[y][x] = [0,0,255]
-                elif (self.pixels[y][x] == [1,0]).all():
+                elif (self.pixels[y][x] == [0,1]).all():
                     p[y][x] = [255,0,0]
-        im = Image.fromarray(p)
+        im = Image.fromarray(p.astype(np.uint8))
+        im.save("example.png")
 
 
 

@@ -14,6 +14,9 @@ from UI_embedding.plotter import plot_loss
 
 
 def pad_collate(batch):
+    """
+    collate function that handles variable numbers of UIs in a screen
+    """
     UIs = [trace[0] for trace in batch]
     descr = torch.FloatTensor([trace[1] for trace in batch])
     correct_indices = [trace[2] for trace in batch]
@@ -45,23 +48,26 @@ parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning ra
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description, 5 to compute without description")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description, 5 with both but no description")
 
 
 args = parser.parse_args()
 
-bert = SentenceTransformer('bert-base-nli-mean-tokens')
 bert_size = 768
 
-
+# preloading starts here
 with open(args.train_data + "uis.json") as f:
     tr_uis = json.load(f, encoding='utf-8')
 
 tr_ui_emb = []
-for i in range(10):
-    print(i)
-    with open(args.train_data + str(i) + "_ui_emb.json") as f:
-        tr_ui_emb += json.load(f, encoding='utf-8')
+try:
+    for i in range(10):
+        with open(args.train_data + str(i) + "_ui_emb.json") as f:
+            tr_ui_emb += json.load(f, encoding='utf-8')
+        print(i)
+except FileNotFoundError as e:
+    with open(args.train_data + "ui_emb.json") as f:
+            tr_ui_emb += json.load(f, encoding='utf-8')
 
 with open(args.train_data + "descr.json") as f:
     tr_descr = json.load(f, encoding='utf-8')
@@ -84,6 +90,7 @@ if args.net_version not in [0,1]:
 else:
     train_layouts = None
     test_layouts = None
+# preloading ends here
 
 train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb, train_layouts, args.net_version)
 test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb, test_layouts, args.net_version)
@@ -111,8 +118,10 @@ if args.net_version in [0,1,2,3]:
 elif args.net_version == 4:
     desc_size = 384
 else:
+    # no description in training case
     desc_size = 0
 
+# generate models
 model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
 predictor = TracePredictor(model)
 predictor.cuda()
@@ -121,17 +130,22 @@ if args.prev_model:
 trainer = Screen2VecTrainer(predictor, vocab_train, vocab_test, train_data_loader, test_data_loader, args.rate, args.neg_samp)
 
 
+# training occurs below
 test_loss_data = []
 train_loss_data = []
 for epoch in tqdm.tqdm(range(args.epochs)):
     print("--------")
-    print(str(epoch) + " loss:")
+    print(str(epoch) + " train loss:")
     train_loss = trainer.train(epoch)
     print(train_loss)
     print("--------")
     train_loss_data.append(train_loss)
     if test_data_loader is not None:
+        print("--------")
+        print(str(epoch) + " test loss:")
         test_loss = trainer.test(epoch)
+        print(test_loss)
+        print("--------")
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
         print("saved on epoch " + str(epoch))

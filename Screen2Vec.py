@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from UI_embedding.UI2Vec import UI2Vec
 
 class Screen2Vec(nn.Module):
 

@@ -13,11 +13,18 @@ from vocab import ScreenVocab
 
 class Screen2VecTrainer:
     """
+    Trains a Screen2Vec embedding using a prediction task
     """
 
     def __init__(self, predictor: TracePredictor, vocab_train: ScreenVocab, vocab_test: ScreenVocab, dataloader_train, dataloader_test, 
                 l_rate: float, neg_samp: int):
         """
+        predictor: TracePredictor module
+        vocab_train: a ScreenVocab from which to find a negative sample for the training data
+        vocab_test: a ScreenVocab from which to find a negative sample for the testing data
+        dataloader_train, dataloader_test: dataloaders
+        l_rate: learning rate for optimizer
+        neg_samp: number of negative samples to compare against for training data
         """
         self.predictor = predictor 
         self.criterion = nn.CrossEntropyLoss()
@@ -56,49 +63,56 @@ class Screen2VecTrainer:
                               desc="EP_%s:%d" % (str_code, epoch),
                               total=len(data_loader),
                               bar_format="{l_bar}{r_bar}")
-        
+        # to avoid memory leak
         if not train:
             torch.set_grad_enabled(False)
+
         for idx, data in data_itr:
             self.optimizer.zero_grad()
             total_batches+=1
 
-            # load data properly
+            # load data 
             UIs, descr, trace_screen_lengths, indices, layouts = data
+            # move to GPU
             UIs = UIs.cuda()
             descr = descr.cuda()
             trace_screen_lengths = trace_screen_lengths.cuda()
             layouts = layouts.cuda()
+            # get negative samples to compare against
             if train:
                 UIs_comp, comp_descr, comp_tsl, comp_layouts = self.vocab_train.negative_sample(self.neg_sample_num, indices)
             else:
+                # smaller negative sample for test data because there's less of it
                 UIs_comp, comp_descr, comp_tsl, comp_layouts = self.vocab_test.negative_sample(int(self.neg_sample_num/8), indices)
+            # move to GPU
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
             comp_layouts = comp_layouts.cuda()
-            # forward the training stuff (prediction models)
+
+            # forward the prediction models
             c, result, context = self.predictor(UIs, descr, trace_screen_lengths, layouts) #input here
             h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl, comp_layouts).squeeze(0)
             
-
+            # dot products to find out similarity
+            # with negative sampling
             neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
+            # with other screens in trace
             neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
-            #pos_dot_products = torch.bmm(c.unsqueeze(1), result.unsqueeze(2).cuda()).squeeze(-1)
+            # with targets
             pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
-            # calculate NLL loss for all prediction stuff
             correct = torch.from_numpy(np.arange(0,len(UIs)))
-
             dot_products = torch.cat((pos_dot_products, neg_dot_products, neg_self_dot_products), dim=1)
             dot_products = dot_products.cpu()
-            # prediction_loss = self.criterion(dot_products, torch.zeros(len(UIs)).long())
+
+            # calculate loss for this batch
             prediction_loss = self.criterion(dot_products, correct.long())
             total_loss+=float(prediction_loss)
+
             # if in train, backwards and optimization
             if train:
                 prediction_loss.backward()
                 self.optimizer.step()
-            torch.cuda.empty_cache()
         if not train: 
             torch.set_grad_enabled(True)
         return total_loss/total_batches
