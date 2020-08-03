@@ -6,7 +6,7 @@ import json
 import scipy
 import numpy as np
 from torch.utils.data import DataLoader
-from Screen2Vec import Screen2Vec, Screen2VecUse
+from Screen2Vec import Screen2Vec
 from pretrainer import Screen2VecTrainer
 from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
@@ -63,10 +63,8 @@ elif args.net_version == 4:
 else:
     desc_size = 0
 
-if args.net_version == 5:
-    orig_model = Screen2VecUse(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
-else:
-    orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
+
+orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
 predictor = TracePredictor(orig_model)
 predictor.load_state_dict(torch.load(args.model))
 
@@ -198,6 +196,30 @@ print(topfive/total)
 print(topten/total)
 print(eek)
 print(eek/total)
+
+
+if args.net_version == 5:
+    end_index = 0
+    comp = torch.empty(0,bert_size*2)
+    while end_index != -1:
+        vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts , vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
+        comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts).squeeze(0)
+        print(comp_part.size())
+        print(vocab_descr.size())
+        embeddings = torch.cat((comp_part, vocab_descr.squeeze(0)), dim=1)
+        comp = torch.cat((comp, embeddings), dim = 0)
+
+    comp = comp.detach().numpy()
+
+    comp_dict = {}
+
+
+    for emb_idx in range(len(comp)):
+        names = vocab.get_name(emb_idx)
+        comp_dict[names] = comp[emb_idx].tolist()
+
+    with open('model' + str(args.net_version) + 'descr.json', 'w', encoding='utf-8') as f:
+        json.dump(comp_dict, f, indent=4)
 
 from sklearn.cluster import KMeans
 
