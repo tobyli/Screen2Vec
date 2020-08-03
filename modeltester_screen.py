@@ -204,8 +204,6 @@ if args.net_version == 5:
     while end_index != -1:
         vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts , vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
         comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts).squeeze(0)
-        print(comp_part.size())
-        print(vocab_descr.size())
         embeddings = torch.cat((comp_part, vocab_descr.squeeze(0)), dim=1)
         comp = torch.cat((comp, embeddings), dim = 0)
 
