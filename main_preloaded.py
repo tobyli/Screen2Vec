@@ -47,8 +47,8 @@ parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
-parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description, 5 with both but no description")
+# parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
 
 
 args = parser.parse_args()
@@ -113,17 +113,15 @@ if args.net_version in [0,1]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version in [0,1,2,3]:
+if args.net_version in [0,1,2,3,5]:
     desc_size = 768
-elif args.net_version == 4:
-    desc_size = 384
 else:
     # no description in training case
     desc_size = 0
 
 # generate models
 model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
-predictor = TracePredictor(model)
+predictor = TracePredictor(model, args.net_version)
 predictor.cuda()
 if args.prev_model:
     predictor.load_state_dict(torch.load(args.prev_model))

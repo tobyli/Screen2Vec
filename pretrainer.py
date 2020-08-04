@@ -92,8 +92,8 @@ class Screen2VecTrainer:
 
             # forward the prediction models
             c, result, context = self.predictor(UIs, descr, trace_screen_lengths, layouts) #input here
-            h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl, comp_layouts).squeeze(0)
-            
+            h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl, comp_layouts, False).squeeze(0)
+
             # dot products to find out similarity
             # with negative sampling
             neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())

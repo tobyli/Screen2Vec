@@ -6,10 +6,11 @@ class TracePredictor(nn.Module):
     """
     predicts the embeddings of the next screen in a trace based on its preceding screens
     """
-    def __init__(self, embedding_model: Screen2Vec):
+    def __init__(self, embedding_model: Screen2Vec, net_version: int):
         super().__init__()
         self.model = embedding_model
         self.bert_size = self.model.bert_size
+        self.net_version = net_version
         self.combiner = nn.LSTM(self.bert_size, self.bert_size, batch_first=True)
 
     def forward(self, UIs, descr, trace_screen_lengths, layouts=None, cuda=True):
@@ -38,4 +39,12 @@ class TracePredictor(nn.Module):
         
         # run screens in trace through model to predict last one
         output, (h,c) = self.combiner(context)
-        return h[0], result, context
+        if self.net_version ==5:
+            #TODO: work on this part
+            descriptions = torch.narrow(descr, 1, 0, 1)
+            h = torch.cat((h[0], descriptions.squeeze(1)), dim=-1)
+            result = torch.cat((result,descriptions.squeeze(1)), dim=-1)
+            context = torch.cat((context, torch.narrow(descr,1,0,descr.size()[1]-1).squeeze(1)), dim=-1)
+        else:
+            h = h[0]
+        return h, result, context

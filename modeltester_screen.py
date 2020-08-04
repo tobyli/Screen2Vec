@@ -37,7 +37,7 @@ def pad_collate(batch):
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-m", "--model", required=True, type=str, help="path to pretrained model to test")
-parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 to use both and shrink description")
+parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
 parser.add_argument("-c", "--train_data", required=True, type=str, default=None, help="prefix of precomputed data to train model")
 parser.add_argument("-t", "--test_data", required=False, type=str, default=None, help="prefix of precomputed data to test model")
 parser.add_argument("-f", "--folder", required=True, type=str, help="path to Screen2Vec folder")
@@ -58,14 +58,12 @@ else:
     adss = 64
 if args.net_version in [0,1,2,3]:
     desc_size = 768
-elif args.net_version == 4:
-    desc_size = 384
 else:
     desc_size = 0
 
 
 orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
-predictor = TracePredictor(orig_model)
+predictor = TracePredictor(orig_model, args.net_version)
 predictor.load_state_dict(torch.load(args.model))
 
 correct = 0
@@ -198,7 +196,7 @@ print(eek)
 print(eek/total)
 
 
-if args.net_version == 5:
+if args.net_version == 4:
     end_index = 0
     comp = torch.empty(0,bert_size*2)
     while end_index != -1:
