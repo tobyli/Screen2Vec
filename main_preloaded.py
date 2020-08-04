@@ -113,7 +113,7 @@ if args.net_version in [0,1]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version in [0,1,2,3,5]:
+if args.net_version in [0,1,2,3]:
     desc_size = 768
 else:
     # no description in training case
