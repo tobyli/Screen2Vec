@@ -123,10 +123,13 @@ data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
 end_index = 0
-comp = torch.empty(0,bert_size)
+if args.net_version != 5:
+    comp = torch.empty(0,bert_size)
+else:
+    comp = torch.empty(0,bert_size *2)
 while end_index != -1:
     vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts , vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
-    comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts).squeeze(0)
+    comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
     comp = torch.cat((comp, comp_part), dim = 0)
 
 comp = comp.detach().numpy()

@@ -54,7 +54,7 @@ class Screen2Vec(nn.Module):
             screen_embeddings[batch_num] = final_emb
         # [screen_embeddings] = batch_size x trace_length x bert_size
         if not prediction:
-            screen_embeddings = torch.cat((screen_embeddings.cuda(), descr), dim=2)
+            screen_embeddings = torch.cat((screen_embeddings, descr.cpu()), dim=-1)
         return screen_embeddings
 
 
