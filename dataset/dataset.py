@@ -61,7 +61,7 @@ class RicoDataset(Dataset):
     def load_trace(self, ui, ui_e, d, d_e, l=None, s_n=None):
         # loads a trace
         trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, self.setting, s_n)
-        if len(trace_to_add.trace_screens) >= self.n:
+        if len(trace_to_add.trace_screens) >= self.n and d!="":
             self.traces.append(trace_to_add)
 
 class RicoTrace():
