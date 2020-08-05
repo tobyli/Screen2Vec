@@ -6,8 +6,7 @@ from torch.utils.data import DataLoader
 
 import tqdm
 
-from UI2Vec import UI2Vec
-from prediction import HiddenLabelPredictorModel
+from UI2Vec import UI2Vec, HiddenLabelPredictorModel
 from dataset.vocab import BertScreenVocab
 
 class UI2VecTrainer:

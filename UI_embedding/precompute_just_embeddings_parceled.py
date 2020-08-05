@@ -9,7 +9,7 @@ import os
 from dataset.playstore_scraper import get_app_description
 from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
 from dataset.rico_dao import load_rico_screen_dict
-from prediction import HiddenLabelPredictorModel
+from UI2Vec import HiddenLabelPredictorModel
 
 class ScreensList(Dataset):
     """

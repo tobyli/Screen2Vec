@@ -8,7 +8,7 @@ import os
 from dataset.playstore_scraper import get_app_description
 from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
 from dataset.rico_dao import load_rico_screen_dict
-from prediction import HiddenLabelPredictorModel
+from UI2Vec import HiddenLabelPredictorModel
 
 class ScreensList(Dataset):
     """
@@ -90,18 +90,18 @@ with open(args.prefix + 'uis.json', 'w', encoding='utf-8') as f:
 with open(args.prefix + 'screen_names.json', 'w', encoding='utf-8') as f:
     json.dump(screen_names, f, indent=4)
 
-screen_lengths = []
-for trace in UIs:
-    trace_screen_lengths = []
-    for screen in trace:
-        trace_screen_lengths.append(len(screen))
-    screen_lengths.append(trace_screen_lengths)
+# screen_lengths = []
+# for trace in UIs:
+#     trace_screen_lengths = []
+#     for screen in trace:
+#         trace_screen_lengths.append(len(screen))
+#     screen_lengths.append(trace_screen_lengths)
 
-with open(args.prefix + 'lengths.json', 'w', encoding='utf-8') as f:
-    json.dump(screen_lengths, f, indent=4)
+# with open(args.prefix + 'lengths.json', 'w', encoding='utf-8') as f:
+#     json.dump(screen_lengths, f, indent=4)
 
-with open(args.prefix + 'trace_idx.json', 'w', encoding='utf-8') as f:
-    json.dump(trace_to_index, f, indent=4)
+# with open(args.prefix + 'trace_idx.json', 'w', encoding='utf-8') as f:
+#     json.dump(trace_to_index, f, indent=4)
 
 description_embeddings = list(bert.encode(descriptions))
 np.save(args.prefix + 'dsc_emb', description_embeddings)

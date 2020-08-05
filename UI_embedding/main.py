@@ -2,10 +2,9 @@ import argparse
 import json
 import tqdm
 from torch.utils.data import DataLoader
-from UI2Vec import UI2Vec
+from UI2Vec import HiddenLabelPredictorModel 
 from prepretrainer import UI2VecTrainer
-from prediction import HiddenLabelPredictorModel
-from dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
+from dataset.dataset import RicoDataset, ScreenDataset
 from dataset.vocab import BertScreenVocab
 from sentence_transformers import SentenceTransformer
 from plotter import plot_loss
