@@ -46,12 +46,12 @@ args = parser.parse_args()
 
 
 bert_size = 768
-if args.net_version in [0,2]:
+if args.net_version in [0,2,6]:
     adus = 0
 else:
     # case where coordinates are part of UI rnn
     adus = 4
-if args.net_version in [0,1]:
+if args.net_version in [0,1,6]:
     adss = 0
 else:
     # case where screen layout vec is used
@@ -107,7 +107,7 @@ screen_names = tr_screen_names + te_screen_names
 # uis = tr_uis
 # descr = tr_descr
 
-if args.net_version not in [0,1]:
+if args.net_version not in [0,1,6]:
     with open(args.train_data + "layout_embeddings.json") as f:
         train_layouts = json.load(f, encoding='utf-8')
     with open(args.test_data + "layout_embeddings.json") as f:
@@ -123,7 +123,7 @@ data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
 end_index = 0
-if args.net_version != 5:
+if args.net_version not in [5,6]:
     comp = torch.empty(0,bert_size)
 else:
     comp = torch.empty(0,bert_size *2)

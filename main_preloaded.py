@@ -82,7 +82,7 @@ with open(args.test_data + "descr.json") as f:
     te_descr = json.load(f, encoding='utf-8')
 te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
 
-if args.net_version not in [0,1]:
+if args.net_version not in [0,1,6]:
     with open(args.train_data + "layout_embeddings.json") as f:
         train_layouts = json.load(f, encoding='utf-8')
     with open(args.test_data + "layout_embeddings.json") as f:
@@ -103,12 +103,12 @@ test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=a
 
 
 #handle different versions of network here
-if args.net_version in [0,2]:
+if args.net_version in [0,2,6]:
     adus = 0
 else:
     # case where coordinates are part of UI rnn
     adus = 4
-if args.net_version in [0,1]:
+if args.net_version in [0,1,6]:
     adss = 0
 else:
     # case where screen layout vec is used

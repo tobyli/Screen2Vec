@@ -77,7 +77,8 @@ class Screen2VecTrainer:
             UIs = UIs.cuda()
             descr = descr.cuda()
             trace_screen_lengths = trace_screen_lengths.cuda()
-            layouts = layouts.cuda()
+            if layouts:
+                layouts = layouts.cuda()
             # get negative samples to compare against
             if train:
                 UIs_comp, comp_descr, comp_tsl, comp_layouts = self.vocab_train.negative_sample(self.neg_sample_num, indices)
@@ -88,7 +89,8 @@ class Screen2VecTrainer:
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
-            comp_layouts = comp_layouts.cuda()
+            if comp_layouts:
+                comp_layouts = comp_layouts.cuda()
 
             # forward the prediction models
             c, result, context = self.predictor(UIs, descr, trace_screen_lengths, layouts) #input here

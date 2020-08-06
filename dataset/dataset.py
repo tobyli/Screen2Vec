@@ -32,7 +32,7 @@ class RicoDataset(Dataset):
         if len(indexed_trace.trace_screens) >= self.n:
             starting_index = random.randint(0, len(indexed_trace.trace_screens)-self.n)
             screens = indexed_trace.trace_screens[starting_index:starting_index+self.n-1]
-        if self.setting==0:
+        if self.setting==0 or self.setting==6:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
         elif self.setting==1:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
@@ -45,10 +45,10 @@ class RicoDataset(Dataset):
         return len(self.traces)
 
     def load_all_traces(self, ui, d, l):
-        if self.setting in [0,1]:
+        if self.setting in [0,1,6]:
             for trace_idx in range(len(self.d_e)):
                 if self.s_n:
-                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, None, self.s_n[trace_idx])
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, self.s_n[trace_idx])
                 else:
                     self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx])
         else:
@@ -87,7 +87,7 @@ class RicoTrace():
                 name = s_n[screen_idx]
             else: 
                 name = None
-            if self.setting in [0,1]:
+            if self.setting in [0,1,6]:
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, None, self.setting, name)
             else:
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, l[screen_idx], self.setting, name)
@@ -137,7 +137,7 @@ class RicoScreen():
         self.layout = l
         self.setting = setting
         self.name = s_n
-        if setting not in [0,2]:
+        if setting not in [0,2,6]:
             self.coords = self.load_coords()
         else:
             self.coords = []
