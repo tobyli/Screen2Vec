@@ -82,6 +82,7 @@ for epoch in tqdm.tqdm(range(args.epochs)):
     train_loss_data.append(train_loss)
     if test_data_loader is not None:
         test_loss = trainer.test(epoch)
+        print(test_loss)
         test_loss_data.append(test_loss)
     if (epoch%20)==0:
         trainer.save(epoch, args.output_path)
