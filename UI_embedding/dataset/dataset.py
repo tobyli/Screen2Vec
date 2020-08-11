@@ -77,9 +77,9 @@ class ScreenDataset(Dataset):
     Has many Rico Screens outside of their traces
     Does not include screen descriptions 
     """
-    def __init__(self, rico: RicoDataset, n):
+    def __init__(self, rico_traces, n):
         self.screens = []
-        for trace in rico.traces:
+        for trace in rico_traces:
             self.screens += trace.trace_screens
         self.n = n
     

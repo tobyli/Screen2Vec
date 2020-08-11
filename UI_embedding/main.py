@@ -39,20 +39,24 @@ vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, args.embedding_path)
 print("Length of vocab is " + str(len(vocab_list)))
 
 rico_dataset = RicoDataset(args.dataset)
-dataset = ScreenDataset(rico_dataset, args.num_predictors)
 
-dataset_size = len(dataset)
+dataset_size = len(rico_dataset)
 indices = list(range(dataset_size))
 split = int(np.floor(0.1 * dataset_size))
 np.random.shuffle(indices)
 train_indices, val_indices = indices[split:], indices[:split]
 
-# Creating PT data samplers and loaders:
-train_sampler = SubsetRandomSampler(train_indices)
-test_sampler = SubsetRandomSampler(val_indices)
+train_traces = [rico_dataset.traces[idx] for idx in train_indices]
+test_traces = [rico_dataset.traces[idx] for idx in val_indices]
+train_dataset = ScreenDataset(train_traces, args.num_predictors)
+test_dataset = ScreenDataset(test_traces, args.num_predictors)
 
-train_data_loader = DataLoader(dataset, batch_size=args.batch_size, sampler=train_sampler)
-test_data_loader = DataLoader(dataset, batch_size=args.batch_size, sampler=test_sampler)
+validation_list = [test_trace.location.split('/')[-2:] for test_trace in test_traces]
+with open('ui_validation' + '.json', 'w', encoding='utf-8') as f:
+    json.dump(validation_list, f, indent=4)
+
+train_data_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
 # train_dataset_rico = RicoDataset(args.train_dataset)
 # train_dataset = ScreenDataset(train_dataset_rico, args.num_predictors)
