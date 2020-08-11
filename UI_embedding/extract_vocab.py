@@ -1,10 +1,18 @@
 from dataset.rico_utils import get_all_texts_from_rico_screen
 from dataset.rico_dao import load_rico_screen_dict
+import argparse
 import json
 import os
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--dataset", required=True, type=str, help="path to rico dataset filtered traces")
+parser.add_argument("-o", "--output", required=False, default="", type=str, help="path to location of output file")
+
+args = parser.parse_args()
+
 vocab = set()
-rico_dir = 'dataset/data'
+rico_dir = args.dataset
 
 for package_dir in os.listdir(rico_dir):
     if os.path.isdir(rico_dir + '/' + package_dir):
@@ -25,6 +33,12 @@ for package_dir in os.listdir(rico_dir):
                                 except TypeError as e:
                                     print(str(e) + ': ' + json_file_path)
 vocab_list = list(vocab)
-with open('vocab_lg.json', 'w', encoding='utf-8') as f:
+
+if args.output:
+    output_path = args.output + "/" + 'vocab.json'
+else:
+    output_path = 'vocab.json'
+
+with open(output_path, 'w', encoding='utf-8') as f:
     json.dump(vocab_list, f, indent=4)
 
