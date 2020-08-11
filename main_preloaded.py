@@ -4,6 +4,7 @@ import numpy as np
 import tqdm
 import torch
 from torch.utils.data import DataLoader
+from torch.utils.data.sampler import SubsetRandomSampler
 from Screen2Vec import Screen2Vec
 from pretrainer import Screen2VecTrainer
 from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
@@ -37,9 +38,7 @@ def pad_collate(batch):
 
 parser = argparse.ArgumentParser()
 
-
-parser.add_argument("-c", "--train_data", required=True, type=str, default=None, help="prefix of precomputed data to train model")
-parser.add_argument("-t", "--test_data", required=False, type=str, default=None, help="prefix of precomputed data to test model")
+parser.add_argument("-d", "--data", required=True, type=str, default=None, help="prefix of precomputed data to test/train model")
 parser.add_argument("-o", "--output_path", required=True, type=str, help="where to store model")
 parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in a batch")
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
@@ -55,52 +54,55 @@ args = parser.parse_args()
 
 bert_size = 768
 
-# preloading starts here
-with open(args.train_data + "uis.json") as f:
-    tr_uis = json.load(f, encoding='utf-8')
+with open(args.data + "uis.json") as f:
+    uis = json.load(f, encoding='utf-8')
 
-tr_ui_emb = []
+ui_emb = []
 try:
     for i in range(10):
-        with open(args.train_data + str(i) + "_ui_emb.json") as f:
-            tr_ui_emb += json.load(f, encoding='utf-8')
+        with open(args.data + str(i) + "_ui_emb.json") as f:
+            ui_emb += json.load(f, encoding='utf-8')
         print(i)
 except FileNotFoundError as e:
-    with open(args.train_data + "ui_emb.json") as f:
-            tr_ui_emb += json.load(f, encoding='utf-8')
+    with open(args.data + "ui_emb.json") as f:
+            ui_emb += json.load(f, encoding='utf-8')
 
-with open(args.train_data + "descr.json") as f:
-    tr_descr = json.load(f, encoding='utf-8')
-tr_descr_emb = np.load(args.train_data + "dsc_emb.npy")
+with open(args.data + "descr.json") as f:
+    descr = json.load(f, encoding='utf-8')
+descr_emb = np.load(args.data + "dsc_emb.npy")
 
-with open(args.test_data + "uis.json") as f:
-    te_uis = json.load(f, encoding='utf-8')
-with open(args.test_data + "ui_emb.json") as f:
-    te_ui_emb = json.load(f, encoding='utf-8')
-
-with open(args.test_data + "descr.json") as f:
-    te_descr = json.load(f, encoding='utf-8')
-te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
+with open(args.data + "screen_names.json") as f:
+    names = json.load(f, encoding='utf-8')
 
 if args.net_version not in [0,1,6]:
-    with open(args.train_data + "layout_embeddings.json") as f:
-        train_layouts = json.load(f, encoding='utf-8')
-    with open(args.test_data + "layout_embeddings.json") as f:
-        test_layouts = json.load(f, encoding='utf-8')
+    with open(args.data + "layout_embeddings.json") as f:
+        layouts = json.load(f, encoding='utf-8')
 else:
-    train_layouts = None
-    test_layouts = None
-# preloading ends here
+    layouts = None
 
-train_dataset = RicoDataset(args.num_predictors, tr_uis, tr_ui_emb, tr_descr, tr_descr_emb, train_layouts, args.net_version)
-test_dataset = RicoDataset(args.num_predictors, te_uis, te_ui_emb, te_descr, te_descr_emb, test_layouts, args.net_version)
+with open("UI_embedding/ui_validation.json") as f:
+    validation_traces = json.load(f, encoding='utf-8')
 
-vocab_train = ScreenVocab(train_dataset)
-vocab_test = ScreenVocab(test_dataset)
 
-train_data_loader = DataLoader(train_dataset, collate_fn=pad_collate, batch_size=args.batch_size, shuffle=True)
-test_data_loader = DataLoader(test_dataset, collate_fn=pad_collate, batch_size=args.batch_size, shuffle=True)
+dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, screen_names = names)
+vocab = ScreenVocab(dataset)
 
+dataset_size = len(dataset)
+indices = list(range(dataset_size))
+train_indices = []
+val_indices = []
+for idx in indices:
+    if dataset.traces[idx].names in validation_traces:
+        val_indices.append(idx)
+    else:
+        train_indices.append(idx)
+
+# Creating PT data samplers and loaders:
+train_sampler = SubsetRandomSampler(train_indices)
+test_sampler = SubsetRandomSampler(val_indices)
+
+train_data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=pad_collate, sampler=train_sampler)
+test_data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=pad_collate, sampler=test_sampler)
 
 #handle different versions of network here
 if args.net_version in [0,2,6]:
@@ -113,19 +115,15 @@ if args.net_version in [0,1,6]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version in [0,1,2,3]:
-    desc_size = 768
-else:
-    # no description in training case
-    desc_size = 0
+
 
 # generate models
-model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
+model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, net_version=args.net_version)
 predictor = TracePredictor(model, args.net_version)
 predictor.cuda()
 if args.prev_model:
     predictor.load_state_dict(torch.load(args.prev_model))
-trainer = Screen2VecTrainer(predictor, vocab_train, vocab_test, train_data_loader, test_data_loader, args.rate, args.neg_samp)
+trainer = Screen2VecTrainer(predictor, vocab, vocab, train_data_loader, test_data_loader, args.rate, args.neg_samp)
 
 
 # training occurs below

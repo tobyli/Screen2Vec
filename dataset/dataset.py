@@ -74,8 +74,8 @@ class RicoTrace():
         self.trace_screens = []
         self.setting = setting
         self.load_all_screens(ui, d, l, s_n)
-        
-
+        if s_n:
+            self.names = s_n[0].split('/')[-4:-2]
 
     def __iter__(self):
         return iter(self.trace_screens)

@@ -38,8 +38,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-m", "--model", required=True, type=str, help="path to pretrained model to test")
 parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
-parser.add_argument("-c", "--train_data", required=True, type=str, default=None, help="prefix of precomputed data to train model")
-parser.add_argument("-t", "--test_data", required=False, type=str, default=None, help="prefix of precomputed data to test model")
+parser.add_argument("-d", "--data", required=True, type=str, default=None, help="prefix of precomputed data")
 parser.add_argument("-f", "--folder", required=True, type=str, help="path to Screen2Vec folder")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
 args = parser.parse_args()
@@ -56,13 +55,9 @@ if args.net_version in [0,1,6]:
 else:
     # case where screen layout vec is used
     adss = 64
-if args.net_version in [0,1,2,3]:
-    desc_size = 768
-else:
-    desc_size = 0
 
 
-orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, desc_size=desc_size)
+orig_model = Screen2Vec(bert_size, additional_ui_size=adus, additional_size_screen=adss, net_version=args.net_version)
 predictor = TracePredictor(orig_model, args.net_version)
 predictor.load_state_dict(torch.load(args.model))
 
@@ -72,47 +67,29 @@ topfive = 0
 topten = 0
 total = 0
 
-with open(args.train_data + "uis.json") as f:
-    tr_uis = json.load(f, encoding='utf-8')
-tr_ui_emb = []
-for i in range(10):
-    print(i)
-    with open(args.train_data + str(i) + "_ui_emb.json") as f:
-        tr_ui_emb += json.load(f, encoding='utf-8')
-with open(args.train_data + "descr.json") as f:
-    tr_descr = json.load(f, encoding='utf-8')
-tr_descr_emb = np.load(args.train_data + "dsc_emb.npy")
-with open(args.train_data + 'screen_names.json') as f:
-    tr_screen_names = json.load(f, encoding='utf-8')
+with open(args.data + "uis.json") as f:
+    uis = json.load(f, encoding='utf-8')
 
+ui_emb = []
+try:
+    for i in range(10):
+        with open(args.data + str(i) + "_ui_emb.json") as f:
+            ui_emb += json.load(f, encoding='utf-8')
+        print(i)
+except FileNotFoundError as e:
+    with open(args.data + "ui_emb.json") as f:
+            ui_emb += json.load(f, encoding='utf-8')
 
-with open(args.test_data + "uis.json") as f:
-    te_uis = json.load(f, encoding='utf-8')
-with open(args.test_data + "ui_emb.json") as f:
-    te_ui_emb = json.load(f, encoding='utf-8')
-with open(args.test_data + "descr.json") as f:
-    te_descr = json.load(f, encoding='utf-8')
-te_descr_emb = np.load(args.test_data + "dsc_emb.npy")
-with open(args.test_data + 'screen_names.json') as f:
-    te_screen_names = json.load(f, encoding='utf-8')
+with open(args.data + "descr.json") as f:
+    descr = json.load(f, encoding='utf-8')
+descr_emb = np.load(args.data + "dsc_emb.npy")
 
-
-ui_emb = tr_ui_emb + te_ui_emb
-descr_emb = np.concatenate((tr_descr_emb, te_descr_emb))
-uis = tr_uis + te_uis
-descr = tr_descr + te_descr
-screen_names = tr_screen_names + te_screen_names
-# ui_emb = tr_ui_emb
-# descr_emb = tr_descr_emb
-# uis = tr_uis
-# descr = tr_descr
+with open(args.data + 'screen_names.json') as f:
+    screen_names = json.load(f, encoding='utf-8')
 
 if args.net_version not in [0,1,6]:
-    with open(args.train_data + "layout_embeddings.json") as f:
-        train_layouts = json.load(f, encoding='utf-8')
-    with open(args.test_data + "layout_embeddings.json") as f:
-        test_layouts = json.load(f, encoding='utf-8')
-    layouts = train_layouts + test_layouts
+    with open(args.data + "layout_embeddings.json") as f:
+        layouts = json.load(f, encoding='utf-8')
 else:
     layouts = None
 
@@ -127,24 +104,44 @@ if args.net_version not in [5,6]:
     comp = torch.empty(0,bert_size)
 else:
     comp = torch.empty(0,bert_size *2)
+
+all_layouts = torch.empty(0,64)
+all_avg_embeddings = torch.empty(0,768 + adus)
+
 while end_index != -1:
-    vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts , vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
+    vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
     comp = torch.cat((comp, comp_part), dim = 0)
+    all_layouts = torch.cat((all_layouts, vocab_layouts.squeeze(0)), dim=0)
+    sum_embeddings = vocab_UIs.squeeze(0).sum(dim=0)
+    vocab_trace_screen_lengths = vocab_trace_screen_lengths.squeeze(0)
+    avg_embeddings = torch.stack([sum_embeddings[x]/int(vocab_trace_screen_lengths[x]) for x in range(len(sum_embeddings))])
+    all_avg_embeddings = torch.cat((all_avg_embeddings,avg_embeddings), dim=0)
 
 comp = comp.detach().numpy()
+all_layouts = all_layouts.detach().numpy()
+all_avg_embeddings = avg_embeddings.detach().numpy()
 
 comp_dict = {}
-
+layout_dict = {}
+avg_dict = {}
 
 for emb_idx in range(len(comp)):
     names = vocab.get_name(emb_idx)
     comp_dict[names] = comp[emb_idx].tolist()
+    layout_dict[names] = all_layouts[emb_idx].tolist()
+    avg_dict[names] = all_avg_embeddings[emb_idx].tolist()
 
 mistakes = []
 
-with open('model' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
+with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
     json.dump(comp_dict, f, indent=4)
+with open('model' + str(args.net_version) + 'avgui.json', 'w', encoding='utf-8') as f:
+    json.dump(avg_dict, f, indent=4)
+with open('model' + str(args.net_version) + 'layout.json', 'w', encoding='utf-8') as f:
+    json.dump(layout_dict, f, indent=4)
+
+
 i = 0
 eek = 0
 for data in data_loader:
