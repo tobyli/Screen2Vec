@@ -27,7 +27,7 @@ class Screen2VecTrainer:
         neg_samp: number of negative samples to compare against for training data
         """
         self.predictor = predictor 
-        self.criterion = nn.CrossEntropyLoss()
+        self.criterion = nn.CrossEntropyLoss(reduction='sum')
         self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
         self.vocab_train = vocab_train
         self.vocab_test = vocab_test
@@ -56,7 +56,7 @@ class Screen2VecTrainer:
         """
         # iterate through data_loader
         total_loss = 0
-        total_batches = 0
+        total_data = 0
 
         str_code = "train" if train else "test"
         data_itr = tqdm.tqdm(enumerate(data_loader),
@@ -69,15 +69,15 @@ class Screen2VecTrainer:
 
         for idx, data in data_itr:
             self.optimizer.zero_grad()
-            total_batches+=1
 
             # load data 
             UIs, descr, trace_screen_lengths, indices, layouts = data
+            total_data+=len(UIs)
             # move to GPU
             UIs = UIs.cuda()
             descr = descr.cuda()
             trace_screen_lengths = trace_screen_lengths.cuda()
-            if layouts:
+            if layouts is not None:
                 layouts = layouts.cuda()
             # get negative samples to compare against
             if train:
@@ -89,7 +89,7 @@ class Screen2VecTrainer:
             UIs_comp = UIs_comp.cuda()
             comp_descr = comp_descr.cuda()
             comp_tsl = comp_tsl.cuda()
-            if comp_layouts:
+            if comp_layouts is not None:
                 comp_layouts = comp_layouts.cuda()
 
             # forward the prediction models
@@ -117,7 +117,7 @@ class Screen2VecTrainer:
                 self.optimizer.step()
         if not train: 
             torch.set_grad_enabled(True)
-        return total_loss/total_batches
+        return total_loss/total_data
         
 
     def save(self, epoch, file_path="output/trained.model"):
