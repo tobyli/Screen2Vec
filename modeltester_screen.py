@@ -111,25 +111,25 @@ while end_index != -1:
     vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
     comp = torch.cat((comp, comp_part), dim = 0)
-    all_layouts = torch.cat((all_layouts, vocab_layouts.squeeze(0)), dim=0)
-    sum_embeddings = vocab_UIs.squeeze(0).sum(dim=0)
-    vocab_trace_screen_lengths = vocab_trace_screen_lengths.squeeze(0)
-    avg_embeddings = torch.stack([sum_embeddings[x]/int(vocab_trace_screen_lengths[x]) for x in range(len(sum_embeddings))])
-    all_avg_embeddings = torch.cat((all_avg_embeddings,avg_embeddings), dim=0)
+    # all_layouts = torch.cat((all_layouts, vocab_layouts.squeeze(0)), dim=0)
+    # sum_embeddings = vocab_UIs.squeeze(0).sum(dim=0)
+    # vocab_trace_screen_lengths = vocab_trace_screen_lengths.squeeze(0)
+    # avg_embeddings = torch.stack([sum_embeddings[x]/int(vocab_trace_screen_lengths[x]) for x in range(len(sum_embeddings))])
+    # all_avg_embeddings = torch.cat((all_avg_embeddings,avg_embeddings), dim=0)
 
 comp = comp.detach().numpy()
-all_layouts = all_layouts.detach().numpy()
-all_avg_embeddings = avg_embeddings.detach().numpy()
+# all_layouts = all_layouts.detach().numpy()
+# all_avg_embeddings = avg_embeddings.detach().numpy()
 
 comp_dict = {}
-layout_dict = {}
-avg_dict = {}
+# layout_dict = {}
+# avg_dict = {}
 
 for emb_idx in range(len(comp)):
     names = vocab.get_name(emb_idx)
     comp_dict[names] = comp[emb_idx].tolist()
-    layout_dict[names] = all_layouts[emb_idx].tolist()
-    avg_dict[names] = all_avg_embeddings[emb_idx].tolist()
+    # layout_dict[names] = all_layouts[emb_idx].tolist()
+    # avg_dict[names] = all_avg_embeddings[emb_idx].tolist()
 
 mistakes = []
 
