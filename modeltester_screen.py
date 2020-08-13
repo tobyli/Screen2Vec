@@ -39,7 +39,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-m", "--model", required=True, type=str, help="path to pretrained model to test")
 parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
 parser.add_argument("-d", "--data", required=True, type=str, default=None, help="prefix of precomputed data")
-parser.add_argument("-f", "--folder", required=True, type=str, help="path to Screen2Vec folder")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
 args = parser.parse_args()
 
