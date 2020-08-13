@@ -135,10 +135,10 @@ mistakes = []
 
 with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
     json.dump(comp_dict, f, indent=4)
-with open('model' + str(args.net_version) + 'avgui.json', 'w', encoding='utf-8') as f:
-    json.dump(avg_dict, f, indent=4)
-with open('model' + str(args.net_version) + 'layout.json', 'w', encoding='utf-8') as f:
-    json.dump(layout_dict, f, indent=4)
+# with open('model' + str(args.net_version) + 'avgui.json', 'w', encoding='utf-8') as f:
+#     json.dump(avg_dict, f, indent=4)
+# with open('model' + str(args.net_version) + 'layout.json', 'w', encoding='utf-8') as f:
+#     json.dump(layout_dict, f, indent=4)
 
 
 i = 0
