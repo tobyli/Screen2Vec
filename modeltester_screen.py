@@ -8,7 +8,7 @@ import numpy as np
 from torch.utils.data import DataLoader
 from Screen2Vec import Screen2Vec
 from pretrainer import Screen2VecTrainer
-from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
+from dataset.dataset import TesterRicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from prediction import TracePredictor
 from vocab import ScreenVocab
@@ -16,11 +16,11 @@ from vocab import ScreenVocab
 
 
 def pad_collate(batch):
-    UIs = [trace[0] for trace in batch]
-    descr = torch.tensor([trace[1] for trace in batch])
-    correct_indices = [trace[2] for trace in batch]
-    if batch[0][3]:
-        layouts = torch.FloatTensor([trace[3] for trace in batch])
+    UIs = [seq[0] for trace in batch for seq in trace]
+    descr = torch.tensor([seq[1] for trace in batch for seq in trace])
+    correct_indices = [seq[2] for trace in batch for seq in trace]
+    if batch[0][0][3]:
+        layouts = torch.FloatTensor([seq[3] for trace in batch for seq in trace])
     else:
         layouts = None
 
@@ -93,13 +93,13 @@ else:
     layouts = None
 
 
-dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, True, screen_names)       
+dataset = TesterRicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, True, screen_names)       
 
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
 end_index = 0
-if args.net_version not in [5,6]:
+if args.net_version not in [5]:
     comp = torch.empty(0,bert_size)
 else:
     comp = torch.empty(0,bert_size *2)
@@ -187,15 +187,14 @@ for data in data_loader:
 with open('mistakes_' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
     json.dump(mistakes, f, indent=4)
 
-print(correct/total)
-print(topone/total)
-print(topfive/total)
-print(topten/total)
-print(eek)
-print(eek/total)
+print(str(correct/total) + " of the predictions were exactly correct")
+print(str(topone/total) + " of the predictions were in the top 1%")
+print(str(topfive/total) + " of the predictions were in the top 5%")
+print(str(topten/total) + " of the predictions were in the top 10%")
+print(str(eek/total) + " of the predictions were not in the top 5%, but predicted a screen nearby in the trace")
 
 
-if args.net_version == 4:
+if args.net_version in [4,6]:
     end_index = 0
     comp = torch.empty(0,bert_size*2)
     while end_index != -1:
