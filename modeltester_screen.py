@@ -191,7 +191,7 @@ print(str(correct/total) + " of the predictions were exactly correct")
 print(str(topone/total) + " of the predictions were in the top 1%")
 print(str(topfive/total) + " of the predictions were in the top 5%")
 print(str(topten/total) + " of the predictions were in the top 10%")
-print(str(eek/total) + " of the predictions were not in the top 5%, but predicted a screen nearby in the trace")
+print(str(eek/total) + " of the predictions were correct, but predicted a screen nearby in the trace")
 
 
 if args.net_version in [4,6]:
