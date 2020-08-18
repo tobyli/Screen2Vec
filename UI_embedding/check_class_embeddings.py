@@ -33,7 +33,7 @@ print(class_embeddings)
 
 from sklearn.cluster import KMeans
 
-num_clusters = 5
+num_clusters = 6
 clustering_model = KMeans(n_clusters=num_clusters)
 clustering_model.fit(torch.stack(class_embeddings).detach())
 assignment = clustering_model.labels_
