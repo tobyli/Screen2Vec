@@ -30,3 +30,15 @@ for class_name in range(24):
     class_embeddings.append(class_embedding)
 
 print(class_embeddings)
+
+from sklearn.cluster import KMeans
+
+num_clusters = 5
+clustering_model = KMeans(n_clusters=num_clusters)
+clustering_model.fit(torch.stack(class_embeddings).detach())
+assignment = clustering_model.labels_
+
+for cl_no in range(num_clusters):
+    clustered_words = [idx for idx in range(len(assignment)) if assignment[idx] == cl_no ]
+    print(cl_no)
+    print(clustered_words)
