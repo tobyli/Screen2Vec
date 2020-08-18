@@ -14,6 +14,7 @@ from UI2Vec import HiddenLabelPredictorModel, UI2Vec, UIEmbedder
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-m", "--model", required=True, type=str, help="path where pretrained part was stored")
+parser.add_argument("-nc", "--num_clusters", required=True, type=int, help="number of clusters")
 
 args = parser.parse_args()
 
@@ -33,7 +34,7 @@ print(class_embeddings)
 
 from sklearn.cluster import KMeans
 
-num_clusters = 6
+num_clusters = args.num_clusters
 clustering_model = KMeans(n_clusters=num_clusters)
 clustering_model.fit(torch.stack(class_embeddings).detach())
 assignment = clustering_model.labels_
