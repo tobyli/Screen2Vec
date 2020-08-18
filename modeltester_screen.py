@@ -215,6 +215,61 @@ if args.net_version in [4,6]:
     with open('model' + str(args.net_version) + 'descr.json', 'w', encoding='utf-8') as f:
         json.dump(comp_dict, f, indent=4)
 
+
+    i = 0
+    eek = 0
+    for data in data_loader:
+    # run it through the network
+        UIs, descr, trace_screen_lengths, index, layouts = data
+        #print(i)
+        i+=1
+        # forward the training stuff (prediction)
+        c,result,_ = predictor(UIs, descr, trace_screen_lengths, layouts, False)
+        descr = torch.narrow(descr,1,0,1).squeeze(1)
+        c = torch.cat((c,descr),dim=-1)
+        # find which vocab vector has the smallest cosine distance
+        distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp, "cosine")[0]
+
+        temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+        closest_idx = temp[0]
+        closest_oneperc = temp[:int(0.01 * len(distances))]
+        closest_fiveperc = temp[:int(0.05 * len(distances))]
+        closest_tenperc = temp[:int(0.1 * len(distances))]
+
+        if vocab_rvs_indx[index[0][0]][index[0][1]]==closest_idx:
+            correct +=1
+            topone +=1
+            topfive +=1
+            topten +=1
+        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_oneperc:
+            topone +=1
+            topfive +=1
+            topten +=1
+        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_fiveperc:
+            topfive +=1
+            topten +=1
+        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_tenperc:
+            topten +=1
+        if abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) <10 and abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) != 0:
+            eek+=1
+        if vocab_rvs_indx[index[0][0]][index[0][1]] not in closest_fiveperc:
+            names = vocab.get_name(vocab_rvs_indx[index[0][0]][index[0][1]])
+            bad_names = vocab.get_name(closest_idx)
+            mistakes.append((names, bad_names))
+
+
+        total+=1
+
+    with open('mistakes_' + str(args.net_version) + '.json', 'w', encoding='utf-8') as f:
+        json.dump(mistakes, f, indent=4)
+
+    print(str(correct/total) + " of the predictions were exactly correct")
+    print(str(topone/total) + " of the predictions were in the top 1%")
+    print(str(topfive/total) + " of the predictions were in the top 5%")
+    print(str(topten/total) + " of the predictions were in the top 10%")
+    print(str(eek/total) + " of the predictions were correct, but predicted a screen nearby in the trace")
+
+
 from sklearn.cluster import KMeans
 
 num_clusters = 50
