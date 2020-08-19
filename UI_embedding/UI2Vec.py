@@ -4,9 +4,8 @@ import torch.nn as nn
 
 
 class UIEmbedder(nn.Module):
-    def __init__(self, bert, bert_size=768, num_classes=24, class_emb_size=4):
+    def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):
         super().__init__()
-        self.lin = nn.Linear(bert_size + num_classes, bert_size)
         self.text_embedder = bert
         self.UI_embedder = nn.Embedding(num_classes, class_emb_size)
         self.bert_size = bert_size
@@ -27,7 +26,7 @@ class UI2Vec(nn.Module):
     Model intended to semantically embed the content of a UI element into a vector
     """
 
-    def __init__(self, bert, bert_size=768, num_classes=24, dropout=0, class_emb_size=4):
+    def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):
         """
         describe params here
         """
