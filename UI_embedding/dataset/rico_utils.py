@@ -15,8 +15,8 @@ def get_all_texts_from_node_tree(node):
 
 def get_all_labeled_texts_from_node_tree(node, in_list: bool, in_drawer: bool):
     results = []
+    text_class = 0
     if 'text' in node and isinstance(node['text'], Iterable):
-        text_class = 0
         if node['text'] and node['text'].strip():
             text = node['text']
             if node['class'] and node['class'].strip():
