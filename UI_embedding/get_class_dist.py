@@ -36,10 +36,11 @@ for package_dir in os.listdir(args.dataset):
                                 for text in labeled_text:
                                     classes_dict[text[1]] += 1
                                     if text[1]==0:
-                                        if text[3] in other_classes_dict:
-                                            other_classes_dict[text[3]] += 1
+                                        the_class = text[3].split(".")[-1]
+                                        if the_class in other_classes_dict:
+                                            other_classes_dict[the_class] += 1
                                         else:
-                                            other_classes_dict[text[3]] = 1
+                                            other_classes_dict[the_class] = 1
                         except TypeError as e:
                             print(str(e) + ': ' + args.dataset)
                             labeled_text = []
