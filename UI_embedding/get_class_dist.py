@@ -19,6 +19,7 @@ classes_dict = {}
 for i in range(26):
     classes_dict[i] = 0
 
+other_classes_dict = {}
 
 for package_dir in os.listdir(args.dataset):
     if os.path.isdir(args.dataset + '/' + package_dir):
@@ -31,11 +32,19 @@ for package_dir in os.listdir(args.dataset):
                         try:
                             with open(json_file_path) as f:
                                 rico_screen = load_rico_screen_dict(json.load(f))
-                                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
+                                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen, True)
                                 for text in labeled_text:
                                     classes_dict[text[1]] += 1
+                                    if text[1]==0:
+                                        if text[3] in other_classes_dict:
+                                            other_classes_dict[text[3]] += 1
+                                        else:
+                                            other_classes_dict[text[3]] = 1
                         except TypeError as e:
                             print(str(e) + ': ' + args.dataset)
                             labeled_text = []
 print(classes_dict)
 
+for key,value in other_classes_dict.items():
+    if value > 1000:
+        print(key)
