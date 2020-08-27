@@ -10,6 +10,7 @@ class BertScreenVocab(object):
         bert_size : the length of bert_model's embeddings
         """
         self.vocab_list = vocab_list
+        self.vocab_list.append('')
         self.bert = bert_model
         self.embeddings = self.load_embeddings(embedding_path)
         self.text_to_index = {}
@@ -23,8 +24,11 @@ class BertScreenVocab(object):
     def load_embeddings(self, embedding_path):
         if embedding_path:
             vocab_emb = np.load(embedding_path)
+            empty_emb = self.bert.encode([''])
+            vocab_emb = np.concatenate((vocab_emb, empty_emb), axis=0)
         else:
             vocab_emb = self.bert.encode(self.vocab_list)
+
         return torch.as_tensor(vocab_emb)
 
     def get_index(self, text):
