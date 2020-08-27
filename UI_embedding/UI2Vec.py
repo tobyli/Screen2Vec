@@ -33,6 +33,7 @@ class UI2Vec(nn.Module):
         super().__init__()
         self.embedder = UIEmbedder(bert, bert_size, num_classes)
         self.lin = nn.Linear(bert_size + class_emb_size, bert_size)
+        self.lin.cuda()
 
     def forward(self, input_word_labeled):
         """
@@ -40,7 +41,7 @@ class UI2Vec(nn.Module):
         """
         input_word = input_word_labeled[0]
         input_label = input_word_labeled[1]
-        input_vector = self.embedder(input_word, input_label)
+        input_vector = self.embedder(input_word, input_label).cuda()
         output = self.lin(input_vector)
         return output
 
@@ -49,12 +50,15 @@ class HiddenLabelPredictorModel(nn.Module):
     combines the n closest UI elements (text plus class) to predict the embedding
     of a different one on the same screen
     """
-    def __init__(self, bert, bert_size, n):
+    def __init__(self, bert, bert_size, n, class_emb_size=6, num_classes=26):
         super().__init__()
-        self.lin = nn.Linear(bert_size*n, bert_size)
+        self.class_emb_size = class_emb_size
+        self.lin = nn.Linear(bert_size*n, bert_size+ self.class_emb_size)
+        self.lin.cuda()
         self.model = UI2Vec(bert)
         self.n = n
         self.bert_size = bert_size
+        self.num_classes = num_classes
 
     def forward(self, context):
         # add all of the embedded texts into a megatensor
