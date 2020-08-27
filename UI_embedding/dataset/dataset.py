@@ -1,6 +1,6 @@
 from torch.utils.data import Dataset, DataLoader, IterableDataset
 from .playstore_scraper import get_app_description
-from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
+from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_uis_from_rico_screen, ScreenInfo
 from .rico_dao import load_rico_screen_dict
 from sentence_transformers import SentenceTransformer
 import torch
@@ -65,7 +65,7 @@ class RicoTrace(IterableDataset):
             if view_hierarchy_json.endswith('.json') and (not view_hierarchy_json.startswith('.')):
                 json_file_path = self.location + '/' + 'view_hierarchies' + '/' + view_hierarchy_json
                 cur_screen = RicoScreen(json_file_path)
-                if(len(cur_screen.labeled_text) > 1):
+                if(len(cur_screen.labeled_uis) > 1):
                     self.trace_screens.append(cur_screen)
 
     def get_screen(self, index):
@@ -84,7 +84,7 @@ class ScreenDataset(Dataset):
         self.n = n
     
     def __getitem__(self, index):
-        num_labels = len(self.screens[index].labeled_text)
+        num_labels = len(self.screens[index].labeled_uis)
 
         hidden_index = random.randint(0, num_labels-1)
         hidden_text = self.screens[index].get_text_info(hidden_index)[:2]
@@ -105,8 +105,8 @@ class RicoScreen():
     """
     def __init__(self, data_path):
         self.location = data_path
-        package_name, labeled_text = self.get_rico_info()
-        self.labeled_text = labeled_text
+        package_name, labeled_uis = self.get_rico_info()
+        self.labeled_uis = labeled_uis
         self.package_name = package_name
         #self.app_description = description
 
@@ -115,26 +115,26 @@ class RicoScreen():
             with open(self.location) as f:
                 rico_screen = load_rico_screen_dict(json.load(f))
                 package_name = rico_screen.activity_name.split('/')[0]
-                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
+                labeled_uis = get_all_labeled_uis_from_rico_screen(rico_screen)
                 #description = get_app_description(package_name)
-            return package_name, labeled_text # , description
+            return package_name, labeled_uis # , description
         except TypeError as e:
             print(str(e) + ': ' + self.location)
             return '', []
     
     def get_text_info(self, index):
         if index >=0:
-            return self.labeled_text[index]
+            return self.labeled_uis[index]
         else:
             return ['', 0, [0,0,0,0]]
 
     def get_closest_UI_obj(self, index, n):
-        bounds_to_check = self.labeled_text[index][2]
-        if len(self.labeled_text) <= n:
-            close_indices = [*range(len(self.labeled_text))]
+        bounds_to_check = self.labeled_uis[index][2]
+        if len(self.labeled_uis) <= n:
+            close_indices = [*range(len(self.labeled_uis))]
         else:
-            distances = [[self.distance_between(bounds_to_check, self.labeled_text[x][2]), x] 
-                            for x in range(len(self.labeled_text))]
+            distances = [[self.distance_between(bounds_to_check, self.labeled_uis[x][2]), x] 
+                            for x in range(len(self.labeled_uis))]
             distances.sort()
             # closest will be the same text
             close_indices = [x[1] for x in distances[1:n+1]]

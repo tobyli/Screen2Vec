@@ -34,7 +34,7 @@ bert = SentenceTransformer('bert-base-nli-mean-tokens')
 with open(args.vocab_path) as f:
     vocab_list = json.load(f, encoding='utf-8')
 
-vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, args.embedding_path)
+vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, 768, args.embedding_path)
 
 print("Length of vocab is " + str(len(vocab_list)))
 

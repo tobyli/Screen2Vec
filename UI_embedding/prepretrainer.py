@@ -1,4 +1,4 @@
-
+import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import Adam
@@ -24,10 +24,7 @@ class UI2VecTrainer:
         self.test_data = dataloader_test
         self.vocab_size = vocab_size
         self.cosine_loss = cos_loss
-        if self.cosine_loss:
-            self.loss = nn.CosineEmbeddingLoss()
-        else:
-            self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss(reduction='sum')
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
@@ -49,7 +46,7 @@ class UI2VecTrainer:
         :return: loss
         """
         total_loss = 0
-        total_batches = 0
+        total_data = 0
 
         str_code = "train" if train else "test"
 
@@ -59,53 +56,37 @@ class UI2VecTrainer:
                               bar_format="{l_bar}{r_bar}")
 
         # iterate through data_loader
-        if not self.cosine_loss:
-            vocab_embeddings = self.vocab.embeddings.transpose(0,1)
-            vocab_embeddings = vocab_embeddings.cuda()
-            for idx,data in data_itr:
-                self.optimizer.zero_grad()
-                total_batches+=1
-                element = data[0]
-                context = data[1]
-                # forward the training stuff (prediction)
-                prediction_output = self.predictor(context) #input here
-                element_target_index = self.vocab.get_index(element[0])
-                # calculate loss for all prediction stuff
-                prediction_output = prediction_output.cuda()
-                dot_products = torch.mm(prediction_output, vocab_embeddings)
-                dot_products = dot_products.cpu()
-                prediction_loss = self.loss(dot_products, element_target_index)
-                total_loss+=float(prediction_loss)
-                if train:
-                    self.optimizer.zero_grad()
-                    prediction_loss.backward()
-                    self.optimizer.step()
-        else:
-            for idx,data in data_itr:
-                self.optimizer.zero_grad()
-                total_batches+=1
-                element = data[0]
-                context = data[1]
-                # forward the training stuff (prediction)
-                prediction_output = self.predictor(context) #input here
-                element_target_index = self.vocab.get_index(element[0])
-                # calculate loss for all prediction stuff
-                for i in range(self.vocab_size):
-                    ones_vec = -torch.ones(len(prediction_output))
-                    for batch in range(len(element_target_index)):
-                        if element_target_index[batch] == i:
-                            ones_vec[batch] = 1
-                    vocab_embedding = self.vocab.get_embedding_for_cosine(i)
-                    vocab_embedding = vocab_embedding.repeat(len(prediction_output),1)
-                    prediction_loss= self.loss(prediction_output, vocab_embedding, ones_vec)
-                    total_loss+=float(prediction_loss)
+        vocab_embeddings = self.vocab.embeddings.transpose(0,1)
+        vocab_embeddings = vocab_embeddings.cuda()
+        for idx,data in data_itr:
+            element = data[0]
+            context = data[1]
+            total_data+=len(element[0])
+            # forward the training stuff (prediction)
+            prediction_output = self.predictor(context) #input here
+            element_target_index = self.vocab.get_index(element[0])
+            correct_class = element[1]
+            # calculate loss for all prediction stuff
+            text_prediction_output = torch.narrow(prediction_output, 1, 0, 768)
+            class_prediction_output = torch.narrow(prediction_output, 1, 768, prediction_output.size()[1] - 768)
+            text_prediction_output = text_prediction_output.cuda()
+            class_prediction_output = class_prediction_output.cuda()
+            
+            classes = torch.arange(self.predictor.num_classes, dtype=torch.long)
+            class_comparison = self.predictor.model.embedder.UI_embedder(classes).transpose(0,1).cuda()
 
-            # if in train, backwards and optimization
-                if train:
-                    self.optimizer.zero_grad()
-                    prediction_loss.backward()
-                    self.optimizer.step()
-        return total_loss/total_batches
+            text_dot_products = torch.mm(text_prediction_output, vocab_embeddings)
+            class_dot_products = torch.mm(class_prediction_output, class_comparison)
+            text_dot_products = text_dot_products.cpu()
+            class_dot_products = class_dot_products.cpu()
+            prediction_loss = self.loss(text_dot_products, element_target_index)
+            prediction_loss+= self.loss(class_dot_products, correct_class)
+            total_loss+=float(prediction_loss)
+            if train:
+                self.optimizer.zero_grad()
+                prediction_loss.backward()
+                self.optimizer.step()
+        return total_loss/total_data
 
     def save(self, epoch, file_path="output/trained.model"):
         """
