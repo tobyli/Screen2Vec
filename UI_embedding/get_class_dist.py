@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 import torch
 import os
-from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
+from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_uis_from_rico_screen, ScreenInfo
 from dataset.rico_dao import load_rico_screen_dict
 
 
@@ -32,11 +32,11 @@ for package_dir in os.listdir(args.dataset):
                         try:
                             with open(json_file_path) as f:
                                 rico_screen = load_rico_screen_dict(json.load(f))
-                                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen, True)
-                                for text in labeled_text:
-                                    classes_dict[text[1]] += 1
-                                    if text[1]==0:
-                                        the_class = text[3].split(".")[-1]
+                                labeled_uis = get_all_labeled_uis_from_rico_screen(rico_screen, True)
+                                for ui in labeled_uis:
+                                    classes_dict[ui[1]] += 1
+                                    if ui[1]==0:
+                                        the_class = ui[3].split(".")[-1]
                                         if the_class in other_classes_dict:
                                             other_classes_dict[the_class] += 1
                                         else:
