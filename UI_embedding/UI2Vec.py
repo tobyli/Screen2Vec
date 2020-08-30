@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 class UIEmbedder(nn.Module):
-    def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):
+    def __init__(self, bert, bert_size=768, num_classes=32, class_emb_size=6):
         super().__init__()
         self.text_embedder = bert
         self.UI_embedder = nn.Embedding(num_classes, class_emb_size)
@@ -26,7 +26,7 @@ class UI2Vec(nn.Module):
     Model intended to semantically embed the content of a UI element into a vector
     """
 
-    def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):
+    def __init__(self, bert, bert_size=768, num_classes=32, class_emb_size=6):
         """
         describe params here
         """
@@ -50,7 +50,7 @@ class HiddenLabelPredictorModel(nn.Module):
     combines the n closest UI elements (text plus class) to predict the embedding
     of a different one on the same screen
     """
-    def __init__(self, bert, bert_size, n, class_emb_size=6, num_classes=26):
+    def __init__(self, bert, bert_size, n, class_emb_size=6, num_classes=32):
         super().__init__()
         self.class_emb_size = class_emb_size
         self.lin = nn.Linear(bert_size*n, bert_size+ self.class_emb_size)
