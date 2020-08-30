@@ -31,25 +31,26 @@ class ScreenLayout():
 
     def load_screen_contents(self, node):
         results = []
-        try:
-            if node["visible-to-user"]:
-                bounds = node["bounds"]
-                x1 = int(bounds[0]*self.horiz_scale)
-                y1 = int(bounds[1]*self.vert_scale)
-                x2 = int(bounds[2]*self.horiz_scale)
-                y2 = int(bounds[3]*self.vert_scale)
-                if 'text' in node and node['text'] and node['text'].strip():
-                    #append in 'blue' ([0]) here
-                    self.pixels[y1:y2,x1:x2,0] = 1
-                else: 
-                    #append in 'red' ([1]) here
-                    self.pixels[y1:y2,x1:x2,1] = 1
-        except KeyError as e:
-            print(e)
         if 'children' in node and isinstance(node['children'], Iterable):
             for child_node in node['children']:
                 if (isinstance(child_node, dict)):
                     self.load_screen_contents(child_node)
+        else:
+            try:
+                if ("visible-to-user" in node and node["visible-to-user"]) or ("visible_to_user" in node and node["visible_to_user"]):
+                    bounds = node["bounds"]
+                    x1 = int(bounds[0]*self.horiz_scale)
+                    y1 = int(bounds[1]*self.vert_scale)
+                    x2 = int(bounds[2]*self.horiz_scale)
+                    y2 = int(bounds[3]*self.vert_scale)
+                    if 'text' in node and node['text'] and node['text'].strip():
+                        #append in 'blue' ([0]) here
+                        self.pixels[y1:y2,x1:x2,0] = 1
+                    else: 
+                        #append in 'red' ([1]) here
+                        self.pixels[y1:y2,x1:x2,1] = 1
+            except KeyError as e:
+                print(e)
                     
     def convert_to_image(self):
         p = np.full((100,56,3), 255, dtype=np.uint)
