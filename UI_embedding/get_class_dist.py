@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 
 classes_dict = {}
-for i in range(26):
+for i in range(32):
     classes_dict[i] = 0
 
 other_classes_dict = {}
