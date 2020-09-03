@@ -6,8 +6,7 @@ import json
 import scipy
 import numpy as np
 from torch.utils.data import DataLoader
-from UI2Vec import UI2Vec
-from prediction import HiddenLabelPredictorModel
+from UI2Vec import UI2Vec, HiddenLabelPredictorModel
 from prepretrainer import UI2VecTrainer
 from dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
 from dataset.vocab import BertScreenVocab
@@ -25,8 +24,8 @@ args = parser.parse_args()
 n = args.num_predictors
 bert_size = 768
 bert = bert = SentenceTransformer('bert-base-nli-mean-tokens')
-model = HiddenLabelPredictorModel(bert, bert_size, n)
-model.load_state_dict(torch.load(args.model))
+predictor = HiddenLabelPredictorModel(bert, bert_size, n)
+predictor.load_state_dict(torch.load(args.model))
 
 vocab_path = args.vocab_path
 
@@ -42,8 +41,12 @@ input_path = 'dataset/data/'
 
 
 print(int(args.range * len(vocab_list)))
-correct = 0
-total = 0
+correct_text = 0
+correct_class = 0
+correct_both = 0
+total_text = 0
+total_class = 0
+total_both = 0
 # load the data
 dataset_rico = RicoDataset(input_path)
 dataset = ScreenDataset(dataset_rico, n)
@@ -56,26 +59,44 @@ for data in data_loader:
     element = data[0]
     context = data[1]
     # forward the training stuff (prediction)
-    prediction_output = model(context) #input here
+    prediction_output = predictor(context).cpu() #input here
     element_target_index = vocab.get_index(element[0])
+    target_class = element[1]
+
+    text_prediction_output = torch.narrow(prediction_output, 1, 0, 768)
+    class_prediction_output = torch.narrow(prediction_output, 1, 768, prediction_output.size()[1] - 768).detach()
 
     # find which vocab vector has the smallest cosine distance
-    distances = scipy.spatial.distance.cdist(prediction_output.detach().numpy(), vocab.embeddings, "cosine")[0]
+    text_distances = scipy.spatial.distance.cdist(text_prediction_output.detach().numpy(), vocab.embeddings, "cosine")[0]
 
-    temp = np.argpartition(distances, (1,int(args.range * len(vocab_list))))
-    closest_idx = temp[:int(args.range * len(vocab_list))]
+    text_temp = np.argpartition(text_distances, (1,int(args.range * len(vocab_list))))
+    text_closest_idx = text_temp[:int(args.range * len(vocab_list))]
 
-    if int(element_target_index) in closest_idx:
-        correct +=1
-    total+=1
+    classes = torch.arange(predictor.num_classes, dtype=torch.long)
+    class_comparison = predictor.model.embedder.UI_embedder(classes).detach()
+    class_distances = scipy.spatial.distance.cdist(class_prediction_output, class_comparison, "cosine")[0]
 
-    if (i<100):
-        i+=1
-        print("intended: " + vocab.get_text(element_target_index))
+    class_temp = np.argpartition(class_distances, (1,int(args.range * len(class_prediction_output))))
+    class_closest_idx = class_temp[:int(args.range * len(class_comparison))]
 
-        print("predicted: " + vocab.get_text(closest_idx[0]))
+    if int(element_target_index) is not 0:
+        total_text+=1
+        if int(element_target_index) in text_closest_idx:
+            correct_text +=1
+    if int(target_class) is not 0:
+        total_class +=1
+        if int(target_class) in class_closest_idx:
+            correct_class +=1
+    if int(target_class) is not 0 and int(element_target_index) is not 0:
+        total_both +=1
+        if int(target_class) in class_closest_idx and int(element_target_index) in text_closest_idx:
+            correct_both +=1
 
-print(correct/total)
+
+
+print(correct_text/total_text)
+print(correct_class/total_class)
+print(correct_both/total_both)
 
 
 if args.extra:
