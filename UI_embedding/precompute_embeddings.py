@@ -37,7 +37,7 @@ args = parser.parse_args()
 bert = SentenceTransformer('bert-base-nli-mean-tokens')
 bert_size = 768
 
-loaded_model = HiddenLabelPredictorModel(bert, bert_size, 4)
+loaded_model = HiddenLabelPredictorModel(bert, bert_size, args.n)
 loaded_model.load_state_dict(torch.load(args.model))
 
 descriptions = []
