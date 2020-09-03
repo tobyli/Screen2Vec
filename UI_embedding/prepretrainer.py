@@ -24,7 +24,7 @@ class UI2VecTrainer:
         self.test_data = dataloader_test
         self.vocab_size = vocab_size
         self.cosine_loss = cos_loss
-        self.loss = nn.CrossEntropyLoss(reduction='sum')
+        self.loss = nn.CrossEntropyLoss(reduction='sum', ignore_index=0)
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
