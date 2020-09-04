@@ -18,7 +18,7 @@ from vocab import ScreenVocab
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-e", "--emb_path", type=str, default="", help="path to stored embeddings")
-parser.add_argument("-s", "--selected", type=list, default=[], help="list of paths to query screens")
+parser.add_argument("-s", "--selected", type=str, default="", help="path to query screen")
 parser.add_argument("-c", "--command", type=str, default="", help="natural language command to find relevant screens for")
 parser.add_argument("-n", "--n", type=int, default=5, help="number of relevant screens to find")
 
@@ -34,7 +34,6 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
         # this is only for testing nearest neighbors, NOT VALID
         src_embedding = list(rico_id_embedding_dict.values())[0] 
     screen_info_similarity_list = []
-    print(src_id)
     app_name_1 = src_id.split("/")[-4]
     for rico_id, embedding in rico_id_embedding_dict.items():
         if (embedding is None or src_embedding is None):
@@ -86,9 +85,7 @@ def get_most_relevant_embeddings_nl(src_embedding, rico_id_embedding_dict: dict,
     screen_info_similarity_list.sort(key=lambda x: x['score'])
     return screen_info_similarity_list[0:n]
 
-if args.selected:
-    for screen in args.selected:
-        print(get_most_relevant_embeddings(screen, embeddings, args.n))
+print(get_most_relevant_embeddings(args.selected, embeddings, args.n))
 elif args.command:
     bert = SentenceTransformer('bert-base-nli-mean-tokens')
     src_emb = bert.encode([args.command])
