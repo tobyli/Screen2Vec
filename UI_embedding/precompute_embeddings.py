@@ -4,9 +4,10 @@ import numpy as np
 import argparse
 import torch
 from torch.utils.data import Dataset, DataLoader
+import tqdm
 import os
 from dataset.playstore_scraper import get_app_description
-from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_texts_from_rico_screen, ScreenInfo
+from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_uis_from_rico_screen, ScreenInfo
 from dataset.rico_dao import load_rico_screen_dict
 from UI2Vec import HiddenLabelPredictorModel
 
@@ -75,7 +76,7 @@ for package_dir in os.listdir(args.dataset):
                         try:
                             with open(json_file_path) as f:
                                 rico_screen = load_rico_screen_dict(json.load(f))
-                                labeled_text = get_all_labeled_texts_from_rico_screen(rico_screen)
+                                labeled_text = get_all_labeled_uis_from_rico_screen(rico_screen)
                         except TypeError as e:
                             print(str(e) + ': ' + args.dataset)
                             labeled_text = []
@@ -116,22 +117,33 @@ for trace in UIs:
 
 flat_screens = [u for trace in UIs for screen in trace for u in screen]
 
-ui_data = ScreensList(flat_screens)
-ui_loader = DataLoader(ui_data, batch_size=len(flat_screens))
-embedding = torch.empty(len(flat_screens), 768)
-for data in ui_loader:
-    embedding = loaded_model.model(data)
+num_traces = len(UIs)
+parcel_size = int(num_traces/9)
 
-screen_index = 0
-for trace in range(len(screen_lengths)):
-    trace_emb = []
-    for screen in range(len(screen_lengths[trace])):
-        screen_emb = embedding[screen_index:screen_index+screen_lengths[trace][screen]]
-        screen_index+= screen_lengths[trace][screen]
-        screen_emb = screen_emb.tolist()
-        trace_emb.append(screen_emb)
-    UI_embedding.append(trace_emb)
+for j in range(10):
+    UI_embedding = []
+    start_trace = j*parcel_size
+    end_trace = min((j+1)*parcel_size, num_traces)
+    parcel = UIs[start_trace:end_trace]
+    flat_screens = [u for trace in parcel for screen in trace for u in screen]
+
+    ui_data = ScreensList(flat_screens)
+    ui_loader = DataLoader(ui_data, batch_size=len(flat_screens))
+    embedding = torch.empty(len(flat_screens), 768)
+    for data in ui_loader:
+        embedding = loaded_model.model(data).detach()
 
 
-with open(args.prefix + 'ui_emb.json', 'w', encoding='utf-8') as f:
-    json.dump(UI_embedding, f, indent=4)
+    print(embedding.size())
+    screen_index = 0
+    for trace in tqdm.tqdm(range(start_trace, end_trace)):
+        trace_emb = []
+        for screen in range(len(screen_lengths[trace])):
+            screen_emb = embedding[screen_index:screen_index+screen_lengths[trace][screen]]
+            screen_index+= screen_lengths[trace][screen]
+            screen_emb = screen_emb.tolist()
+            trace_emb.append(screen_emb)
+        UI_embedding.append(trace_emb)
+
+    with open(args.prefix + str(j) + '_ui_emb.json', 'w', encoding='utf-8') as f:
+            json.dump(UI_embedding, f, indent=4)
