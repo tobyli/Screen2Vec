@@ -19,6 +19,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-e", "--emb_path", type=str, default="", help="path to stored embeddings")
 parser.add_argument("-s", "--selected", type=list, default=[], help="list of paths to query screens")
+parser.add_argument("-c", "--command", type=str, default="", help="natural language command to find relevant screens for")
+parser.add_argument("-n", "--n", type=int, default=5, help="number of relevant screens to find")
+
 args = parser.parse_args()
 
 with open(args.emb_path) as f:
@@ -63,9 +66,28 @@ def vector_compose(screen1, screen2, screen3, emb_dict):
             close_screen = id
     return close_screen
 
+def get_most_relevant_embeddings_nl(src_embedding, rico_id_embedding_dict: dict, n:int):
+    for rico_id, embedding in rico_id_embedding_dict.items():
+        if (embedding is None or src_embedding is None):
+            continue
+        if ((isinstance(embedding, int)) and embedding == 0):
+            continue
+        if ((isinstance(src_embedding, int)) and src_embedding == 0):
+            continue
+        entry = {}
+        entry['rico_id'] = rico_id
+        entry['score'] = scipy.spatial.distance.cosine(src_embedding, embedding)
+        screen_info_similarity_list.append(entry)
+    screen_info_similarity_list.sort(key=lambda x: x['score'])
+    return screen_info_similarity_list[0:n]
+
 if args.selected:
     for screen in args.selected:
-        print(get_most_relevant_embeddings(screen, embeddings, 5))
+        print(get_most_relevant_embeddings(screen, embeddings, args.n))
+elif args.command:
+    bert = SentenceTransformer('bert-base-nli-mean-tokens')
+    src_emb = bert.encode([args.command])
+    print(get_most_relevant_embeddings_nl(src_emb, embeddings,5))
 else:
     n = 0
     keys = list(embeddings.keys())
