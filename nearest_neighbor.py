@@ -34,6 +34,7 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
         # this is only for testing nearest neighbors, NOT VALID
         src_embedding = list(rico_id_embedding_dict.values())[0] 
     screen_info_similarity_list = []
+    print(src_id)
     app_name_1 = src_id.split("/")[-4]
     for rico_id, embedding in rico_id_embedding_dict.items():
         if (embedding is None or src_embedding is None):
