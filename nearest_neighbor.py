@@ -13,6 +13,7 @@ from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from prediction import TracePredictor
 from vocab import ScreenVocab
+from get_embedding import get_embedding
 
 
 parser = argparse.ArgumentParser()
@@ -32,7 +33,16 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int):
         src_embedding = rico_id_embedding_dict[src_id]
     except KeyError as e:
         # this is only for testing nearest neighbors, NOT VALID
-        src_embedding = list(rico_id_embedding_dict.values())[0] 
+        try:
+            src_id = src_id.split("/")
+            front = src_id[:-4]
+            back = src_id[-4:]
+            front = "/".join(front)
+            back = "/".join(back)
+            src_id = "//".join([front,back])
+            src_embedding = rico_id_embedding_dict[src_id]
+        except KeyError as e:
+            src_embedding = list(rico_id_embedding_dict.values())[0]
     screen_info_similarity_list = []
     app_name_1 = src_id.split("/")[-4]
     for rico_id, embedding in rico_id_embedding_dict.items():
