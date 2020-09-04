@@ -85,7 +85,8 @@ def get_most_relevant_embeddings_nl(src_embedding, rico_id_embedding_dict: dict,
     screen_info_similarity_list.sort(key=lambda x: x['score'])
     return screen_info_similarity_list[0:n]
 
-print(get_most_relevant_embeddings(args.selected, embeddings, args.n))
+if args.selected:
+    print(get_most_relevant_embeddings(args.selected, embeddings, args.n))
 elif args.command:
     bert = SentenceTransformer('bert-base-nli-mean-tokens')
     src_emb = bert.encode([args.command])
