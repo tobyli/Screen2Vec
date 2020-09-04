@@ -13,7 +13,7 @@ from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from prediction import TracePredictor
 from vocab import ScreenVocab
-from get_embedding import get_embedding
+
 
 
 parser = argparse.ArgumentParser()
