@@ -44,8 +44,12 @@ loaded_model.load_state_dict(torch.load(args.model))
 with open(args.prefix + 'uis.json') as f:
     UIs = json.load(f, encoding='utf-8')
 
-with open(args.prefix + 'lengths.json') as f:
-    screen_lengths = json.load(f, encoding='utf-8')
+screen_lengths = []
+for trace in UIs:
+    trace_screen_lengths = []
+    for screen in trace:
+        trace_screen_lengths.append(len(screen))
+    screen_lengths.append(trace_screen_lengths)
 
 num_traces = len(UIs)
 parcel_size = int(num_traces/9)
