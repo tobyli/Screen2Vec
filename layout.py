@@ -20,9 +20,6 @@ parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning ra
 args = parser.parse_args()
 
 
-
-
-
 dataset = ScreenLayoutDataset(args.dataset)
 
 dataset_size = len(dataset)
