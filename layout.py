@@ -53,6 +53,8 @@ for epoch in tqdm.tqdm(range(args.epochs)):
 
     test_loss = trainer.test(epoch)
     test_loss_data.append(test_loss)
+    print(test_loss)
+    print("--------")
 
     if (epoch%50)==0:
         print("saved on epoch " + str(epoch))
