@@ -120,7 +120,7 @@ class RicoDataset(Dataset):
         if len(trace_to_add.trace_screens) >= self.n and d!="":
             self.traces.append(trace_to_add)
         else:
-            print("trace no work :(")
+            print("trace length is " + str(len(trace_to_add.trace_screens)))
 
 class RicoTrace():
     """
@@ -151,8 +151,6 @@ class RicoTrace():
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, l[screen_idx], self.setting, name)
             if len(screen_to_add.UI_embeddings) > 0:
                 self.trace_screens.append(screen_to_add)
-            else:
-                print("nothing on screen")
 
     def get_screen(self, index):
         return self.trace_screens[index]
