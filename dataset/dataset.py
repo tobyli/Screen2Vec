@@ -121,9 +121,7 @@ class RicoDataset(Dataset):
             self.traces.append(trace_to_add)
         else:
             print("trace length is " + str(len(trace_to_add.trace_screens)))
-            if len(trace_to_add.trace_screens) >= self.n:
-                print(d)
-                print("!!!")
+            print(self.n)
             
 
 class RicoTrace():
