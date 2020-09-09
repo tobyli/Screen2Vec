@@ -86,7 +86,6 @@ with open("UI_embedding/ui_validation.json") as f:
 
 print(len(ui_emb))
 print(len(descr_emb))
-print(len(layouts))
 
 dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, screen_names = names)
 vocab = ScreenVocab(dataset)
