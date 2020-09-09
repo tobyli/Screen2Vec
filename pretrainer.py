@@ -67,11 +67,15 @@ class Screen2VecTrainer:
         if not train:
             torch.set_grad_enabled(False)
 
+        print(len(data_itr))
+        print("....")
         for idx, data in data_itr:
             self.optimizer.zero_grad()
 
             # load data 
             UIs, descr, trace_screen_lengths, indices, layouts = data
+            print(len(UIs))
+            print("_____")
             total_data+=len(UIs)
             # move to GPU
             UIs = UIs.cuda()
