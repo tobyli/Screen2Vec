@@ -80,6 +80,7 @@ class RicoDataset(Dataset):
         self.s_n = screen_names
         if fully_load:
             self.load_all_traces(ui, d, l)
+        print(len(self.traces))
 
     def __getitem__(self, index):
         indexed_trace = self.traces[index]
