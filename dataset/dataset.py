@@ -80,7 +80,6 @@ class RicoDataset(Dataset):
         self.s_n = screen_names
         if fully_load:
             self.load_all_traces(ui, d, l)
-        print(len(self.traces))
 
     def __getitem__(self, index):
         indexed_trace = self.traces[index]
@@ -119,9 +118,6 @@ class RicoDataset(Dataset):
         trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, self.setting, s_n)
         if len(trace_to_add.trace_screens) >= self.n and d!="":
             self.traces.append(trace_to_add)
-        else:
-            print("trace length is " + str(len(trace_to_add.trace_screens)))
-            print(self.n)
             
 
 class RicoTrace():

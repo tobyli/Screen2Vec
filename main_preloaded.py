@@ -84,9 +84,6 @@ with open("UI_embedding/ui_validation.json") as f:
     validation_traces = json.load(f, encoding='utf-8')
 
 
-print(len(ui_emb))
-print(len(descr_emb))
-
 dataset = RicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, screen_names = names)
 vocab = ScreenVocab(dataset)
 
