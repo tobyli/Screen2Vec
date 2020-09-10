@@ -97,8 +97,6 @@ for idx in indices:
     else:
         train_indices.append(idx)
 
-print(val_indices)
-print(train_indices)
 # Creating PT data samplers and loaders:
 train_sampler = SubsetRandomSampler(train_indices)
 test_sampler = SubsetRandomSampler(val_indices)
