@@ -28,6 +28,8 @@ class ScreenLayout():
             self.load_screen_contents(root)
         except KeyError as e:
             print(e)
+        except TypeError as e:
+            print(e)
 
     def load_screen_contents(self, node):
         results = []
@@ -84,6 +86,34 @@ class ScreenLayoutDataset(Dataset):
             screens.append(screen_layout)
         return screens
 
+class ScreenVisualLayout():
+
+    def __init__(self, screen_path):
+        self.pixels = self.load_screen(screen_path)
+
+    def load_screen(self, screen_path):
+        im = Image.open('myfile.png', 'r')
+        return np.asarray(im)
+
+class ScreenVisualLayoutDataset(Dataset):
+    def __init__(self, dataset_path):
+        self.screens = self.load_screens(dataset_path)
+
+    def __len__(self):
+        return len(self.screens)
+
+    def __getitem__(self, index):
+        return torch.from_numpy(self.screens[index].pixels.flatten()).type(torch.FloatTensor)
+
+    def load_screens(self, dataset_path):
+        screens = []
+        for fn in os.listdir(dataset_path):
+            if fn.endswith('.json'):
+                screen_layout = ScreenLayout(dataset_path + '/' + fn)
+            screens.append(screen_layout)
+        return screens
+
+
 class LayoutEncoder(nn.Module):
 
     def __init__(self):
@@ -121,7 +151,42 @@ class LayoutAutoEncoder(nn.Module):
         self.dec = LayoutDecoder()
 
     def forward(self, input):
-        return self.dec(self.enc(input))
+        return F.relu(self.dec(self.enc(input)))
+
+class ImageLayoutEncoder(nn.Module):
+
+    def __init__(self):
+        super(ImageLayoutEncoder, self).__init__()
+
+        self.lin = nn.Linear(6220800, 11200)
+        self.layout_encoder = LayoutEncoder()
+
+    def forward(self, input):
+        return F.relu(self.layout_encoder(self.lin(input)))
+    
+
+class ImageLayoutDecoder(nn.Module):
+
+    def __init__(self):
+        super(ImageLayoutDecoder, self).__init__()
+
+        self.lin = nn.Linear(11200, 6220800)
+        self.layout_decoder = LayoutDecoder()
+
+    def forward(self, input):
+        return self.lin(self.layout_decoder(input))
+
+class ImageAutoEncoder(nn.Module):
+
+    def __init__(self):
+        super(ImageAutoEncoder, self).__init__()
+
+        self.encoder = ImageLayoutEncoder()
+        self.decoder = ImageLayoutDecoder()
+
+    def forward(self, input):
+        return self.decoder(self.encoder(input))
+
 
 class LayoutTrainer():
     def __init__(self, auto_enc: LayoutAutoEncoder, dataloader_train, dataloader_test, l_rate):
@@ -141,7 +206,7 @@ class LayoutTrainer():
 
     def iteration(self, epoch, all_data, train=True):
         total_loss = 0
-        total_batches = 0
+        total_data = 0
 
         str_code = "train" if train else "test"
         data_itr = tqdm.tqdm(enumerate(all_data),
