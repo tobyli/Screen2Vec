@@ -58,14 +58,14 @@ class ScreenVocab(Dataset):
     def negative_sample(self, num_negatives, disallowed):
         disallowed = [self.reverse_indices[dis[0]][dis[1]] for dis in disallowed]
         screens = self.get_negative_sample(num_negatives,disallowed)
-        if self.setting in [0,2,6]:
+        if self.setting in [0,2,6,8]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in screens]
         else:
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
         descr = torch.tensor([screen.descr_emb for screen in screens]).squeeze(1).unsqueeze(0)
-        if self.setting not in [0,1,6]:
+        if self.setting not in [0,1,6,7]:
             layouts = torch.FloatTensor([screen.layout for screen in screens]).unsqueeze(0)
         else: 
             layouts = None
@@ -80,14 +80,14 @@ class ScreenVocab(Dataset):
         return_screens = all_screens[start_index: end_index]
         if end_index == len(all_screens):
             end_index = -1
-        if self.setting in [0,2,6]:
+        if self.setting in [0,2,6,8]:
             UIs = [torch.tensor(screen.UI_embeddings) for screen in return_screens]
         else:
             UIs = [torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in return_screens]
         UI_lengths = [len(screen) for screen in UIs]
         UIs = torch.nn.utils.rnn.pad_sequence(UIs).squeeze(2).unsqueeze(0)
         descr = torch.tensor([screen.descr_emb for screen in return_screens]).squeeze(1).unsqueeze(0)
-        if self.setting not in [0,1,6]:
+        if self.setting not in [0,1,6,7]:
             layouts = torch.FloatTensor([screen.layout for screen in return_screens]).unsqueeze(0)
         else: 
             layouts = None

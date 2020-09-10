@@ -37,9 +37,9 @@ class TesterRicoDataset(Dataset):
         screens = indexed_trace.trace_screens[starting_screen_index:starting_screen_index+self.n-1]
         if self.setting==0 or self.setting==6:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [trace_index, starting_screen_index + self.n - 1], None]
-        elif self.setting==1:
+        elif self.setting==1 or self.setting==7:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [trace_index, starting_screen_index + self.n - 1], None]
-        elif self.setting==2:
+        elif self.setting==2 or self.setting==8:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [trace_index, starting_screen_index + self.n - 1], [screen.layout for screen in screens]]
         else:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [trace_index, starting_screen_index + self.n - 1], [screen.layout for screen in screens]]
@@ -67,6 +67,53 @@ class TesterRicoDataset(Dataset):
         if len(trace_to_add.trace_screens) >= self.n and d!="":
             self.traces.append(trace_to_add)
 
+class PrecompRicoDataset(Dataset):
+    '''
+    has traces, which have screens
+    '''
+    def __init__(self, num_preds, ui, ui_e, d, d_e, l, net_version=0, fully_load=True, screen_names=None):
+        self.traces = []
+        self.n = num_preds + 1
+        self.ui_e = ui_e
+        self.d_e = d_e
+        self.setting = net_version
+        self.s_n = screen_names
+        if fully_load:
+            self.load_all_traces(ui, d, l)
+
+    def __getitem__(self, index):
+        screens = self.traces[index].trace_screens
+        if self.setting==0 or self.setting==6:
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
+        elif self.setting==1 or self.setting==7:
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
+        elif self.setting==2  or self.setting==8:
+            return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]
+        else:
+            return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]
+    
+    def __len__(self):
+        return len(self.traces)
+
+    def load_all_traces(self, ui, d, l):
+        if self.setting in [0,1,6]:
+            for trace_idx in range(len(self.d_e)):
+                if self.s_n:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, self.s_n[trace_idx])
+                else:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx])
+        else:
+            for trace_idx in range(len(self.d_e)):
+                if self.s_n:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l[trace_idx],self.s_n[trace_idx])
+                else:
+                    self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], l[trace_idx])
+
+    def load_trace(self, ui, ui_e, d, d_e, l=None, s_n=None):
+        # loads a trace
+        trace_to_add = RicoTrace(ui, ui_e, d, d_e, l, self.setting, s_n)
+        self.traces.append(trace_to_add)
+
 class RicoDataset(Dataset):
     '''
     has traces, which have screens
@@ -89,9 +136,9 @@ class RicoDataset(Dataset):
             screens = indexed_trace.trace_screens[starting_index:starting_index+self.n-1]
         if self.setting==0 or self.setting==6:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
-        elif self.setting==1:
+        elif self.setting==1 or self.setting==7:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], None]
-        elif self.setting==2:
+        elif self.setting==2 or self.setting==8:
             return [[torch.tensor(screen.UI_embeddings) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]
         else:
             return [[torch.cat((torch.tensor(screen.UI_embeddings),torch.FloatTensor(screen.coords)), dim=1) for screen in screens], [screen.descr_emb for screen in screens], [index, starting_index + self.n - 1], [screen.layout for screen in screens]]

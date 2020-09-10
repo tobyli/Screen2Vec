@@ -105,12 +105,12 @@ train_data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=p
 test_data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=pad_collate, sampler=test_sampler)
 
 #handle different versions of network here
-if args.net_version in [0,2,6]:
+if args.net_version in [0,2,6,8]:
     adus = 0
 else:
     # case where coordinates are part of UI rnn
     adus = 4
-if args.net_version in [0,1,6]:
+if args.net_version in [0,1,6,7]:
     adss = 0
 else:
     # case where screen layout vec is used
