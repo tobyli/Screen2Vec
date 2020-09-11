@@ -96,31 +96,31 @@ data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
 end_index = 0
-if args.net_version not in [5]:
-    comp = torch.empty(0,bert_size)
-else:
-    comp = torch.empty(0,bert_size *2)
+# if args.net_version not in [5]:
+#     comp = torch.empty(0,bert_size)
+# else:
+#     comp = torch.empty(0,bert_size *2)
 
 
-while end_index != -1:
-    vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
-    comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
-    comp = torch.cat((comp, comp_part), dim = 0)
+# while end_index != -1:
+#     vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
+#     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
+#     comp = torch.cat((comp, comp_part), dim = 0)
 
-comp = comp.detach().numpy()
+# comp = comp.detach().numpy()
 
-comp_dict = {}
+# comp_dict = {}
 
 
-for emb_idx in range(len(comp)):
-    names = vocab.get_name(emb_idx)
-    name = "/".join(names.split("/")[-4:])
-    comp_dict[name] = comp[emb_idx].tolist()
+# for emb_idx in range(len(comp)):
+#     names = vocab.get_name(emb_idx)
+#     name = "/".join(names.split("/")[-4:])
+#     comp_dict[name] = comp[emb_idx].tolist()
 
-mistakes = []
+# mistakes = []
 
-with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
-    json.dump(comp_dict, f, indent=4)
+# with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
+#     json.dump(comp_dict, f, indent=4)
 
 
 if args.net_version in [4,6,7,8]:
