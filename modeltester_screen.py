@@ -59,9 +59,10 @@ predictor = TracePredictor(orig_model, args.net_version)
 predictor.load_state_dict(torch.load(args.model))
 
 correct = 0
+toppointzeroone = 0
+toppointone = 0
 topone = 0
 topfive = 0
-topten = 0
 total = 0
 
 with open(args.data + "uis.json") as f:
@@ -202,31 +203,38 @@ if args.net_version in [4,6,7,8]:
             
             temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
             closest_idx = temp[0]
+            closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
+            closest_pointoneperc = temp[:int(0.001 * len(distances))]
             closest_oneperc = temp[:int(0.01 * len(distances))]
             closest_fiveperc = temp[:int(0.05 * len(distances))]
-            closest_tenperc = temp[:int(0.1 * len(distances))]
 
             if correct_index==closest_idx:
                 correct +=1
+                toppointzeroone+=1
+                toppointone +=1
                 topone +=1
                 topfive +=1
-                topten +=1
+            elif correct_index in closest_pointzerooneperc:
+                toppointzeroone +=1
+                toppointone +=1
+                topone +=1
+                topfive +=1
+            elif correct_index in closest_pointoneperc:
+                toppointone +=1
+                topone +=1
+                topfive +=1
             elif correct_index in closest_oneperc:
                 topone +=1
                 topfive +=1
-                topten +=1
             elif correct_index in closest_fiveperc:
                 topfive +=1
-                topten +=1
-            elif correct_index in closest_tenperc:
-                topten +=1
 
             total+=1
 
-
     print(str(correct/total) + " of the predictions were exactly correct")
+    print(str(toppointzeroone/total) + " of the predictions were in the top 0.01%")
+    print(str(toppointone/total) + " of the predictions were in the top 0.1%")
     print(str(topone/total) + " of the predictions were in the top 1%")
     print(str(topfive/total) + " of the predictions were in the top 5%")
-    print(str(topten/total) + " of the predictions were in the top 10%")
     print("rmse error is: " + str(total_rmse/i))
 
