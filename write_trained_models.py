@@ -89,11 +89,13 @@ if args.net_version not in [0,1,6]:
 else:
     layouts = None
 
-
 dataset = PrecompRicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, True, screen_names)       
 
 data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
+
+
+del ui_emb
 
 end_index = 0
 # if args.net_version not in [5]:
