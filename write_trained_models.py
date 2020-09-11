@@ -91,7 +91,6 @@ else:
 
 dataset = PrecompRicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, layouts, args.net_version, True, screen_names)       
 
-data_loader = DataLoader(dataset, collate_fn=pad_collate, batch_size=1)
 vocab = ScreenVocab(dataset)
 
 
@@ -139,7 +138,8 @@ if args.net_version in [4,6,7,8]:
 
     print("stop")
     comp_dict = {}
-
+    del dataset
+    del vocab
 
     for emb_idx in range(len(comp)):
         names = vocab.get_name(emb_idx)
