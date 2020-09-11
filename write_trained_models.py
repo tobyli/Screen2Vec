@@ -136,6 +136,8 @@ if args.net_version in [4,6,7,8]:
 
     comp = comp.detach().numpy()
 
+
+    print("stop")
     comp_dict = {}
 
 
