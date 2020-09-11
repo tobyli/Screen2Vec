@@ -1,4 +1,5 @@
 import argparse
+import math
 import torch
 import torch.nn as nn
 import json
@@ -172,77 +173,60 @@ if args.net_version in [4,6,7,8]:
         embeddings = torch.cat((comp_part, vocab_descr.squeeze(0)), dim=1)
         comp = torch.cat((comp, embeddings), dim = 0)
 
-    comp = comp.detach().numpy()
-
-    comp_dict = {}
+    comp = comp.detach()
 
 
-    for emb_idx in range(len(comp)):
-        names = vocab.get_name(emb_idx)
-        comp_dict[names] = comp[emb_idx].tolist()
-
-    # with open('model' + str(args.net_version) + 'descr.json', 'w', encoding='utf-8') as f:
-    #     json.dump(comp_dict, f, indent=4)
-
+    error = nn.MSELoss()
 
     i = 0
     eek = 0
+    total_rmse = 0
     for data in data_loader:
+        UIs, descr, trace_screen_lengths, index, layouts = data
     # run it through the network
         UIs, descr, trace_screen_lengths, index, layouts = data
-        #print(i)
-        i+=1
+        i+=len(index)
         # forward the training stuff (prediction)
         c,result,_ = predictor(UIs, descr, trace_screen_lengths, layouts, False)
         descr = torch.narrow(descr,1,0,1).squeeze(1)
         c = torch.cat((c,descr),dim=-1)
         # find which vocab vector has the smallest cosine distance
-        distances = scipy.spatial.distance.cdist(c.detach().numpy(), comp, "cosine")[0]
+        for idx in range(len(index)):
+            correct_index = vocab_rvs_indx[index[idx][0]][index[idx][1]]
+            #print(c.size())
+            #print(comp[correct_index].size())
+            total_rmse += float(error(c.detach()[idx], comp[correct_index])/math.sqrt(len(c)))
+            
+            distances = scipy.spatial.distance.cdist(c.detach()[idx].unsqueeze(dim=0), comp, "cosine")[0]
+        
+            
+            temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+            closest_idx = temp[0]
+            closest_oneperc = temp[:int(0.01 * len(distances))]
+            closest_fiveperc = temp[:int(0.05 * len(distances))]
+            closest_tenperc = temp[:int(0.1 * len(distances))]
 
-        temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
-        closest_idx = temp[0]
-        closest_oneperc = temp[:int(0.01 * len(distances))]
-        closest_fiveperc = temp[:int(0.05 * len(distances))]
-        closest_tenperc = temp[:int(0.1 * len(distances))]
+            if correct_index==closest_idx:
+                correct +=1
+                topone +=1
+                topfive +=1
+                topten +=1
+            elif correct_index in closest_oneperc:
+                topone +=1
+                topfive +=1
+                topten +=1
+            elif correct_index in closest_fiveperc:
+                topfive +=1
+                topten +=1
+            elif correct_index in closest_tenperc:
+                topten +=1
 
-        if vocab_rvs_indx[index[0][0]][index[0][1]]==closest_idx:
-            correct +=1
-            topone +=1
-            topfive +=1
-            topten +=1
-        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_oneperc:
-            topone +=1
-            topfive +=1
-            topten +=1
-        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_fiveperc:
-            topfive +=1
-            topten +=1
-        elif vocab_rvs_indx[index[0][0]][index[0][1]] in closest_tenperc:
-            topten +=1
-        if abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) <10 and abs(vocab_rvs_indx[index[0][0]][index[0][1]]-closest_idx) != 0:
-            eek+=1
-
-        total+=1
+            total+=1
 
 
     print(str(correct/total) + " of the predictions were exactly correct")
     print(str(topone/total) + " of the predictions were in the top 1%")
     print(str(topfive/total) + " of the predictions were in the top 5%")
     print(str(topten/total) + " of the predictions were in the top 10%")
-    print(str(eek/total) + " of the predictions were correct, but predicted a screen nearby in the trace")
+    print("rmse error is: " + str(total_rmse/i))
 
-
-# from sklearn.cluster import KMeans
-
-# num_clusters = 50
-# clustering_model = KMeans(n_clusters=num_clusters)
-# clustering_model.fit(comp)
-# assignment = clustering_model.labels_
-
-# with open("cluster_output.txt", "w", encoding="utf-8") as f:
-#     for cl_no in range(num_clusters):
-#         clustered_words = [str(vocab.get_name(idx)) + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-#         f.write("______________" + "\n")
-#         f.write(str(cl_no) + ":\n")
-#         f.write("______________" + "\n")
-#         f.writelines(clustered_words)
