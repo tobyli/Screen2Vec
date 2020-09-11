@@ -123,18 +123,18 @@ end_index = 0
 # with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
 #     json.dump(comp_dict, f, indent=4)
 
-
 if args.net_version in [4,6,7,8]:
     end_index = 0
     #comp = torch.empty(0,bert_size*2)
     comp_dict = {}
     while end_index != -1:
+        start_index = end_index
         vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts , vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
         comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts).squeeze(0)
-        embeddings = torch.cat((comp_part, vocab_descr.squeeze(0)), dim=1)
+        embeddings = torch.cat((comp_part, vocab_descr.squeeze(0)), dim=1).detach()
         #comp = torch.cat((comp, embeddings), dim = 0)
         for emb_idx in range(len(embeddings)):
-            idx = emb_idx + end_index
+            idx = emb_idx + start_index
             names = vocab.get_name(idx)
             name = "/".join(names.split("/")[-4:])
             comp_dict[name] = embeddings[emb_idx].detach().tolist()
