@@ -48,7 +48,7 @@ class TesterRicoDataset(Dataset):
         return len(self.traces)
 
     def load_all_traces(self, ui, d, l):
-        if self.setting in [0,1,6]:
+        if self.setting in [0,1,6,7]:
             for trace_idx in range(len(self.d_e)):
                 if self.s_n:
                     self.load_trace(ui[trace_idx], self.ui_e[trace_idx], d[trace_idx], self.d_e[trace_idx], None, self.s_n[trace_idx])
