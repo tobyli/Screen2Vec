@@ -92,8 +92,9 @@ class ScreenVisualLayout():
         self.pixels = self.load_screen(screen_path)
 
     def load_screen(self, screen_path):
-        im = Image.open('myfile.png', 'r')
-        return np.asarray(im)
+        im = Image.open(screen_path, 'r')
+        im = im.resize((90,160))
+        return np.array(im)
 
 class ScreenVisualLayoutDataset(Dataset):
     def __init__(self, dataset_path):
@@ -108,8 +109,8 @@ class ScreenVisualLayoutDataset(Dataset):
     def load_screens(self, dataset_path):
         screens = []
         for fn in os.listdir(dataset_path):
-            if fn.endswith('.json'):
-                screen_layout = ScreenLayout(dataset_path + '/' + fn)
+            if fn.endswith('.jpg'):
+                screen_layout = ScreenVisualLayout(dataset_path + '/' + fn)
             screens.append(screen_layout)
         return screens
 
@@ -158,8 +159,10 @@ class ImageLayoutEncoder(nn.Module):
     def __init__(self):
         super(ImageLayoutEncoder, self).__init__()
 
-        self.lin = nn.Linear(6220800, 11200)
+        self.lin = nn.Linear(43200, 11200)
         self.layout_encoder = LayoutEncoder()
+        for param in self.layout_encoder.parameters():
+            param.requires_grad = False
 
     def forward(self, input):
         return F.relu(self.layout_encoder(self.lin(input)))
@@ -170,8 +173,11 @@ class ImageLayoutDecoder(nn.Module):
     def __init__(self):
         super(ImageLayoutDecoder, self).__init__()
 
-        self.lin = nn.Linear(11200, 6220800)
+        self.lin = nn.Linear(11200, 43200)
         self.layout_decoder = LayoutDecoder()
+        for param in self.layout_decoder.parameters():
+            param.requires_grad = False
+        
 
     def forward(self, input):
         return self.lin(self.layout_decoder(input))
@@ -217,7 +223,7 @@ class LayoutTrainer():
             torch.set_grad_enabled(False)
         for idx, data in data_itr:
             self.optimizer.zero_grad()
-            total_batches+=1
+            total_data+=1
             data = data.cuda()
             result = self.model(data)
             encoding_loss = self.criterion(result, data)
@@ -227,7 +233,57 @@ class LayoutTrainer():
                 self.optimizer.step()
         if not train: 
             torch.set_grad_enabled(True)
-        return total_loss/total_batches
+        return total_loss/total_data
+
+    def save(self, epoch, file_path="output/autoencoder.model"):
+        """
+        Saving the current model on file_path
+        :param epoch: current epoch number
+        :param file_path: model output path which gonna be file_path+"ep%d" % epoch
+        :return: final_output_path
+        """
+        output_path = file_path + ".ep%d" % epoch
+        torch.save(self.model.state_dict(), output_path)
+        print("EP:%d Model Saved on:" % epoch, output_path)
+        return output_path
+
+
+class ImageTrainer():
+    def __init__(self, auto_enc: ImageAutoEncoder, dataloader_train, dataloader_test, l_rate):
+        self.model = auto_enc
+        self.criterion = nn.MSELoss()
+        self.optimizer = torch.optim.Adam(list(self.model.encoder.lin.parameters()) + list(self.model.decoder.lin.parameters()), lr=l_rate)
+        self.train_data = dataloader_train
+        self.test_data = dataloader_test
+
+    def train(self, epoch):
+        loss = self.iteration(epoch, self.train_data)
+        return loss
+
+    def test(self, epoch):
+        loss = self.iteration(epoch, self.test_data, train=False)
+        return loss
+
+    def iteration(self, epoch, all_data, train=True):
+        total_loss = 0
+        total_data = 0
+
+        str_code = "train" if train else "test"
+        data_itr = tqdm.tqdm(enumerate(all_data),
+                              desc="EP_%s:%d" % (str_code, epoch),
+                              total=len(all_data),
+                              bar_format="{l_bar}{r_bar}")
+        for idx, data in data_itr:
+            self.optimizer.zero_grad()
+            total_data+=1
+            data = data.cuda()
+            result = self.model(data)
+            encoding_loss = self.criterion(result, data)
+            total_loss+=float(encoding_loss)
+            if train:
+                encoding_loss.backward()
+                self.optimizer.step()
+        return total_loss/total_data
 
     def save(self, epoch, file_path="output/autoencoder.model"):
         """
