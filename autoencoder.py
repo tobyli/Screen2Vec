@@ -83,7 +83,7 @@ class ScreenLayoutDataset(Dataset):
         for fn in os.listdir(dataset_path):
             if fn.endswith('.json'):
                 screen_layout = ScreenLayout(dataset_path + '/' + fn)
-            screens.append(screen_layout)
+                screens.append(screen_layout)
         return screens
 
 class ScreenVisualLayout():
@@ -111,7 +111,7 @@ class ScreenVisualLayoutDataset(Dataset):
         for fn in os.listdir(dataset_path):
             if fn.endswith('.jpg'):
                 screen_layout = ScreenVisualLayout(dataset_path + '/' + fn)
-            screens.append(screen_layout)
+                screens.append(screen_layout)
         return screens
 
 
