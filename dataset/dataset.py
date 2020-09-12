@@ -190,7 +190,7 @@ class RicoTrace():
                 name = s_n[screen_idx]
             else: 
                 name = None
-            if self.setting in [0,1,6]:
+            if self.setting in [0,1,6,7]:
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, None, self.setting, name)
             else:
                 screen_to_add = RicoScreen(ui[screen_idx], self.ui_e[screen_idx], d, self.d_e, l[screen_idx], self.setting, name)
