@@ -112,11 +112,10 @@ elif args.type == 1:
             trainer.save(epoch, "output/visual_encoder_fast")
     plot_loss(train_loss_data, test_loss_data, "output/visual_encoder_fast")
     trainer.save(args.epochs, "output/visual_encoder_fast")
-    loss_data = zip(train_loss, test_loss)
     with open("output/visual_encoder_fast.csv", 'w', newline='') as myfile:
         wr = csv.writer(myfile)
-        for row in loss_data:
-            wr.writerow([row[x] for x in row])
+        for row in range(len(train_loss_data)):
+            wr.writerow([train_loss_data[row], test_loss_data[row]])
 
 
 
