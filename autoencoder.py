@@ -93,7 +93,7 @@ class ScreenVisualLayout():
 
     def load_screen(self, screen_path):
         im = Image.open(screen_path, 'r')
-        im = im.resize((90,160))
+        im = im.resize((45,80))
         return np.array(im)
 
 class ScreenVisualLayoutDataset(Dataset):
@@ -159,7 +159,7 @@ class ImageLayoutEncoder(nn.Module):
     def __init__(self):
         super(ImageLayoutEncoder, self).__init__()
 
-        self.lin = nn.Linear(43200, 11200)
+        self.lin = nn.Linear(10800, 11200)
         self.layout_encoder = LayoutEncoder()
         for param in self.layout_encoder.parameters():
             param.requires_grad = False
@@ -173,7 +173,7 @@ class ImageLayoutDecoder(nn.Module):
     def __init__(self):
         super(ImageLayoutDecoder, self).__init__()
 
-        self.lin = nn.Linear(11200, 43200)
+        self.lin = nn.Linear(11200, 10800)
         self.layout_decoder = LayoutDecoder()
         for param in self.layout_decoder.parameters():
             param.requires_grad = False
