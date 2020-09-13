@@ -108,9 +108,9 @@ elif args.type == 1:
 
         if (epoch%50)==0:
             print("saved on epoch " + str(epoch))
-            trainer.save(epoch)
-    plot_loss(train_loss_data, test_loss_data, "output/autoencoder")
-    trainer.save(args.epochs, "output/visual_encoder")
+            trainer.save(epoch, "output/visual_encoder_fast")
+    plot_loss(train_loss_data, test_loss_data, "output/visual_encoder_fast")
+    trainer.save(args.epochs, "output/visual_encoder_fast")
 
 
 
