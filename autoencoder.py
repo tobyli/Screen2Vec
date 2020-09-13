@@ -104,7 +104,7 @@ class ScreenVisualLayoutDataset(Dataset):
         return len(self.screens)
 
     def __getitem__(self, index):
-        return torch.from_numpy(self.screens[index].pixels.flatten()).type(torch.FloatTensor)
+        return torch.from_numpy(self.screens[index].pixels.flatten()).type(torch.FloatTensor)/255
 
     def load_screens(self, dataset_path):
         screens = []
