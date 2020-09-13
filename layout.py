@@ -110,7 +110,7 @@ elif args.type == 1:
             print("saved on epoch " + str(epoch))
             trainer.save(epoch)
     plot_loss(train_loss_data, test_loss_data, "output/autoencoder")
-    trainer.save(args.epochs, "output/autoencoder")
+    trainer.save(args.epochs, "output/visual_encoder")
 
 
 
