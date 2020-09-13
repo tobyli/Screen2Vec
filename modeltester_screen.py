@@ -181,7 +181,8 @@ if args.net_version in [4,6,7,8]:
 
     i = 0
     eek = 0
-    total_rmse = 0
+    total_se = 0
+    total_vector_lengths = 0
     for data in data_loader:
         UIs, descr, trace_screen_lengths, index, layouts = data
     # run it through the network
@@ -196,8 +197,10 @@ if args.net_version in [4,6,7,8]:
             correct_index = vocab_rvs_indx[index[idx][0]][index[idx][1]]
             #print(c.size())
             #print(comp[correct_index].size())
-            total_rmse += float(error(c.detach()[idx], comp[correct_index])/math.sqrt(len(c)))
-            
+            diff = c.detach()[idx]-comp[correct_index]
+            sqer = sum(diff**2)
+            total_se += sqer
+            total_vector_lengths += np.linalg.norm(diff)
             distances = scipy.spatial.distance.cdist(c.detach()[idx].unsqueeze(dim=0), comp, "cosine")[0]
         
             
@@ -231,6 +234,7 @@ if args.net_version in [4,6,7,8]:
 
             total+=1
 
+    total_rmse = math.sqrt(total_se/i)/(total_vector_lengths/i)
     print(str(correct/total) + " of the predictions were exactly correct")
     print(str(toppointzeroone/total) + " of the predictions were in the top 0.01%")
     print(str(toppointone/total) + " of the predictions were in the top 0.1%")
