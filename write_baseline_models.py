@@ -57,7 +57,7 @@ for package_dir in os.listdir(args.dataset):
                         word_embeddings[json_file_path] = word_avg_emb.tolist()
 
                         layout_screen = ScreenLayout(args.dataset + '/' +  json_file_path)
-                        screen_pix = torch.from_numpy(self.screens[index].pixels.flatten()).type(torch.FloatTensor)/255
+                        screen_pix = torch.from_numpy(layout_screen.pixels.flatten()).type(torch.FloatTensor)/255
                         vis_emb = visual_autoencoder.encoder(screen_pix)
                         visual_embeddings[json_file_path] = vis_emb.detach().tolist()
 
