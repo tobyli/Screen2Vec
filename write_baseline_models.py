@@ -61,11 +61,6 @@ for package_dir in os.listdir(args.dataset):
                         vis_emb = visual_autoencoder.encoder(screen_pix)
                         visual_embeddings[json_file_path] = vis_emb.detach().tolist()
 
-                        try:
-                            screenshot_path = package_dir + '/' + trace_dir + '/' + 'screenshots' + '/' + view_hierarchy_json.split(".")[0] + ".jpg"
-                            vis_screen = ScreenVisualLayout(vis_screen)
-                            vis_pix = 
-
 
 with open(args.output + 'text_baseline.json', 'w', encoding='utf-8') as f:
     json.dump(word_embeddings, f, indent=4)
