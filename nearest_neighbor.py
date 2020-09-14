@@ -13,6 +13,7 @@ from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
 from prediction import TracePredictor
 from vocab import ScreenVocab
+import os
 
 def main():
     parser = argparse.ArgumentParser()
@@ -46,13 +47,19 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-def get_hierachy_for_json_path(json_path):
-    with open(json_path) as f:
+def get_full_path_from_relative_path_if_not_available(file_path, home_dataset_path):
+    if (not os.path.exists(file_path)):
+        return home_dataset_path + file_path
+    else:
+        return file_path
+    
+    
+def get_hierachy_for_json_path(json_path, home_dataset_path):
+    with open(get_full_path_from_relative_path_if_not_available(json_path, home_dataset_path)) as f:
         data = json.load(f)
         return data
 
-def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int, filter_duplicated_activity = False):
+def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int, home_dataset_path, filter_duplicated_activity = False):
     try:
         src_embedding = rico_id_embedding_dict[src_id]
     except KeyError as e:
@@ -83,14 +90,15 @@ def get_most_relevant_embeddings(src_id, rico_id_embedding_dict: dict, n: int, f
         entry = {}
         entry['rico_id'] = rico_id
         entry['score'] = scipy.spatial.distance.cosine(src_embedding, embedding)
-        screen_info_similarity_list.append(entry)
+        if (entry['rico_id'] is not None and not np.isnan (entry['score'])):  
+            screen_info_similarity_list.append(entry)
     screen_info_similarity_list.sort(key=lambda x: x['score'])
     
     if filter_duplicated_activity:
         filtered_result = []      
         activity_name_set = set()
         for entry in screen_info_similarity_list:
-            json_data = get_hierachy_for_json_path(entry['rico_id'])
+            json_data = get_hierachy_for_json_path(entry['rico_id'], home_dataset_path)
             activity_name = json_data['activity_name']
             if (activity_name not in activity_name_set):
                 activity_name_set.add(activity_name)
@@ -135,4 +143,5 @@ def get_most_relevant_embeddings_nl(src_embedding, rico_id_embedding_dict: dict,
         screen_info_similarity_list.append(entry)
     screen_info_similarity_list.sort(key=lambda x: x['score'])
     return screen_info_similarity_list[0:n]
+
 
