@@ -61,7 +61,7 @@ for package_dir in os.listdir(args.dataset):
                         layout_emb = layout_autoencoder.enc(screen_pix)
                         layout_embeddings[json_file_path] = layout_emb.detach().tolist()
                         
-                        vis_screen = ScreenVisualLayout(package_dir + '/' + trace_dir + '/' + 'screenshots' + '/' + view_hierarchy_json.split(".")[0] + ".jpg")
+                        vis_screen = ScreenVisualLayout(args.dataset + "/" + package_dir + '/' + trace_dir + '/' + 'screenshots' + '/' + view_hierarchy_json.split(".")[0] + ".jpg")
                         screen_pix = torch.from_numpy(vis_screen.pixels.flatten()).type(torch.FloatTensor)/255
                         vis_emb = visual_autoencoder.encoder(screen_pix)
                         visual_embeddings[json_file_path] = vis_emb.detach().tolist()
