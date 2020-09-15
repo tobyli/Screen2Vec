@@ -47,3 +47,21 @@ class TracePredictor(nn.Module):
         else:
             h = h[0]
         return h, result, context
+
+class BaselinePredictor(nn.Module):
+    """
+    predicts the embeddings of the next screen in a trace based on its preceding screens
+    using baseline model embeddings of the screen
+    """
+    def __init__(self, embedding_size):
+        super().__init__()
+        self.emb_size = embedding_size
+        self.combiner = nn.LSTM(self.emb_size, self.emb_size, batch_first=True)
+
+    def forward(self, embeddings, cuda=True):
+        # embed all of the screens using Screen2Vec
+        
+        # run screens in trace through model to predict last one
+        output, (h,c) = self.combiner(embeddings)
+        h = h[0]
+        return h
