@@ -47,6 +47,21 @@ correct_both = 0
 total_text = 0
 total_class = 0
 total_both = 0
+toppointzeroone_text = 0
+toppointone_text = 0
+topone_text = 0
+topfive_text = 0
+toppointzeroone_class = 0
+toppointone_class = 0
+topone_class = 0
+topfive_class = 0
+toppointzeroone_both = 0
+toppointone_both = 0
+topone_both = 0
+topfive_both = 0
+
+total_se = 0
+total_vector_lengths = 0
 # load the data
 dataset_rico = RicoDataset(input_path)
 dataset = ScreenDataset(dataset_rico, n)
@@ -63,59 +78,97 @@ for data in data_loader:
     element_target_index = vocab.get_index(element[0])
     target_class = element[1]
 
+    classes = torch.arange(predictor.num_classes, dtype=torch.long)
+    class_comparison = predictor.model.embedder.UI_embedder(classes).detach()
+
+    diff = prediction_output - torch.cat((vocab.embeddings[int(element_target_index)], class_comparison[int(target_class)]))
+    total_se += sum(diff**2)
+    total_vector_lengths += np.linalg.norm(diff)
+    
     text_prediction_output = torch.narrow(prediction_output, 1, 0, 768)
     class_prediction_output = torch.narrow(prediction_output, 1, 768, prediction_output.size()[1] - 768).detach()
 
     # find which vocab vector has the smallest cosine distance
     text_distances = scipy.spatial.distance.cdist(text_prediction_output.detach().numpy(), vocab.embeddings, "cosine")[0]
 
-    text_temp = np.argpartition(text_distances, (1,int(args.range * len(vocab_list))))
-    text_closest_idx = text_temp[:int(args.range * len(vocab_list))]
+    text_temp = np.argpartition(text_distances, (1, int(0.0001 * len(vocab_list)),int(0.001 * len(vocab_list)),int(0.01 * len(vocab_list)),int(0.05 * len(vocab_list)),int(0.1 * len(vocab_list))))
+    text_closest_idx = text_temp[0]
+    text_closest_pointzerooneperc = text_temp[:int(0.0001 * len(vocab_list))]
+    text_closest_pointoneperc = text_temp[:int(0.001 * len(vocab_list))]
+    text_closest_oneperc = text_temp[:int(0.01 * len(vocab_list))]
+    text_closest_fiveperc = text_temp[:int(0.05 * len(vocab_list))]
 
-    classes = torch.arange(predictor.num_classes, dtype=torch.long)
-    class_comparison = predictor.model.embedder.UI_embedder(classes).detach()
     class_distances = scipy.spatial.distance.cdist(class_prediction_output, class_comparison, "cosine")[0]
 
-    class_temp = np.argpartition(class_distances, (1,int(args.range * len(class_prediction_output))))
-    class_closest_idx = class_temp[:int(args.range * len(class_comparison))]
+    class_temp = np.argpartition(class_distances, (1,int(0.0001 * len(class_prediction_output)),int(0.001 * len(class_prediction_output)),int(0.01 * len(class_prediction_output)),int(0.05 * len(class_prediction_output)),int(0.1 * len(class_prediction_output))))
+    class_closest_idx = class_temp[0]
+    class_closest_pointzerooneperc = class_temp[:int(0.0001 * len(class_prediction_output))]
+    class_closest_pointoneperc = class_temp[:int(0.001 * len(class_prediction_output))]
+    class_closest_oneperc = class_temp[:int(0.01 * len(class_prediction_output))]
+    class_closest_fiveperc = class_temp[:int(0.1 * len(class_prediction_output))]
 
     if int(element_target_index) is not 0:
         total_text+=1
-        if int(element_target_index) in text_closest_idx:
+        if int(element_target_index)==text_closest_idx:
             correct_text +=1
+            toppointzeroone_text+=1
+            toppointone_text +=1
+            topone_text +=1
+            topfive_text +=1
+        elif int(element_target_index) in text_closest_pointzerooneperc:
+            toppointzeroone_text +=1
+            toppointone_text +=1
+            topone_text +=1
+            topfive_text +=1
+        elif int(element_target_index) in text_closest_pointoneperc:
+            toppointone_text +=1
+            topone_text +=1
+            topfive_text +=1
+        elif int(element_target_index) in text_closest_oneperc:
+            topone_text +=1
+            topfive_text +=1
+        elif int(element_target_index) in text_closest_fiveperc:
+            topfive_text +=1
     if int(target_class) is not 0:
-        total_class +=1
-        if int(target_class) in class_closest_idx:
+        total_text+=1
+        if int(target_class)==class_closest_idx:
             correct_class +=1
+            toppointzeroone_class+=1
+            toppointone_class +=1
+            topone_class +=1
+            topfive_class +=1
+        elif int(target_class) in class_closest_pointzerooneperc:
+            toppointzeroone_class +=1
+            toppointone_class +=1
+            topone_class +=1
+            topfive_class +=1
+        elif int(target_class) in class_closest_pointoneperc:
+            toppointone_class +=1
+            topone_class +=1
+            topfive_class +=1
+        elif int(target_class) in class_closest_oneperc:
+            topone_class +=1
+            topfive_class +=1
+        elif int(target_class) in class_closest_fiveperc:
+            topfive_class +=1
     if int(target_class) is not 0 and int(element_target_index) is not 0:
         total_both +=1
-        if int(target_class) in class_closest_idx and int(element_target_index) in text_closest_idx:
+        if int(target_class)==class_closest_idx and int(element_target_index)==text_closest_idx:
             correct_both +=1
 
+total_rmse = math.sqrt(total_se/i)/(total_vector_lengths/i)
+print(str(correct_text/total_text) + " of the text predictions were exactly correct")
+print(str(toppointzeroone_text/total_text) + " of the text predictions were in the top 0.01%")
+print(str(toppointone_text/total_text) + " of the text predictions were in the top 0.1%")
+print(str(topone_text/total_text) + " of the text predictions were in the top 1%")
+print(str(topfive_text/total_text) + " of the text predictions were in the top 5%")
 
+print(str(correct_class/total_class) + " of the class predictions were exactly correct")
+print(str(toppointzeroone_class/total_class) + " of the class predictions were in the top 0.01%")
+print(str(toppointone_class/total_class) + " of the class predictions were in the top 0.1%")
+print(str(topone_class/total_class) + " of the class predictions were in the top 1%")
+print(str(topfive_class/total_class) + " of the class predictions were in the top 5%")
 
-print(correct_text/total_text)
-print(correct_class/total_class)
-print(correct_both/total_both)
+print(str(correct_both) + " of the predictions were right on both counts")
 
-
-if args.extra:
-    from sklearn.cluster import KMeans
-
-    corpus = [screen.labeled_text for screen in dataset.screens]
-    corpus_text = [bundle[0] for text in corpus for bundle in text] 
-    corpus_class = torch.tensor([bundle[1] for text in corpus for bundle in text])
-    corpus_embeddings = model.model((corpus_text, corpus_class)).detach().numpy()
-
-    num_clusters = 50
-    clustering_model = KMeans(n_clusters=num_clusters)
-    clustering_model.fit(corpus_embeddings)
-    assignment = clustering_model.labels_
-
-    with open("cluster_output.txt", "w", encoding="utf-8") as f:
-        for cl_no in range(num_clusters):
-            clustered_words = [corpus_text[idx] + "\n" for idx in range(len(assignment)) if assignment[idx] == cl_no ]
-            print(cl_no)
-            print(clustered_words[:10])
-            f.write(str(cl_no) + ":\n")
-            f.writelines(clustered_words)
+print("rmse error is: " + str(total_rmse/i))
