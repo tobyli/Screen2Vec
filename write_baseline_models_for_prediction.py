@@ -52,11 +52,16 @@ for package_dir in os.listdir(args.dataset):
                             with open(args.dataset + '/' +  json_file_path) as f:
                                 rico_screen = load_rico_screen_dict(json.load(f))
                                 text = get_all_texts_from_rico_screen(rico_screen)
+                                if text == []:
+                                    text = [""]
                         except TypeError as e:
                             print(str(e) + ': ' + args.dataset)
                             text = [""]
                         word_embs = bert.encode(text)
-                        word_avg_emb = np.mean(word_embs, axis=0)
+                        if len(word_embs) > 0:
+                            word_avg_emb = np.mean(word_embs, axis=0)
+                        else:
+                            word_avg_emb = word_embs[0]
                         trace_words.append(word_avg_emb.tolist())
 
                         layout_screen = ScreenLayout(args.dataset + '/' +  json_file_path)
