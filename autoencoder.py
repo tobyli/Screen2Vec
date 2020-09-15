@@ -93,7 +93,7 @@ class ScreenVisualLayout():
 
     def load_screen(self, screen_path):
         im = Image.open(screen_path, 'r')
-        im = im.resize((45,80))
+        im = im.resize((90,160))
         return np.array(im)
 
 class ScreenVisualLayoutDataset(Dataset):
@@ -159,13 +159,15 @@ class ImageLayoutEncoder(nn.Module):
     def __init__(self):
         super(ImageLayoutEncoder, self).__init__()
 
-        self.lin = nn.Linear(10800, 11200)
-        self.layout_encoder = LayoutEncoder()
-        for param in self.layout_encoder.parameters():
-            param.requires_grad = False
+        self.e1 = nn.Linear(43200, 2048)
+        self.e2 = nn.Linear(2048, 256)
+        self.e3 = nn.Linear(256, 64)
+
 
     def forward(self, input):
-        return F.relu(self.layout_encoder(self.lin(input)))
+        encoded = F.relu(self.e3(F.relu(self.e2(F.relu(self.e1(input))))))
+        return encoded
+
     
 
 class ImageLayoutDecoder(nn.Module):
@@ -173,14 +175,13 @@ class ImageLayoutDecoder(nn.Module):
     def __init__(self):
         super(ImageLayoutDecoder, self).__init__()
 
-        self.lin = nn.Linear(11200, 10800)
-        self.layout_decoder = LayoutDecoder()
-        for param in self.layout_decoder.parameters():
-            param.requires_grad = False
-        
+        self.d1 = nn.Linear(64,256)
+        self.d2 = nn.Linear(256, 2048)
+        self.d3 = nn.Linear(2048, 43200)
 
     def forward(self, input):
-        return self.lin(self.layout_decoder(input))
+        decoded = F.relu(self.d3(F.relu(self.d2(F.relu(self.d1(input))))))
+        return decoded
 
 class ImageAutoEncoder(nn.Module):
 
@@ -252,7 +253,7 @@ class ImageTrainer():
     def __init__(self, auto_enc: ImageAutoEncoder, dataloader_train, dataloader_test, l_rate):
         self.model = auto_enc
         self.criterion = nn.MSELoss()
-        self.optimizer = torch.optim.Adam(list(self.model.encoder.lin.parameters()) + list(self.model.decoder.lin.parameters()), lr=l_rate)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=l_rate)
         self.train_data = dataloader_train
         self.test_data = dataloader_test
 

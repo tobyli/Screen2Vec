@@ -18,7 +18,6 @@ parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in 
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-t", "--type", type=int, default=0, help="0 to create layout autoencoder, 1 to create visual autoencoder")
-parser.add_argument("-m", "--model", type=str, default="", help="path to layout autoencoder if training a visual one")
 
 args = parser.parse_args()
 
@@ -84,10 +83,6 @@ elif args.type == 1:
 
 
     model = ImageAutoEncoder()
-    layout_model = LayoutAutoEncoder()
-    layout_model.load_state_dict(torch.load(args.model))
-    model.encoder.layout_encoder = layout_model.enc
-    model.decoder.layout_decoder = layout_model.dec
     model.cuda()
 
     trainer = ImageTrainer(model, train_loader, test_loader, args.rate)
