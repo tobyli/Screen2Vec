@@ -240,5 +240,5 @@ if args.net_version in [4,6,7,8]:
     print(str(toppointone/total) + " of the predictions were in the top 0.1%")
     print(str(topone/total) + " of the predictions were in the top 1%")
     print(str(topfive/total) + " of the predictions were in the top 5%")
-    print("rmse error is: " + str(total_rmse/i))
+    print("rmse error is: " + str(total_rmse))
 
