@@ -3,7 +3,9 @@ import torch
 import torch.nn as nn
 from sentence_transformers import SentenceTransformer
 import json
+import math
 import scipy
+import tqdm
 import numpy as np
 from torch.utils.data import DataLoader
 from UI2Vec import UI2Vec, HiddenLabelPredictorModel
@@ -19,6 +21,7 @@ parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number
 parser.add_argument("-r", "--range", type=float, default=0.1, help="what proportion of results to look in")
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to json of text in vocab")
 parser.add_argument("-x", "--extra", type=int, default=0, help="1 to display clustering results")
+parser.add_argument("-d", "--data", required=True, type=str, default=None, help="path to dataset")
 args = parser.parse_args()
 
 n = args.num_predictors
@@ -34,13 +37,10 @@ with open(vocab_path) as f:
 
 vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
 
-print("length of vocab is " + str(len(vocab.embeddings)))
-print("length of vocab is " + str(len(vocab.vocab_list)))
 
-input_path = 'dataset/data/'
+input_path = args.data
 
 
-print(int(args.range * len(vocab_list)))
 correct_text = 0
 correct_class = 0
 correct_both = 0
@@ -69,7 +69,12 @@ data_loader = DataLoader(dataset, batch_size=1)
 
 
 i = 0
-for data in data_loader:
+
+data_itr = tqdm.tqdm(enumerate(data_loader),
+                              total=len(data_loader),
+                              bar_format="{l_bar}{r_bar}")
+
+for idx, data in data_itr:
 # run it through the network
     element = data[0]
     context = data[1]
@@ -81,7 +86,7 @@ for data in data_loader:
     classes = torch.arange(predictor.num_classes, dtype=torch.long)
     class_comparison = predictor.model.embedder.UI_embedder(classes).detach()
 
-    diff = prediction_output - torch.cat((vocab.embeddings[int(element_target_index)], class_comparison[int(target_class)]))
+    diff = (prediction_output - torch.cat((vocab.embeddings[int(element_target_index)], class_comparison[int(target_class)]))).detach().squeeze(0)
     total_se += sum(diff**2)
     total_vector_lengths += np.linalg.norm(diff)
     
@@ -130,7 +135,7 @@ for data in data_loader:
         elif int(element_target_index) in text_closest_fiveperc:
             topfive_text +=1
     if int(target_class) is not 0:
-        total_text+=1
+        total_class+=1
         if int(target_class)==class_closest_idx:
             correct_class +=1
             toppointzeroone_class+=1
@@ -156,7 +161,7 @@ for data in data_loader:
         if int(target_class)==class_closest_idx and int(element_target_index)==text_closest_idx:
             correct_both +=1
 
-total_rmse = math.sqrt(total_se/i)/(total_vector_lengths/i)
+rmse = math.sqrt(total_se/i)/(total_vector_lengths/i)
 print(str(correct_text/total_text) + " of the text predictions were exactly correct")
 print(str(toppointzeroone_text/total_text) + " of the text predictions were in the top 0.01%")
 print(str(toppointone_text/total_text) + " of the text predictions were in the top 0.1%")
@@ -171,4 +176,4 @@ print(str(topfive_class/total_class) + " of the class predictions were in the to
 
 print(str(correct_both) + " of the predictions were right on both counts")
 
-print("rmse error is: " + str(total_rmse/i))
+print("rmse error is: " + str(rmse))
