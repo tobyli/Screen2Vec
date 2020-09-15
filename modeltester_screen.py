@@ -204,7 +204,7 @@ if args.net_version in [4,6,7,8]:
             distances = scipy.spatial.distance.cdist(c.detach()[idx].unsqueeze(dim=0), comp, "cosine")[0]
         
             
-            temp = np.argpartition(distances, (0,int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+            temp = np.argpartition(distances, (0,int(0.0001 * len(distances)), int(0.001 * len(distances)), int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
             closest_idx = temp[0]
             closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
             closest_pointoneperc = temp[:int(0.001 * len(distances))]
