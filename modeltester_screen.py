@@ -5,6 +5,7 @@ import torch.nn as nn
 import json
 import scipy
 import numpy as np
+import tqdm
 from torch.utils.data import DataLoader
 from Screen2Vec import Screen2Vec
 from dataset.dataset import TesterRicoDataset, RicoTrace, RicoScreen
@@ -179,11 +180,15 @@ if args.net_version in [4,6,7,8,9]:
 
     error = nn.MSELoss()
 
+
+    data_itr = tqdm.tqdm(enumerate(data_loader),
+                              total=len(data_loader),
+                              bar_format="{l_bar}{r_bar}")
     i = 0
     eek = 0
     total_se = 0
     total_vector_lengths = 0
-    for data in data_loader:
+    for data_idx, data in data_itr:
         UIs, descr, trace_screen_lengths, index, layouts = data
     # run it through the network
         UIs, descr, trace_screen_lengths, index, layouts = data
