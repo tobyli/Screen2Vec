@@ -51,14 +51,17 @@ toppointzeroone_text = 0
 toppointone_text = 0
 topone_text = 0
 topfive_text = 0
+topten_text = 0
 toppointzeroone_class = 0
 toppointone_class = 0
 topone_class = 0
 topfive_class = 0
+topten_class = 0
 toppointzeroone_both = 0
 toppointone_both = 0
 topone_both = 0
 topfive_both = 0
+topten_both = 0
 
 total_se = 0
 total_vector_lengths = 0
@@ -76,6 +79,7 @@ data_itr = tqdm.tqdm(enumerate(data_loader),
 
 for idx, data in data_itr:
 # run it through the network
+    i+=1
     element = data[0]
     context = data[1]
     # forward the training stuff (prediction)
@@ -102,6 +106,7 @@ for idx, data in data_itr:
     text_closest_pointoneperc = text_temp[:int(0.001 * len(vocab_list))]
     text_closest_oneperc = text_temp[:int(0.01 * len(vocab_list))]
     text_closest_fiveperc = text_temp[:int(0.05 * len(vocab_list))]
+    text_closest_tenperc = text_temp[:int(0.1 * len(vocab_list))]
 
     class_distances = scipy.spatial.distance.cdist(class_prediction_output, class_comparison, "cosine")[0]
 
@@ -110,7 +115,8 @@ for idx, data in data_itr:
     class_closest_pointzerooneperc = class_temp[:int(0.0001 * len(class_prediction_output))]
     class_closest_pointoneperc = class_temp[:int(0.001 * len(class_prediction_output))]
     class_closest_oneperc = class_temp[:int(0.01 * len(class_prediction_output))]
-    class_closest_fiveperc = class_temp[:int(0.1 * len(class_prediction_output))]
+    class_closest_fiveperc = class_temp[:int(0.05 * len(class_prediction_output))]
+    class_closest_tenperc = class_temp[:int(0.1 * len(class_prediction_output))]
 
     if int(element_target_index) is not 0:
         total_text+=1
@@ -120,20 +126,27 @@ for idx, data in data_itr:
             toppointone_text +=1
             topone_text +=1
             topfive_text +=1
+            topten_text +=1
         elif int(element_target_index) in text_closest_pointzerooneperc:
             toppointzeroone_text +=1
             toppointone_text +=1
             topone_text +=1
             topfive_text +=1
+            topten_text +=1
         elif int(element_target_index) in text_closest_pointoneperc:
             toppointone_text +=1
             topone_text +=1
             topfive_text +=1
+            topten_text +=1
         elif int(element_target_index) in text_closest_oneperc:
             topone_text +=1
             topfive_text +=1
+            topten_text +=1
         elif int(element_target_index) in text_closest_fiveperc:
             topfive_text +=1
+            topten_text +=1
+        elif int(element_target_index) in text_closest_tenperc:
+            topten_text +=1
     if int(target_class) is not 0:
         total_class+=1
         if int(target_class)==class_closest_idx:
@@ -142,24 +155,56 @@ for idx, data in data_itr:
             toppointone_class +=1
             topone_class +=1
             topfive_class +=1
+            topten_class +=1
         elif int(target_class) in class_closest_pointzerooneperc:
             toppointzeroone_class +=1
             toppointone_class +=1
             topone_class +=1
             topfive_class +=1
+            topten_class +=1
         elif int(target_class) in class_closest_pointoneperc:
             toppointone_class +=1
             topone_class +=1
             topfive_class +=1
+            topten_class +=1
         elif int(target_class) in class_closest_oneperc:
             topone_class +=1
             topfive_class +=1
+            topten_class +=1
         elif int(target_class) in class_closest_fiveperc:
             topfive_class +=1
+            topten_class +=1
+        elif int(target_class) in class_closest_tenperc:
+            topten_class +=1
     if int(target_class) is not 0 and int(element_target_index) is not 0:
         total_both +=1
         if int(target_class)==class_closest_idx and int(element_target_index)==text_closest_idx:
             correct_both +=1
+            toppointzeroone_both+=1
+            toppointone_both +=1
+            topone_both +=1
+            topfive_both +=1
+            topten_both +=1
+        elif int(target_class) in class_closest_pointzerooneperc and int(element_target_index) in text_closest_pointzerooneperc:
+            toppointzeroone_both +=1
+            toppointone_both +=1
+            topone_both +=1
+            topfive_both +=1
+            topten_both +=1
+        elif int(target_class) in class_closest_pointoneperc and int(element_target_index) in text_closest_pointoneperc:
+            toppointone_both +=1
+            topone_both +=1
+            topfive_both +=1
+            topten_both +=1
+        elif int(target_class) in class_closest_oneperc and int(element_target_index) in text_closest_oneperc:
+            topone_both +=1
+            topfive_both +=1
+            topten_both +=1
+        elif int(target_class) in class_closest_fiveperc and int(element_target_index) in text_closest_fiveperc:
+            topfive_both +=1
+            topten_both +=1
+        elif int(target_class) in class_closest_tenperc and int(element_target_index) in text_closest_tenperc:
+            topten_both +=1
 
 rmse = math.sqrt(total_se/i)/(total_vector_lengths/i)
 print(str(correct_text/total_text) + " of the text predictions were exactly correct")
@@ -167,13 +212,20 @@ print(str(toppointzeroone_text/total_text) + " of the text predictions were in t
 print(str(toppointone_text/total_text) + " of the text predictions were in the top 0.1%")
 print(str(topone_text/total_text) + " of the text predictions were in the top 1%")
 print(str(topfive_text/total_text) + " of the text predictions were in the top 5%")
+print(str(topten_text/total_text) + " of the text predictions were in the top 10%")
 
 print(str(correct_class/total_class) + " of the class predictions were exactly correct")
 print(str(toppointzeroone_class/total_class) + " of the class predictions were in the top 0.01%")
 print(str(toppointone_class/total_class) + " of the class predictions were in the top 0.1%")
 print(str(topone_class/total_class) + " of the class predictions were in the top 1%")
 print(str(topfive_class/total_class) + " of the class predictions were in the top 5%")
+print(str(topten_class/total_class) + " of the class predictions were in the top 10%")
 
-print(str(correct_both) + " of the predictions were right on both counts")
+print(str(correct_both/total_both) + " of the predictions were right on both counts")
+print(str(toppointzeroone_both/total_both) + " of the predictions were in the top 0.01% on both counts")
+print(str(toppointone_both/total_both) + " of the predictions were in the top 0.1% on both counts")
+print(str(topone_both/total_both) + " of the predictions were in the top 1% on both counts")
+print(str(topfive_both/total_both) + " of the predictions were in the top 5% on both counts")
+print(str(topten_both/total_both) + " of the predictions were in the top 10% on both counts")
 
 print("rmse error is: " + str(rmse))
