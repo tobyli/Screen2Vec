@@ -89,7 +89,7 @@ data_itr = tqdm.tqdm(enumerate(data_loader),
 i = 0
 total_se = 0
 total_vector_lengths = 0
-for idx, data in data_itr:
+for data_idx, data in data_itr:
     trace, index = data
     trace = trace.squeeze(0)
     index = index.squeeze(0)
@@ -97,15 +97,15 @@ for idx, data in data_itr:
     i+=len(index)
     # forward the training stuff (prediction)
     # find which vocab vector has the smallest cosine distance
+    distances = scipy.spatial.distance.cdist(result.detach(), dataset.embeddings, "cosine")
     for idx in range(len(index)):
         target = index[idx]
         diff = result[idx].detach()-torch.tensor(dataset.embeddings[target])
         sqer = sum(diff**2)
         total_se += sqer
         total_vector_lengths += np.linalg.norm(diff)
-        distances = scipy.spatial.distance.cdist(result[idx].unsqueeze(0).detach(), dataset.embeddings, "cosine")[0]
-    
-        temp = np.argpartition(distances, (0, int(0.0001 * len(distances)), int(0.001 * len(distances)), int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+
+        temp = np.argpartition(distances[idx], (0, int(0.0001 * len(distances[idx])), int(0.001 * len(distances[idx])), int(0.01 * len(distances[idx])), int(0.05 * len(distances[idx])), int(0.1 * len(distances[idx]))))
         closest_idx = temp[0]
         closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
         closest_pointoneperc = temp[:int(0.001 * len(distances))]
@@ -182,7 +182,7 @@ for idx, data in data_itr:
         total_se += sqer
         total_vector_lengths += np.linalg.norm(diff)
         distances = scipy.spatial.distance.cdist(result[idx].unsqueeze(0).detach(), dataset.embeddings, "cosine")[0]
-    
+
         temp = np.argpartition(distances, (0, int(0.0001 * len(distances)), int(0.001 * len(distances)), int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
         closest_idx = temp[0]
         closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
