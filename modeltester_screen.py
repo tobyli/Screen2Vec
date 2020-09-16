@@ -197,6 +197,7 @@ if args.net_version in [4,6,7,8,9]:
         c,result,_ = predictor(UIs, descr, trace_screen_lengths, layouts, False)
         descr = torch.narrow(descr,1,0,1).squeeze(1)
         c = torch.cat((c,descr),dim=-1)
+        distances = scipy.spatial.distance.cdist(c.detach(), comp, "cosine")
         # find which vocab vector has the smallest cosine distance
         for idx in range(len(index)):
             correct_index = vocab_rvs_indx[index[idx][0]][index[idx][1]]
@@ -206,10 +207,10 @@ if args.net_version in [4,6,7,8,9]:
             sqer = sum(diff**2)
             total_se += sqer
             total_vector_lengths += np.linalg.norm(diff)
-            distances = scipy.spatial.distance.cdist(c.detach()[idx].unsqueeze(dim=0), comp, "cosine")[0]
+            
         
             
-            temp = np.argpartition(distances, (0,int(0.0001 * len(distances)), int(0.001 * len(distances)), int(0.01 * len(distances)), int(0.05 * len(distances)), int(0.1 * len(distances))))
+            temp = np.argpartition(distances[idx], (0,int(0.0001 * len(distances[idx])), int(0.001 * len(distances[idx])), int(0.01 * len(distances[idx])), int(0.05 * len(distances[idx])), int(0.1 * len(distances[idx]))))
             closest_idx = temp[0]
             closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
             closest_pointoneperc = temp[:int(0.001 * len(distances))]
