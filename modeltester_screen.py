@@ -165,7 +165,7 @@ vocab = ScreenVocab(dataset)
 # print(str(eek/total) + " of the predictions were correct, but predicted a screen nearby in the trace")
 
 
-if args.net_version in [4,6,7,8]:
+if args.net_version in [4,6,7,8,9]:
     end_index = 0
     comp = torch.empty(0,bert_size*2)
     while end_index != -1:

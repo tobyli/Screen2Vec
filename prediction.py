@@ -36,7 +36,10 @@ class TracePredictor(nn.Module):
         else:
             context = torch.narrow(screens, 1, 0, screens.size()[1]-1)
             result = torch.narrow(screens, 1, screens.size()[1]-1, 1).squeeze(1)
-        
+        if self.net_version == 9:
+            # baseline option
+            h = torch.sum(context, dim = -2)/len(context)
+            return h, result, context
         # run screens in trace through model to predict last one
         output, (h,c) = self.combiner(context)
         if self.net_version == 5:
