@@ -20,6 +20,7 @@ parser.add_argument("-m", "--model", required=True, type=str, help="path to pret
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one when model was trained")
 parser.add_argument("-r", "--range", type=float, default=0.1, help="what proportion of results to look in")
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to json of text in vocab")
+parser.add_argument("-ve", "--vocab_embedding_path", type=str, help="path to vocab embedding")
 parser.add_argument("-x", "--extra", type=int, default=0, help="1 to display clustering results")
 parser.add_argument("-d", "--data", required=True, type=str, default=None, help="path to dataset")
 args = parser.parse_args()
@@ -35,7 +36,7 @@ vocab_path = args.vocab_path
 with open(vocab_path) as f:
     vocab_list = json.load(f, encoding='utf8')
 
-vocab = BertScreenVocab(vocab_list, len(vocab_list), bert)
+vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, embedding_path=args.vocab_embedding_path)
 
 
 input_path = args.data
