@@ -189,5 +189,5 @@ for model_idx in range(len(model_list)):
     print(str(toppointone/total) + " of the predictions were in the top 0.1%")
     print(str(topone/total) + " of the predictions were in the top 1%")
     print(str(topfive/total) + " of the predictions were in the top 5%")
-    print("rmse error is: " + str(total_rmse))
+    print("rmse error is: " + str(total_rmse), flush=True)
 
