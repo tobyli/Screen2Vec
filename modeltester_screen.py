@@ -153,12 +153,14 @@ for model_idx in range(len(model_list)):
             total_se += sqer
             total_vector_lengths += np.linalg.norm(c.detach()[idx])
             
-            temp = np.argpartition(distances[idx], (0,int(0.0001 * len(distances[idx])), int(0.001 * len(distances[idx])), int(0.01 * len(distances[idx])), int(0.05 * len(distances[idx])), int(0.1 * len(distances[idx]))))
+            comp_len = len(distances[idx])
+
+            temp = np.argpartition(distances[idx], (0,int(0.0001 * comp_len), int(0.001 * comp_len), int(0.01 * comp_len), int(0.05 * comp_len), int(0.1 * comp_len)))
             closest_idx = temp[0]
-            closest_pointzerooneperc = temp[:int(0.0001 * len(distances))]
-            closest_pointoneperc = temp[:int(0.001 * len(distances))]
-            closest_oneperc = temp[:int(0.01 * len(distances))]
-            closest_fiveperc = temp[:int(0.05 * len(distances))]
+            closest_pointzerooneperc = temp[:int(0.0001 * comp_len)]
+            closest_pointoneperc = temp[:int(0.001 * comp_len)]
+            closest_oneperc = temp[:int(0.01 * comp_len)]
+            closest_fiveperc = temp[:int(0.05 * comp_len)]
 
             if correct_index==closest_idx:
                 correct +=1
