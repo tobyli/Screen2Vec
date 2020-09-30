@@ -161,7 +161,6 @@ class ImageLayoutEncoder(nn.Module):
 
         self.e1 = nn.Linear(43200, 2048)
         self.e2 = nn.Linear(2048, 256)
-        self.e3 = nn.Linear(256, 64)
 
 
     def forward(self, input):
@@ -175,7 +174,6 @@ class ImageLayoutDecoder(nn.Module):
     def __init__(self):
         super(ImageLayoutDecoder, self).__init__()
 
-        self.d1 = nn.Linear(64,256)
         self.d2 = nn.Linear(256, 2048)
         self.d3 = nn.Linear(2048, 43200)
 
