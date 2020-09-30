@@ -164,7 +164,7 @@ class ImageLayoutEncoder(nn.Module):
 
 
     def forward(self, input):
-        encoded = F.relu(self.e3(F.relu(self.e2(F.relu(self.e1(input))))))
+        encoded = F.relu(self.e2(F.relu(self.e1(input))))
         return encoded
 
     
@@ -174,11 +174,11 @@ class ImageLayoutDecoder(nn.Module):
     def __init__(self):
         super(ImageLayoutDecoder, self).__init__()
 
-        self.d2 = nn.Linear(256, 2048)
-        self.d3 = nn.Linear(2048, 43200)
+        self.d1 = nn.Linear(256, 2048)
+        self.d2 = nn.Linear(2048, 43200)
 
     def forward(self, input):
-        decoded = F.relu(self.d3(F.relu(self.d2(F.relu(self.d1(input))))))
+        decoded = F.relu(self.d2(F.relu(self.d1(input))))
         return decoded
 
 class ImageAutoEncoder(nn.Module):
