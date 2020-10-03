@@ -87,9 +87,13 @@ def get_all_labeled_uis_from_node_tree(node, in_list: bool, in_drawer: bool, tes
             text_class = 24
     if node["bounds"]:
         bounds = node["bounds"]
-    if node["visible-to-user"] and testing and text_class==0:
+    if "visible-to-user" in node:
+        visibility = node["visible-to-user"]
+    elif "visible_to_user" in node:
+        visibility = True #node["visible_to_user"]
+    if visibility and testing and text_class==0:
         results.append([text, text_class, bounds, the_class])
-    elif node["visible-to-user"]:
+    elif visibility:
         results.append([text, text_class, bounds])
     if 'children' in node and isinstance(node['children'], Iterable):
         for child_node in node['children']:
@@ -107,3 +111,10 @@ def get_all_labeled_uis_from_rico_screen(rico_screen: RicoScreen, testing=False)
         return get_all_labeled_uis_from_node_tree(rico_screen.activity.root_node, False, False, testing)
 
 
+def get_hierarchy_dist_from_node_tree(node):
+    results = []
+    if 'children' in node and isinstance(node['children'], Iterable):
+        for child_node in node['children']:
+            if (isinstance(child_node, dict)):
+                get_all_labeled_uis_from_node_tree(child_node)
+    return results
