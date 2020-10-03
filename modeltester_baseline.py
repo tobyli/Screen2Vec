@@ -259,6 +259,14 @@ for idx, data in data_itr:
     i+=len(index)
     # forward the training stuff (prediction)
     # find which vocab vector has the smallest cosine distance
+    trace, index = data
+    trace = trace.squeeze(0)
+    index = index.squeeze(0)
+    result = predictor(trace)
+    i+=len(index)
+    # forward the training stuff (prediction)
+    # find which vocab vector has the smallest cosine distance
+    distances = scipy.spatial.distance.cdist(result.detach(), dataset.embeddings, "cosine")
     for idx in range(len(index)):
         target = index[idx]
         diff = result[idx].detach()-torch.tensor(dataset.embeddings[target])
