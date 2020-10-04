@@ -151,7 +151,7 @@ for model_idx in range(len(model_list)):
             diff = c.detach()[idx]-comp[correct_index]
             sqer = sum(diff**2)
             total_se += sqer
-            total_vector_lengths += np.linalg.norm(c.detach()[idx])
+            total_vector_lengths += np.linalg.norm(comp[correct_index])
             
             comp_len = len(distances[idx])
 
