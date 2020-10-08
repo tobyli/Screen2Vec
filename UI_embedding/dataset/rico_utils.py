@@ -113,24 +113,27 @@ def get_all_labeled_uis_from_rico_screen(rico_screen: RicoScreen, testing=False)
         return get_all_labeled_uis_from_node_tree(rico_screen.activity.root_node, False, False, testing)
 
 
-def get_hierarchy_dist_from_node_tree(node, node_idx, node_parent_idx, distance_mtx):
+def get_hierarchy_dist_from_node_tree(node, node_idx, node_parent_idx, parent_dif, distance_mtx):
     # go through parent and add one
     if "visible-to-user" in node and node["visible-to-user"]:
         for i in range(node_idx):
             #print(i, node_parent_idx, node_idx)
-            distance_mtx[i,node_idx] = distance_mtx[node_parent_idx,i] + 1
+            distance_mtx[i,node_idx] = distance_mtx[node_parent_idx,i] + parent_dif
             distance_mtx[node_idx,i] = distance_mtx[i,node_idx]
         node_parent_idx = node_idx
         node_idx += 1
+        parent_dif = 1
+    else:
+        parent_dif += 1
     if 'children' in node and isinstance(node['children'], Iterable):
         for child_node in node['children']:
             if (isinstance(child_node, dict)):
-                distance_mtx, fin_idx = get_hierarchy_dist_from_node_tree(child_node, node_idx, node_parent_idx, distance_mtx)
+                distance_mtx, fin_idx = get_hierarchy_dist_from_node_tree(child_node, node_idx, node_parent_idx, parent_dif, distance_mtx)
                 node_idx = fin_idx
     return distance_mtx, node_idx
 
 def get_hierarchy_dist_from_rico_screen(rico_screen: RicoScreen, num_uis):
     if rico_screen.activity is not None and rico_screen.activity.root_node is not None:
         arr = np.zeros((num_uis, num_uis))
-        distances, _ = get_hierarchy_dist_from_node_tree(rico_screen.activity.root_node,0, -1, arr)
+        distances, _ = get_hierarchy_dist_from_node_tree(rico_screen.activity.root_node,0, -1, 1, arr)
         return distances
