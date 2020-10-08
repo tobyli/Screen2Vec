@@ -115,16 +115,16 @@ def get_all_labeled_uis_from_rico_screen(rico_screen: RicoScreen, testing=False)
 
 def get_hierarchy_dist_from_node_tree(node, node_idx, node_parent_idx, distance_mtx):
     # go through parent and add one
-    for i in range(node_idx):
-        #print(i, node_parent_idx, node_idx)
-        distance_mtx[i,node_idx] = distance_mtx[node_parent_idx,i] + 1
-        distance_mtx[node_idx,i] = distance_mtx[i,node_idx]
-    node_parent_idx = node_idx
+    if "visible-to-user" in node and node["visible-to-user"]:
+        for i in range(node_idx):
+            #print(i, node_parent_idx, node_idx)
+            distance_mtx[i,node_idx] = distance_mtx[node_parent_idx,i] + 1
+            distance_mtx[node_idx,i] = distance_mtx[i,node_idx]
+        node_parent_idx = node_idx
+        node_idx += 1
     if 'children' in node and isinstance(node['children'], Iterable):
-        for child_num, child_node in enumerate(node['children']):
-            if (isinstance(child_node, dict)) and "visible-to-user" in node and node["visible-to-user"]:
-                if child_num == 0:
-                    node_idx += 1
+        for child_node in node['children']:
+            if (isinstance(child_node, dict)):
                 distance_mtx, fin_idx = get_hierarchy_dist_from_node_tree(child_node, node_idx, node_parent_idx, distance_mtx)
                 node_idx = fin_idx
     return distance_mtx, node_idx
