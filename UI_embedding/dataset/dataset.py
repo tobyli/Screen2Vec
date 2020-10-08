@@ -1,6 +1,6 @@
 from torch.utils.data import Dataset, DataLoader, IterableDataset
 from .playstore_scraper import get_app_description
-from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_uis_from_rico_screen, ScreenInfo
+from .rico_utils import get_all_texts_from_rico_screen, get_all_labeled_uis_from_rico_screen, get_hierarchy_dist_from_rico_screen, ScreenInfo
 from .rico_dao import load_rico_screen_dict
 from sentence_transformers import SentenceTransformer
 import torch
@@ -8,6 +8,7 @@ import os
 import json
 import random
 import math
+import numpy as np
 
 
 
@@ -15,10 +16,11 @@ class RicoDataset(Dataset):
     '''
     has traces, which have screens
     '''
-    def __init__(self, data_path, fully_load=True):
+    def __init__(self, data_path, fully_load=True, hierarchy=False):
         self.traces = []
         self.idmap = {}
         self.location = data_path
+        self.hierarchy = hierarchy
         self.token_model = SentenceTransformer('bert-base-nli-mean-tokens')
         if fully_load:
             self.load_all_traces()
@@ -42,7 +44,7 @@ class RicoDataset(Dataset):
         # loads a trace
         # trace_id should come from trace_data_path
         if not self.idmap.get(trace_id):
-            trace_to_add = RicoTrace(trace_data_path, True)
+            trace_to_add = RicoTrace(trace_data_path, True, self.hierarchy)
             self.traces.append(trace_to_add)
             self.idmap[trace_id] = len(self.traces) - 1
 
@@ -50,9 +52,10 @@ class RicoTrace(IterableDataset):
     """
     A list of screens
     """
-    def __init__(self, data_path, fully_load):
+    def __init__(self, data_path, fully_load, hierarchy=False):
         self.trace_screens = []
         self.location = data_path
+        self.hierarchy = hierarchy
         if fully_load:
             self.load_all_screens()
         pass
@@ -64,7 +67,7 @@ class RicoTrace(IterableDataset):
         for view_hierarchy_json in os.listdir(self.location + '/' + 'view_hierarchies'):
             if view_hierarchy_json.endswith('.json') and (not view_hierarchy_json.startswith('.')):
                 json_file_path = self.location + '/' + 'view_hierarchies' + '/' + view_hierarchy_json
-                cur_screen = RicoScreen(json_file_path)
+                cur_screen = RicoScreen(json_file_path, self.hierarchy)
                 if(len(cur_screen.labeled_uis) > 1):
                     self.trace_screens.append(cur_screen)
 
@@ -77,7 +80,7 @@ class ScreenDataset(Dataset):
     Has many Rico Screens outside of their traces
     Does not include screen descriptions 
     """
-    def __init__(self, rico_traces, n):
+    def __init__(self, rico_traces, n, hierarchy=False):
         self.screens = []
         for trace in rico_traces:
             self.screens += trace.trace_screens
@@ -103,11 +106,15 @@ class RicoScreen():
     The information from one screenshot of a app- package name
     and labeled text (text, class, and location)
     """
-    def __init__(self, data_path):
+    def __init__(self, data_path, hierarchy=False):
         self.location = data_path
         package_name, labeled_uis = self.get_rico_info()
         self.labeled_uis = labeled_uis
         self.package_name = package_name
+        self.hierarchy = hierarchy
+        if self.hierarchy:
+            self.distances = np.empty((0,0))
+            self.load_distances()
         #self.app_description = description
 
     def get_rico_info(self):
@@ -116,11 +123,19 @@ class RicoScreen():
                 rico_screen = load_rico_screen_dict(json.load(f))
                 package_name = rico_screen.activity_name.split('/')[0]
                 labeled_uis = get_all_labeled_uis_from_rico_screen(rico_screen)
-                #description = get_app_description(package_name)
             return package_name, labeled_uis # , description
         except TypeError as e:
             print(str(e) + ': ' + self.location)
             return '', []
+
+    def load_distances(self):
+        try:
+            with open(self.location) as f:
+                rico_screen = load_rico_screen_dict(json.load(f))
+                self.distances = get_hierarchy_dist_from_rico_screen(rico_screen, len(self.labeled_uis))
+        except TypeError as e:
+            print(str(e) + ': ' + self.location)
+            return np.empty((0,0))
     
     def get_text_info(self, index):
         if index >=0:
@@ -133,7 +148,11 @@ class RicoScreen():
         if len(self.labeled_uis) <= n:
             close_indices = [*range(len(self.labeled_uis))]
         else:
-            distances = [[self.distance_between(bounds_to_check, self.labeled_uis[x][2]), x] 
+            if not self.hierarchy:
+                distances = [[self.distance_between(bounds_to_check, self.labeled_uis[x][2]), x] 
+                            for x in range(len(self.labeled_uis))]
+            else: 
+                distances = [[self.distances[index,x], x]
                             for x in range(len(self.labeled_uis))]
             distances.sort()
             # closest will be the same text

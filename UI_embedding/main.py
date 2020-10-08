@@ -24,8 +24,8 @@ parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epoc
 parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to file with full vocab")
 parser.add_argument("-m", "--embedding_path",  type=str, default=None, help="path to file with precomputed vocab embeddings")
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
-parser.add_argument("-l", "--loss", type=int, default=0, help="1 to use cosine embedding loss, 0 to use softmax dot product")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
+parser.add_argument("-hi", "--hierarchy", action="store_true")
 
 
 args = parser.parse_args()
@@ -38,7 +38,7 @@ vocab = BertScreenVocab(vocab_list, len(vocab_list), bert, 768, args.embedding_p
 
 print("Length of vocab is " + str(len(vocab_list)))
 
-rico_dataset = RicoDataset(args.dataset)
+rico_dataset = RicoDataset(args.dataset, hierarchy=args.hierarchy)
 
 dataset_size = len(rico_dataset)
 indices = list(range(dataset_size))
@@ -71,7 +71,7 @@ test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=
 
 predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors) 
 
-trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), args.rate, args.num_predictors, args.loss, 768)
+trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), args.rate, args.num_predictors, 0, 768)
 
 test_loss_data = []
 train_loss_data = []

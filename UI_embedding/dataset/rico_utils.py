@@ -2,6 +2,8 @@ from collections.abc import Iterable
 from .rico_models import RicoScreen, RicoActivity, ScreenInfo
 from .convert_class_to_label import convert_class_to_text_label
 
+import numpy as np
+
 def get_all_texts_from_node_tree(node):
     results = []
     if 'text' in node and isinstance(node['text'], Iterable):
@@ -111,10 +113,24 @@ def get_all_labeled_uis_from_rico_screen(rico_screen: RicoScreen, testing=False)
         return get_all_labeled_uis_from_node_tree(rico_screen.activity.root_node, False, False, testing)
 
 
-def get_hierarchy_dist_from_node_tree(node):
-    results = []
+def get_hierarchy_dist_from_node_tree(node, node_idx, node_parent_idx, distance_mtx):
+    # go through parent and add one
+    for i in range(node_idx):
+        #print(i, node_parent_idx, node_idx)
+        distance_mtx[i,node_idx] = distance_mtx[node_parent_idx,i] + 1
+        distance_mtx[node_idx,i] = distance_mtx[i,node_idx]
+    node_parent_idx = node_idx
     if 'children' in node and isinstance(node['children'], Iterable):
-        for child_node in node['children']:
-            if (isinstance(child_node, dict)):
-                get_all_labeled_uis_from_node_tree(child_node)
-    return results
+        for child_num, child_node in enumerate(node['children']):
+            if (isinstance(child_node, dict)) and "visible-to-user" in node and node["visible-to-user"]:
+                if child_num == 0:
+                    node_idx += 1
+                distance_mtx, fin_idx = get_hierarchy_dist_from_node_tree(child_node, node_idx, node_parent_idx, distance_mtx)
+                node_idx = fin_idx
+    return distance_mtx, node_idx
+
+def get_hierarchy_dist_from_rico_screen(rico_screen: RicoScreen, num_uis):
+    if rico_screen.activity is not None and rico_screen.activity.root_node is not None:
+        arr = np.zeros((num_uis, num_uis))
+        distances, _ = get_hierarchy_dist_from_node_tree(rico_screen.activity.root_node,0, -1, arr)
+        return distances
