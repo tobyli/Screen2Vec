@@ -131,6 +131,7 @@ class RicoScreen():
     def load_distances(self):
         try:
             with open(self.location) as f:
+                print(self.location)
                 rico_screen = load_rico_screen_dict(json.load(f))
                 self.distances = get_hierarchy_dist_from_rico_screen(rico_screen, len(self.labeled_uis))
         except TypeError as e:
