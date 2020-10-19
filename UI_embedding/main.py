@@ -26,6 +26,7 @@ parser.add_argument("-m", "--embedding_path",  type=str, default=None, help="pat
 parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-hi", "--hierarchy", action="store_true")
+parser.add_argument("-p", "--prev_model",  type=str, default=None, help="path to file with previous model")
 
 
 args = parser.parse_args()
@@ -70,6 +71,9 @@ test_data_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=
 #     test_data_loader = None
 
 predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors) 
+
+if args.prev_model:
+    predictor.load_state_dict(torch.load(args.prev_model))
 
 trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), args.rate, args.num_predictors, 0, 768)
 
