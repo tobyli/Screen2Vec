@@ -23,6 +23,7 @@ parser.add_argument("-v", "--vocab_path", required=True, type=str, help="path to
 parser.add_argument("-ve", "--vocab_embedding_path", type=str, help="path to vocab embedding")
 parser.add_argument("-x", "--extra", type=int, default=0, help="1 to display clustering results")
 parser.add_argument("-d", "--data", required=True, type=str, default=None, help="path to dataset")
+parser.add_argument("-hi", "--hierarchy", action="store_true")
 args = parser.parse_args()
 
 n = args.num_predictors
@@ -67,7 +68,7 @@ topten_both = 0
 total_se = 0
 total_vector_lengths = 0
 # load the data
-dataset_rico = RicoDataset(input_path)
+dataset_rico = RicoDataset(input_path, hierarchy=args.hierarchy)
 dataset = ScreenDataset(dataset_rico, n)
 data_loader = DataLoader(dataset, batch_size=1)
 
@@ -101,24 +102,23 @@ for idx, data in data_itr:
     # find which vocab vector has the smallest cosine distance
     text_distances = scipy.spatial.distance.cdist(text_prediction_output.detach().numpy(), vocab.embeddings, "cosine")[0]
 
-    text_temp = np.argpartition(text_distances, (1, int(0.0001 * len(vocab_list)),int(0.001 * len(vocab_list)),int(0.01 * len(vocab_list)),int(0.05 * len(vocab_list)),int(0.1 * len(vocab_list))))
+    text_temp = np.argpartition(text_distances, (1, int(0.0001 * len(text_distances)),int(0.001 * len(text_distances)),int(0.01 * len(text_distances)),int(0.05 * len(text_distances)),int(0.1 * len(text_distances))))
     text_closest_idx = text_temp[0]
-    text_closest_pointzerooneperc = text_temp[:int(0.0001 * len(vocab_list))]
-    text_closest_pointoneperc = text_temp[:int(0.001 * len(vocab_list))]
-    text_closest_oneperc = text_temp[:int(0.01 * len(vocab_list))]
-    text_closest_fiveperc = text_temp[:int(0.05 * len(vocab_list))]
-    text_closest_tenperc = text_temp[:int(0.1 * len(vocab_list))]
+    text_closest_pointzerooneperc = text_temp[:int(0.0001 * len(text_distances))]
+    text_closest_pointoneperc = text_temp[:int(0.001 * len(text_distances))]
+    text_closest_oneperc = text_temp[:int(0.01 * len(text_distances))]
+    text_closest_fiveperc = text_temp[:int(0.05 * len(text_distances))]
+    text_closest_tenperc = text_temp[:int(0.1 * len(text_distances))]
 
     class_distances = scipy.spatial.distance.cdist(class_prediction_output, class_comparison, "cosine")[0]
 
-    class_len = len(class_prediction_output.unsqueeze(0))
-    class_temp = np.argpartition(class_distances, (1,int(0.0001 * class_len),int(0.001 * class_len),int(0.01 * class_len),int(0.05 * class_len),int(0.1 * class_len)))
+    class_temp = np.argpartition(class_distances, (1,int(0.0001 * len(class_distances)),int(0.001 * len(class_distances)),int(0.01 * len(class_distances)),int(0.05 * len(class_distances)),int(0.1 * len(class_distances))))
     class_closest_idx = class_temp[0]
-    class_closest_pointzerooneperc = class_temp[:int(0.0001 * class_len)]
-    class_closest_pointoneperc = class_temp[:int(0.001 * class_len)]
-    class_closest_oneperc = class_temp[:int(0.01 * class_len)]
-    class_closest_fiveperc = class_temp[:int(0.05 * class_len)]
-    class_closest_tenperc = class_temp[:int(0.1 * class_len)]
+    class_closest_pointzerooneperc = class_temp[:int(0.0001 * len(class_distances))]
+    class_closest_pointoneperc = class_temp[:int(0.001 * len(class_distances))]
+    class_closest_oneperc = class_temp[:int(0.01 * len(class_distances))]
+    class_closest_fiveperc = class_temp[:int(0.05 * len(class_distances))]
+    class_closest_tenperc = class_temp[:int(0.1 * len(class_distances))]
 
     if int(element_target_index) is not 0:
         total_text+=1
