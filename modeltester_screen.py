@@ -79,8 +79,8 @@ dataset = TesterRicoDataset(args.num_predictors, uis, ui_emb, descr, descr_emb, 
 vocab = ScreenVocab(dataset)
 
 
-model_list = [args.model8, args.model9, args.model4, args.model6, args.model7]
-version_list = [8,9,4,6,7]
+model_list = [args.model4, args.model6, args.model7, args.model8, args.model9]
+version_list = [4,6,7,8,9]
 
 for model_idx in range(len(model_list)):
     correct = 0
