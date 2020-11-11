@@ -27,7 +27,7 @@ parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-hi", "--hierarchy", action="store_true")
 parser.add_argument("-p", "--prev_model",  type=str, default=None, help="path to file with previous model")
-
+parser.add_argument("-l", "--loss", type=str, default="cel")
 
 args = parser.parse_args()
 
@@ -75,7 +75,7 @@ predictor = HiddenLabelPredictorModel(bert, 768, args.num_predictors)
 if args.prev_model:
     predictor.load_state_dict(torch.load(args.prev_model))
 
-trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), args.rate, args.num_predictors, 0, 768)
+trainer = UI2VecTrainer(predictor, train_data_loader, test_data_loader, vocab, len(vocab_list), args.rate, args.num_predictors, 768, args.loss)
 
 test_loss_data = []
 train_loss_data = []

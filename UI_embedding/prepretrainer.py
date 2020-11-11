@@ -14,7 +14,7 @@ class UI2VecTrainer:
     """
 
     def __init__(self, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
-                vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, cos_loss: int, bert_size=768):
+                vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, bert_size=768, optim_type='cel'):
         """
         """
         self.predictor = predictor
@@ -23,8 +23,11 @@ class UI2VecTrainer:
         self.train_data = dataloader_train
         self.test_data = dataloader_test
         self.vocab_size = vocab_size
-        self.cosine_loss = cos_loss
-        self.loss = nn.CrossEntropyLoss(reduction='sum', ignore_index=0)
+        self.optim_type = optim_type
+        if self.optim_type == 'cel':
+            self.loss = nn.CrossEntropyLoss(reduction='sum', ignore_index=0)
+        elif self.optim_type == 'cossim':
+            self.loss = nn.CosineEmbeddingLoss(reduction='sum')
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
@@ -71,17 +74,28 @@ class UI2VecTrainer:
             class_prediction_output = torch.narrow(prediction_output, 1, 768, prediction_output.size()[1] - 768)
             text_prediction_output = text_prediction_output.cuda()
             class_prediction_output = class_prediction_output.cuda()
-            
-            classes = torch.arange(self.predictor.num_classes, dtype=torch.long)
-            class_comparison = self.predictor.model.embedder.UI_embedder(classes).transpose(0,1).cuda()
+            if self.optim_type == 'cel':
+                classes = torch.arange(self.predictor.num_classes, dtype=torch.long)
+                class_comparison = self.predictor.model.embedder.UI_embedder(classes).transpose(0,1).cuda()
 
-            text_dot_products = torch.mm(text_prediction_output, vocab_embeddings)
-            class_dot_products = torch.mm(class_prediction_output, class_comparison)
-            text_dot_products = text_dot_products.cpu()
-            class_dot_products = class_dot_products.cpu()
-            prediction_loss = self.loss(text_dot_products, element_target_index)
-            prediction_loss+= self.loss(class_dot_products, correct_class)
-            total_loss+=float(prediction_loss)
+                text_dot_products = torch.mm(text_prediction_output, vocab_embeddings)
+                class_dot_products = torch.mm(class_prediction_output, class_comparison)
+                text_dot_products = text_dot_products.cpu()
+                class_dot_products = class_dot_products.cpu()
+                prediction_loss = self.loss(text_dot_products, element_target_index)
+                prediction_loss+= self.loss(class_dot_products, correct_class)
+                total_loss+=float(prediction_loss)
+            elif self.optim_type == 'cossim':
+                class_comparison = self.predictor.model.embedder.UI_embedder(correct_class)
+                # build up correct vocab embeddings
+                vocab_comparison = torch.stack([self.vocab.embeddings[target] for target in element_target_index])
+                # vocab_comparison = vocab_embeddings @ element_target_index
+                # build up vectors of ones
+                text_binary = torch.ones(text_prediction_output.size()[-2])
+                class_binary = torch.ones(class_prediction_output.size()[-2])
+                prediction_loss = self.loss(text_prediction_output.cpu(), vocab_comparison, text_binary)
+                prediction_loss+= self.loss(class_prediction_output.cpu(), class_comparison, class_binary)
+                total_loss+=float(prediction_loss)
             if train:
                 self.optimizer.zero_grad()
                 prediction_loss.backward()
