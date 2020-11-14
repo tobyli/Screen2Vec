@@ -27,7 +27,7 @@ class UI2VecTrainer:
         if self.optim_type == 'cel':
             self.loss = nn.CrossEntropyLoss(reduction='sum', ignore_index=0)
         elif self.optim_type == 'cossim':
-            self.loss = nn.CosineEmbeddingLoss(reduction='sum')
+            self.loss = nn.CosineEmbeddingLoss(reduction='sum', margin=1)
 
     def train(self, epoch):
         loss = self.iteration(epoch, self.train_data)
@@ -89,10 +89,17 @@ class UI2VecTrainer:
                 class_comparison = self.predictor.model.embedder.UI_embedder(correct_class)
                 # build up correct vocab embeddings
                 vocab_comparison = torch.stack([self.vocab.embeddings[target] for target in element_target_index])
-                # vocab_comparison = vocab_embeddings @ element_target_index
+
                 # build up vectors of ones
                 text_binary = torch.ones(text_prediction_output.size()[-2])
                 class_binary = torch.ones(class_prediction_output.size()[-2])
+
+                #ignore in loss if target is zero
+                for i in range(len(text_binary)):
+                    if correct_class[i] == 0:
+                        class_binary[i] == -1
+                    if element_target_index[i] == 0:
+                        text_binary[i] == -1
                 prediction_loss = self.loss(text_prediction_output.cpu(), vocab_comparison, text_binary)
                 prediction_loss+= self.loss(class_prediction_output.cpu(), class_comparison, class_binary)
                 total_loss+=float(prediction_loss)
