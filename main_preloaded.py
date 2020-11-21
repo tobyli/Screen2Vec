@@ -48,7 +48,7 @@ parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of n
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 # parser.add_argument("-f", "--folder", type=str, default="", help="path to Screen2Vec folder")
 parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description, 6 to use neither but no description")
-
+parser.add_argument("-l", "--loss", type=str, default="cel")
 
 args = parser.parse_args()
 
@@ -123,7 +123,7 @@ predictor = TracePredictor(model, args.net_version)
 predictor.cuda()
 if args.prev_model:
     predictor.load_state_dict(torch.load(args.prev_model))
-trainer = Screen2VecTrainer(predictor, vocab, vocab, train_data_loader, test_data_loader, args.rate, args.neg_samp)
+trainer = Screen2VecTrainer(predictor, vocab, vocab, train_data_loader, test_data_loader, args.rate, args.neg_samp, loss_type=args.loss)
 
 
 # training occurs below

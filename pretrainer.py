@@ -17,7 +17,7 @@ class Screen2VecTrainer:
     """
 
     def __init__(self, predictor: TracePredictor, vocab_train: ScreenVocab, vocab_test: ScreenVocab, dataloader_train, dataloader_test, 
-                l_rate: float, neg_samp: int):
+                l_rate: float, neg_samp: int, loss_type='cel'):
         """
         predictor: TracePredictor module
         vocab_train: a ScreenVocab from which to find a negative sample for the training data
@@ -26,8 +26,12 @@ class Screen2VecTrainer:
         l_rate: learning rate for optimizer
         neg_samp: number of negative samples to compare against for training data
         """
-        self.predictor = predictor 
-        self.criterion = nn.CrossEntropyLoss(reduction='sum')
+        self.predictor = predictor
+        self.loss_type = loss_type
+        if self.loss_type == 'cel':
+            self.loss = nn.CrossEntropyLoss(reduction='sum')
+        elif self.loss_type == 'cossim':
+            self.loss = nn.CosineEmbeddingLoss(reduction='sum')
         self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
         self.vocab_train = vocab_train
         self.vocab_test = vocab_test
@@ -96,21 +100,26 @@ class Screen2VecTrainer:
             c, result, context = self.predictor(UIs, descr, trace_screen_lengths, layouts) #input here
             h_comp = self.predictor.model(UIs_comp, comp_descr, comp_tsl, comp_layouts, False).squeeze(0)
 
-            # dot products to find out similarity
-            # with negative sampling
-            neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
-            # with other screens in trace
-            neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
-            # with targets
-            pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
-            correct = torch.from_numpy(np.arange(0,len(UIs)))
-            dot_products = torch.cat((pos_dot_products, neg_dot_products, neg_self_dot_products), dim=1)
-            dot_products = dot_products.cpu()
+            if self.loss_type == 'cel':
+                # dot products to find out similarity
+                # with negative sampling
+                neg_dot_products = torch.mm(c, h_comp.transpose(0,1).cuda())
+                # with other screens in trace
+                neg_self_dot_products = torch.bmm(c.unsqueeze(1), context.transpose(1,2)).squeeze(1)
+                # with targets
+                pos_dot_products = torch.mm(c, result.transpose(0,1).cuda())
+                correct = torch.from_numpy(np.arange(0,len(UIs)))
+                dot_products = torch.cat((pos_dot_products, neg_dot_products, neg_self_dot_products), dim=1)
+                dot_products = dot_products.cpu()
 
-            # calculate loss for this batch
-            prediction_loss = self.criterion(dot_products, correct.long())
-            total_loss+=float(prediction_loss)
+                # calculate loss for this batch
+                prediction_loss = self.loss(dot_products, correct.long())
+                total_loss+=float(prediction_loss)
 
+            elif self.loss_type == 'cossim':
+                pred_binary = torch.ones(len(c)).cuda()
+                prediction_loss = self.loss(c,result,pred_binary)
+                total_loss+=float(prediction_loss)
             # if in train, backwards and optimization
             if train:
                 prediction_loss.backward()
