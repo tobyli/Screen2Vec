@@ -3,7 +3,10 @@ from dataset.rico_dao import load_rico_screen_dict
 import argparse
 import json
 import os
+from sentence_transformers import SentenceTransformer
+import numpy as np
 
+# finds the vocab (all GUI labels within data) to use for comparison in training
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--dataset", required=True, type=str, help="path to rico dataset filtered traces")
@@ -41,4 +44,15 @@ else:
 
 with open(output_path, 'w', encoding='utf-8') as f:
     json.dump(vocab_list, f, indent=4)
+
+bert = SentenceTransformer('bert-base-nli-mean-tokens')
+
+vocab_emb = bert.encode(vocab_list)
+
+if args.output:
+    emb_output_path = args.output + "/" + "vocab_emb"
+else:
+    emb_output_path = "vocab_emb"
+
+np.save(emb_output_path, vocab_emb)
 
