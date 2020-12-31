@@ -38,7 +38,7 @@ for package_dir in os.listdir(rico_dir):
 vocab_list = list(vocab)
 
 if args.output:
-    output_path = args.output + "/" + 'vocab.json'
+    output_path = args.output + 'vocab.json'
 else:
     output_path = 'vocab.json'
 
@@ -50,7 +50,7 @@ bert = SentenceTransformer('bert-base-nli-mean-tokens')
 vocab_emb = bert.encode(vocab_list)
 
 if args.output:
-    emb_output_path = args.output + "/" + "vocab_emb"
+    emb_output_path = args.output + "vocab_emb"
 else:
     emb_output_path = "vocab_emb"
 
