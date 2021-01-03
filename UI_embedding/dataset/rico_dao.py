@@ -2,6 +2,8 @@ import json
 import numpy as np
 from .rico_models import RicoActivity, RicoScreen, ScreenInfo
 
+# methods for parsing rico dataset files
+
 def rico_node_decoder(rico_node_dict: dict):
     return rico_node_dict
 

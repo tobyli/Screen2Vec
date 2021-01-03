@@ -1,5 +1,7 @@
 import json
 
+# class definitions for RICO dataset
+
 class ScreenInfo:
     def __init__(self, rico_id, package_name, activity_name):
         self.rico_id = rico_id

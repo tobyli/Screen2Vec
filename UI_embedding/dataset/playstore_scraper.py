@@ -2,6 +2,8 @@ import play_scraper
 from os import path
 DEFAULT_APP_DESCRIPTION_PATH = './PlayStoreDescriptions/'
 
+# handles querying for app description
+
 def get_app_description(packageName):
     try:
         return play_scraper.details(packageName)['description']
@@ -38,5 +40,3 @@ def update_app_description_file_in_batch(packageNameList, dir_path):
     for packageName in packageNameList:
         update_app_description_file(packageName, dir_path)
 
-# print(get_app_description('com.android.chrome'))
-# update_app_description_in_batch(['com.android.chrome', 'com.facebook.katana'], './PlayStoreDescriptions/')

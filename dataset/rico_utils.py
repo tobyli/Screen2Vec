@@ -2,6 +2,8 @@ from collections.abc import Iterable
 from .rico_models import RicoScreen, RicoActivity, ScreenInfo
 from .convert_class_to_label import convert_class_to_text_label
 
+# contains methods for collecting UI elements
+
 def get_all_texts_from_node_tree(node):
     results = []
     if 'text' in node and isinstance(node['text'], Iterable):

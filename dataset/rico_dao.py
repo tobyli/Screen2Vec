@@ -2,13 +2,19 @@ from .rico_models import RicoActivity, RicoScreen, ScreenInfo
 import json
 import numpy as np
 
+# methods for parsing rico dataset files
+
 def rico_node_decoder(rico_node_dict: dict):
     return rico_node_dict
 
 def load_rico_activity_dict(rico_activity_dict: dict):
     root_node = rico_node_decoder(rico_activity_dict['root'])
-    added_fragments = rico_activity_dict['added_fragments']
-    active_fragments = rico_activity_dict['active_fragments']
+    try:
+        added_fragments = rico_activity_dict['added_fragments']
+        active_fragments = rico_activity_dict['active_fragments']
+    except KeyError as e:
+        added_fragments = ''
+        active_fragments = ''
     return RicoActivity(root_node, added_fragments, active_fragments)
 
 
@@ -16,7 +22,10 @@ def load_rico_screen_dict(rico_screen_dict: dict):
     activity_name = rico_screen_dict['activity_name']
     activity: RicoActivity = load_rico_activity_dict(rico_screen_dict['activity'])
     is_keyboard_deployed = rico_screen_dict['is_keyboard_deployed']
-    request_id = rico_screen_dict['request_id']
+    try:
+        request_id = rico_screen_dict['request_id']
+    except KeyError as e:
+        request_id = ''
     return RicoScreen(activity_name, activity, is_keyboard_deployed, request_id)
 
 
