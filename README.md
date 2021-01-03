@@ -53,7 +53,11 @@ python get_embedding.py -s <path-to-screen> -u "UI_embedding/output/slow_uichang
 
 ```
 
-- This generates the vector embedding using our pretrained models
+This generates the vector embedding using our pretrained models. The parameters are:
+- -s/--screen, the path to the screen to encode
+- -u/--ui_model, the path to the ui embedding model to use
+- -m/--screen_model, the path to the screen embedding model to use
+- -l/--layout_model, the path to the layout embedding model to use
 
 
 ## Training
@@ -68,11 +72,22 @@ To train a model, run from within that directory:
 ```
 python main.py -d <location-of-dataset> -o <desired-output-path> -b 256 -e 100 -v "vocab.json" -m "vocab_emb.npy" -n 16 -r 0.001 -l "cel"
 ```
+The parameters here are:
+- -d/--dataset, the path to the RICO dataset traces
+- -o/--output, the path prefix for where the output models should be stored
+- -b/--batch, number of traces in a batch
+- -e/--epochs, desired number of epochs
+- -v/--vocab_path, the path to where the vocab was precomputed
+- -m/--embedding_path, path to where the vocab BERT embeddings were precomputed
+- -n/--num_predictors, the number of UI elements used to predict the unknown element
+- -r/--rate, the training rate
+- -hi/--hierarchy, flag to use if desiring to use the hierarchy distance metric rather than euclidean
+- -l/--loss, the desired loss metric; "cel" for cross-entropy loss, or "cossim" for cosine similarity
 
 Then, to pre-generate these embeddings for your dataset to then use in screen training, run:
 
 ```
-python precompute_embeddings.py -d <location-of-dataset> -m <desired-ui-model> -p <desired-prefix> -n 16
+python precompute_embeddings.py -d <location-of-dataset> -m <desired-ui-model> -p <desired-prefix>
 ```
 
 ### Layout autoencoder
@@ -82,7 +97,7 @@ The autoencoder is trained from within the Screen2Vec directory, by running:
 ```
 python layout.py -d <location-of-screen-dataset> -b 256 -e 400 -r 0.001
 ```
-where -b flags the batch size, -e the number of epochs, and -r the learning rate. Here, use the screen dataset rather than the trace dataset.
+where -b flags the batch size, -e the number of epochs, and -r the learning rate. Here, use the screen dataset ("combined") rather than the trace dataset ("filtered_traces").
 
 Then, to pre-generate these embeddings for your dataset to then use in screen training, run
 
@@ -98,6 +113,8 @@ To train the Screen level model, run
 python main_preloaded.py -d <previously-chosen-prefix> -s 128 -b 256 -t <ui-output-prefix>
 ```
 
+The parameters here are:
+-
 
 ## Evaluation
 
@@ -118,8 +135,9 @@ python modeltester_scre
 
 ## Reference
 
-> 
-> 
-> 
+> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.
+>Screen2Vec: Semantic Embedding of GUI Screens and GUI Components
+>Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)  
+
 
 

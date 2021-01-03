@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--dataset", required=True, type=str, help="dataset to precompute embeddings for")
 parser.add_argument("-m", "--model", required=True, type=str, help="path where pretrained part was stored")
 parser.add_argument("-p", "--prefix", required=True, type=str, help="prefix to output files")
-parser.add_argument("-n", "--n", required=True, type=int, help="number of predictors used")
+parser.add_argument("-n", "--n", default=16, type=int, help="number of predictors used")
 
 args = parser.parse_args()
 
