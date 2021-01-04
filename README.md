@@ -49,7 +49,7 @@ The model labelled "UI2Vec" is the GUI element embedding model, "Screen2Vec" is 
 If you just want to embed a screen using our pretrained GUI element, layout, and screen embedding models, run:
 
 ```
-python get_embedding.py -s <path-to-screen> -u "UI_embedding/output/slow_uichange.ep120" -m "output/final_4.ep120" -l "output/autoencoder.ep800" -v 4
+python get_embedding.py -s <path-to-screen> -u "UI_embedding/output/slow_uichange.ep120" -m "output/final_4.ep120" -l "output/autoencoder.ep800"
 
 ```
 
@@ -114,7 +114,13 @@ python main_preloaded.py -d <previously-chosen-prefix> -s 128 -b 256 -t <ui-outp
 ```
 
 The parameters here are:
--
+- -d/--data, the prefix selected on the precompute embeddings stage
+- -s/--neg_samp, the number of screens to use as a negative sample during training
+- -b/--batch, number of traces in a batch
+- -e/--epochs, desired number of epochs
+- -n/--num_predictors, the number of screens used to predict the next screen in the trace
+- -r/--rate, the training rate
+- -t/--test_train_split, the output path prefix from the UI embedding model, which was used to store the data split information as well
 
 ## Evaluation
 
@@ -129,7 +135,7 @@ python modeltester.py
 To test the prediction accuracy of the Screen embedding, run
 
 ```
-python modeltester_scre
+python modeltester_screen.py 
 ```
 
 
