@@ -19,7 +19,7 @@ parser.add_argument("-u", "--ui_model", required=True, type=str, help="path to U
 parser.add_argument("-n", "--num_predictors", type=int, default=4, help="number of other labels used to predict one")
 parser.add_argument("-m", "--screen_model", required=True, type=str, help="path to screen embedding model")
 parser.add_argument("-l", "--layout_model", required=True, type=str, help="path to layout embedding model")
-parser.add_argument("-v", "--net_version", type=int, default=5, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
+parser.add_argument("-v", "--net_version", type=int, default=4, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description")
 
 args = parser.parse_args()
 
