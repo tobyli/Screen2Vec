@@ -10,6 +10,8 @@ from torch.utils.data import DataLoader
 from sentence_transformers import SentenceTransformer
 import os
 
+# contains code for running nearest neighbor experiment
+
 def main():
     parser = argparse.ArgumentParser()
 
