@@ -145,6 +145,15 @@ python modeltester_screen.py -m "Screen2Vec_model_v4.ep120" -v 4 -n 4
 ```
 where -m flags the model to test, -v the model version (4 is standard), and -n the number of predictors used in predictions 
 
+## Other files
+
+The following files are used in the testing infrastructure of our baseline models:
+- for_baselines.py
+- modeltester_baseline.py
+- write_baseline_models.py
+- write_baseline_models_for_prediction.py
+
+
 ## Reference
 
 > Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.  
