@@ -147,8 +147,8 @@ where -m flags the model to test, -v the model version (4 is standard), and -n t
 
 ## Reference
 
-> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.
-> Screen2Vec: Semantic Embedding of GUI Screens and GUI Components
+> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.  
+> Screen2Vec: Semantic Embedding of GUI Screens and GUI Components  
 > Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)  
 
 
