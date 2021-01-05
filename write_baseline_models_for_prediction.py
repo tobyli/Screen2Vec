@@ -11,6 +11,7 @@ from dataset.rico_dao import load_rico_screen_dict
 from sentence_transformers import SentenceTransformer
 from autoencoder import ScreenLayout, LayoutAutoEncoder, ScreenVisualLayout, ImageAutoEncoder
 
+# generates the embeddings for the baseline models in the format needed by the model tester
 
 parser = argparse.ArgumentParser()
 

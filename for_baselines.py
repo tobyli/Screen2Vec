@@ -12,6 +12,7 @@ from sentence_transformers import SentenceTransformer
 from prediction import BaselinePredictor
 from UI_embedding.plotter import plot_loss
 
+# trains a prediction model for one of our baselines
 
 class BaselineDataset(Dataset):
     '''

@@ -10,6 +10,8 @@ from torch.utils.data import Dataset, DataLoader
 from prediction import BaselinePredictor
 from sentence_transformers import SentenceTransformer
 
+# modeltester for a baseline model
+
 class TesterBaselineDataset(Dataset):
     '''
     has traces, which have screens
