@@ -89,6 +89,7 @@ Then, to pre-generate these embeddings for your dataset to then use in screen tr
 ```
 python precompute_embeddings.py -d <location-of-dataset> -m <desired-ui-model> -p <desired-prefix>
 ```
+Then, move the files generated here from the UI_embedding directory into the Screen2Vec directory.
 
 ### Layout autoencoder
 
@@ -104,6 +105,7 @@ Then, to pre-generate these embeddings for your dataset to then use in screen tr
 ```
 python write_layout.py -d <location-of-dataset> -m <layout-model> -p <same-desired-prefix>
 ```
+Here, make sure you use the same desired prefix as from precomputing the UI embeddings
 
 ### Screen model
 
