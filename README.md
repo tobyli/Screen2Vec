@@ -105,7 +105,7 @@ Then, to pre-generate these embeddings for your dataset to then use in screen tr
 ```
 python write_layout.py -d <location-of-dataset> -m <layout-model> -p <same-desired-prefix>
 ```
-Here, make sure you use the same desired prefix as from precomputing the UI embeddings
+Here, make sure you use the same desired prefix as from precomputing the UI embeddings.
 
 ### Screen model
 
@@ -148,7 +148,9 @@ where -m flags the model to test, -v the model version (4 is standard), and -n t
 ## Reference
 
 >Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.
+
 >Screen2Vec: Semantic Embedding of GUI Screens and GUI Components
+
 >Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)  
 
 
