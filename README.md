@@ -149,7 +149,7 @@ where -m flags the model to test, -v the model version (4 is standard), and -n t
 
 ## Other files
 
-The following files are used in the testing infrastructure of our baseline models:
+The following files were used in the testing infrastructure of our baseline models. These are not needed for general use in the Screen2Vec pipeline and therefore have been stored in the sub-directory baseline to avoid clutter/confusion. However, if you desire to run these scripts, they should be moved to the main directory:
 - for_baselines.py
 - modeltester_baseline.py
 - write_baseline_models.py
