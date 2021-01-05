@@ -70,6 +70,8 @@ Files for the GUI model are contained within the UI_embedding directory.
 To train a model, run from within that directory:
 
 ```
+python extract_vocab.py -d <location-of-dataset>
+
 python main.py -d <location-of-dataset> -o <desired-output-path> -b 256 -e 100 -v "vocab.json" -m "vocab_emb.npy" -n 16 -r 0.001 -l "cel"
 ```
 The parameters here are:
