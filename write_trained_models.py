@@ -10,7 +10,7 @@ from dataset.dataset import PrecompRicoDataset, RicoTrace, RicoScreen
 from prediction import TracePredictor
 from vocab import ScreenVocab
 
-
+# writes encodings for trained model to be used in experiment
 
 def pad_collate(batch):
     UIs = [seq[0] for trace in batch for seq in trace]
@@ -97,31 +97,7 @@ vocab = ScreenVocab(dataset)
 del ui_emb
 
 end_index = 0
-# if args.net_version not in [5]:
-#     comp = torch.empty(0,bert_size)
-# else:
-#     comp = torch.empty(0,bert_size *2)
 
-
-# while end_index != -1:
-#     vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, vocab_indx_map, vocab_rvs_indx, end_index = vocab.get_all_screens(end_index, 1024)
-#     comp_part = predictor.model(vocab_UIs, vocab_descr, vocab_trace_screen_lengths, vocab_layouts, False).squeeze(0)
-#     comp = torch.cat((comp, comp_part), dim = 0)
-
-# comp = comp.detach().numpy()
-
-# comp_dict = {}
-
-
-# for emb_idx in range(len(comp)):
-#     names = vocab.get_name(emb_idx)
-#     name = "/".join(names.split("/")[-4:])
-#     comp_dict[name] = comp[emb_idx].tolist()
-
-# mistakes = []
-
-# with open('model' + str(args.net_version) + 'full.json', 'w', encoding='utf-8') as f:
-#     json.dump(comp_dict, f, indent=4)
 
 if args.net_version in [4,6,7,8]:
     end_index = 0
@@ -139,18 +115,6 @@ if args.net_version in [4,6,7,8]:
             name = "/".join(names.split("/")[-4:])
             comp_dict[name] = embeddings[emb_idx].detach().tolist()
 
-    # comp = comp.detach().numpy()
-
-
-    # print("stop")
-    # comp_dict = {}
-    # del dataset
-    # del vocab
-
-    # for emb_idx in range(len(comp)):
-    #     names = vocab.get_name(emb_idx)
-    #     name = "/".join(names.split("/")[-4:])
-    #     comp_dict[name] = comp[emb_idx].tolist()
 
     with open('model' + str(args.net_version) + 'descr.json', 'w', encoding='utf-8') as f:
         json.dump(comp_dict, f, indent=4)
