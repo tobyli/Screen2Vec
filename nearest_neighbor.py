@@ -7,12 +7,7 @@ import scipy
 import random
 import numpy as np
 from torch.utils.data import DataLoader
-from Screen2Vec import Screen2Vec
-from pretrainer import Screen2VecTrainer
-from dataset.dataset import RicoDataset, RicoTrace, RicoScreen
 from sentence_transformers import SentenceTransformer
-from prediction import TracePredictor
-from vocab import ScreenVocab
 import os
 
 def main():
