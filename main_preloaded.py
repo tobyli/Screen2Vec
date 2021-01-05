@@ -40,14 +40,15 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--data", required=True, type=str, default=None, help="prefix of precomputed data to test/train model")
 parser.add_argument("-o", "--output_path", required=True, type=str, help="where to store model")
-parser.add_argument("-b", "--batch_size", type=int, default=64, help="traces in a batch")
+parser.add_argument("-b", "--batch_size", type=int, default=256, help="traces in a batch")
 parser.add_argument("-e", "--epochs", type=int, default=10, help="number of epochs")
-parser.add_argument("-n", "--num_predictors", type=int, default=10, help="number of other labels used to predict one")
+parser.add_argument("-n", "--num_predictors", type=int, default=4, help="number of other labels used to predict one")
 parser.add_argument("-r", "--rate", type=float, default=0.001, help="learning rate")
 parser.add_argument("-s", "--neg_samp", type=int, default=128, help="number of negative samples")
 parser.add_argument("-a", "--prev_model", type=str, default=None, help="previously trained model to start training from")
 parser.add_argument("-v", "--net_version", type=int, default=0, help="0 for regular, 1 to embed location in UIs, 2 to use layout embedding, 3 to use both, 4 with both but no description, 5 to use both but not train description, 6 to use neither but no description")
 parser.add_argument("-l", "--loss", type=str, default="cel")
+parser.add_argument("-t", "--test_train_split", type=str, default="", help="prefix of information about train/test data split, stored when training UI model")
 
 args = parser.parse_args()
 
@@ -79,7 +80,7 @@ if args.net_version not in [0,1,6]:
 else:
     layouts = None
 
-with open("UI_embedding/ui_validation.json") as f:
+with open("UI_embedding/" + args.test_train_split + "ui_validation.json") as f:
     validation_traces = json.load(f, encoding='utf-8')
 
 

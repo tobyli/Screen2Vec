@@ -49,7 +49,7 @@ The model labelled "UI2Vec" is the GUI element embedding model, "Screen2Vec" is 
 If you just want to embed a screen using our pretrained GUI element, layout, and screen embedding models, run:
 
 ```
-python get_embedding.py -s <path-to-screen> -u "UI_embedding/output/slow_uichange.ep120" -m "output/final_4.ep120" -l "output/autoencoder.ep800"
+python get_embedding.py -s <path-to-screen> -u "UI2Vec_model.ep120" -m "Screen2Vec_model_v4.ep120" -l "layout_encoder.ep800"
 
 ```
 
@@ -118,7 +118,7 @@ The parameters here are:
 - -s/--neg_samp, the number of screens to use as a negative sample during training
 - -b/--batch, number of traces in a batch
 - -e/--epochs, desired number of epochs
-- -n/--num_predictors, the number of screens used to predict the next screen in the trace
+- -n/--num_predictors, the number of screens used to predict the next screen in the trace (we used 4)
 - -r/--rate, the training rate
 - -t/--test_train_split, the output path prefix from the UI embedding model, which was used to store the data split information as well
 
@@ -129,19 +129,23 @@ There are files to evaluate the performance of both the GUI and Screen embedding
 To test the prediction accuracy of the GUI embedding, run (from within the UI_embedding directory)
 
 ```
-python modeltester.py
+python modeltester.py -m "UI2Vec_model.ep120" -v "vocab.py" -ve "vocab_emb.npy" -d <path-to-dataset>
 ```
+- -m/--model, path to the pretrained UI embedding model
+- -d/--dataset, the path to the RICO dataset traces
+- -v/--vocab_path, the path to where the vocab was precomputed
+- -ve/--vocab_embedding_path, path to where the vocab BERT embeddings were precomputed
 
-To test the prediction accuracy of the Screen embedding, run
+To test the prediction accuracy of the Screen embedding, run (from within the main directory)
 
 ```
-python modeltester_screen.py 
+python modeltester_screen.py -m "Screen2Vec_model_v4.ep120" -v 4 -n 4
 ```
-
+where -m flags the model to test, -v the model version (4 is standard), and -n the number of predictors used in predictions 
 
 ## Reference
 
-> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.
+>Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.
 >Screen2Vec: Semantic Embedding of GUI Screens and GUI Components
 >Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)  
 
