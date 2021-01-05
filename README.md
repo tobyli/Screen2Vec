@@ -5,13 +5,13 @@ This repository houses the files necessary to implement the Screen2Vec vector em
 
 ## Steps to run full pipeline
 
-1. Extract vocab (`UI_embedding/extract_vocab.py`) from the full RICO traces dataset and then pre-write its Sentence-BERT embeddings (`UI_embedding/write_vocab_embedding.py`).
+1. Extract vocab from the full RICO traces dataset and pre-write its Sentence-BERT embeddings (`UI_embedding/extract_vocab.py`).
 2. Train UI embedding model (UI_embedding/main.py) on RICO traces dataset.
 3. Use `UI_embedding/modeltester.py` to test the performance.
 4. Use `UI_embedding/precompute_embeddings` to write files of the UI components and app descriptions and their respective embeddings; do this for both the test and train components of the dataset.
 5. Train the layout autoencoder model using the RICO screens dataset using `layout.py` and then precompute the layout embeddings for your dataset using `write_layout.py`.
 6. Train the Screen2Vec embedding model using `main_preloaded.py`.
-7. Use `modeltester_screen.py` to test it out.
+7. Use `modeltester.py` to test it out.
 
 ## In-depth
 -------------
