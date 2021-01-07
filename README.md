@@ -37,7 +37,7 @@ Due to its large size, the data is hosted outside Github: the data is stored at 
 ./download_data.sh
 ```
 
-The pretrained models are stored at <here>. Download them by running
+The pretrained models are stored at <http://basalt.amulet.cs.cmu.edu/screen2vec/>. Download them by running
 ```
 ./download_models.sh
 ```
