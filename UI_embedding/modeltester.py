@@ -13,6 +13,7 @@ from prepretrainer import UI2VecTrainer
 from dataset.dataset import RicoDataset, RicoScreen, ScreenDataset
 from dataset.vocab import BertScreenVocab
 
+# tests UI models for prediction accuracy
 
 parser = argparse.ArgumentParser()
 

@@ -11,6 +11,7 @@ from dataset.playstore_scraper import get_app_description
 from dataset.rico_utils import get_all_labeled_uis_from_rico_screen, ScreenInfo
 from dataset.rico_dao import load_rico_screen_dict
 
+# Generates the vector embeddings for an input screen
 
 parser = argparse.ArgumentParser()
 

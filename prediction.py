@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 from Screen2Vec import Screen2Vec
 
+# contains models that handle the step of predicting the next screen in the trace
+# these are the model parts that are trained, but not part of generating the actual
+# screen vectors for individual screens
+
 class TracePredictor(nn.Module):
     """
     predicts the embeddings of the next screen in a trace based on its preceding screens

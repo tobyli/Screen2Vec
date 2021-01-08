@@ -9,14 +9,15 @@ import tqdm
 from UI2Vec import UI2Vec, HiddenLabelPredictorModel
 from dataset.vocab import BertScreenVocab
 
+# contains class to train UI model
+
 class UI2VecTrainer:
     """
+    class to train UI encoding model
     """
 
     def __init__(self, predictor: HiddenLabelPredictorModel, dataloader_train, dataloader_test, 
                 vocab: BertScreenVocab, vocab_size:int, l_rate: float, n: int, bert_size=768, loss_type='cel'):
-        """
-        """
         self.predictor = predictor
         self.optimizer = Adam(self.predictor.parameters(), lr=l_rate)
         self.vocab = vocab
