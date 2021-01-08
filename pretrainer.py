@@ -11,6 +11,8 @@ from Screen2Vec import Screen2Vec
 from prediction import TracePredictor
 from vocab import ScreenVocab
 
+# contains class that will train our Screen2Vec model
+
 class Screen2VecTrainer:
     """
     Trains a Screen2Vec embedding using a prediction task

@@ -11,6 +11,9 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from UI_embedding.plotter import plot_loss
 from autoencoder import ScreenLayoutDataset, LayoutAutoEncoder, LayoutTrainer
 from autoencoder import ScreenVisualLayout, ScreenVisualLayoutDataset, ImageAutoEncoder, ImageTrainer
+
+# file that runs training of the layout autoencoder
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--dataset", required=True, type=str, help="dataset of screens to train on")

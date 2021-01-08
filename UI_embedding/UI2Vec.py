@@ -2,8 +2,12 @@ from sentence_transformers import SentenceTransformer
 import torch
 import torch.nn as nn
 
+# contains classes that compose the UI embedding model
 
 class UIEmbedder(nn.Module):
+    """
+    Model intended to semantically embed the content of a UI element into a vector
+    """
     def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):
         super().__init__()
         self.text_embedder = bert
@@ -23,7 +27,7 @@ class UIEmbedder(nn.Module):
 class UI2Vec(nn.Module):
 
     """
-    Model intended to semantically embed the content of a UI element into a vector
+    Model that wraps the UI Embedder
     """
 
     def __init__(self, bert, bert_size=768, num_classes=26, class_emb_size=6):

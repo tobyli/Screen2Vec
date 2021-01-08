@@ -9,6 +9,8 @@ import torch.nn as nn
 from autoencoder import ScreenLayout, LayoutAutoEncoder
 from autoencoder import ScreenVisualLayout, ImageAutoEncoder
 
+# file to pre-write the layout autoencoding for use in screen2vec model training
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--dataset", required=True, type=str, help="dataset of screens to train on")

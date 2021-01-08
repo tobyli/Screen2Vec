@@ -11,6 +11,8 @@ import json
 import tqdm
 from PIL import Image
 
+# all of the classes to define and train the autoencoders:
+# both the layout and visual 
 
 class ScreenLayout():
 

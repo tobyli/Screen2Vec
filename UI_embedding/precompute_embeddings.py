@@ -11,6 +11,8 @@ from dataset.rico_utils import get_all_texts_from_rico_screen, get_all_labeled_u
 from dataset.rico_dao import load_rico_screen_dict
 from UI2Vec import HiddenLabelPredictorModel
 
+# file to precompute the UI embeddings for later use in Screen model training
+
 class ScreensList(Dataset):
     """
     Just a list of screens so that dataloader can be used
@@ -23,8 +25,6 @@ class ScreensList(Dataset):
     
     def __len__(self):
         return len(self.uis)
-
-
 
 parser = argparse.ArgumentParser()
 

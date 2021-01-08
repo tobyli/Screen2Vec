@@ -32,7 +32,7 @@ To install dependencies:
 
 ## Data
 
-Due to its large size, the data is hosted outside Github: the data is stored at <http://interactionmining.org/rico> in the interaction traces dataset. To easily download it, run
+Due to its large size, the data is hosted outside Github: the data is stored at <http://interactionmining.org/rico> in the "Interaction Traces" and "UI Screenshots and View Hierarchies" datasets. To easily download it, run
 ```
 ./download_data.sh
 ```
@@ -41,7 +41,7 @@ The pretrained models are stored at <http://basalt.amulet.cs.cmu.edu/screen2vec/
 ```
 ./download_models.sh
 ```
-The model labelled "UI2Vec" is the GUI element embedding model, "Screen2Vec" is the screen embedding model, "layout_encoder" is the screen layout embedder, and "visual_encoder" is our visual autoencoder baseline.
+The model labelled "UI2Vec" is the GUI element embedding model, "Screen2Vec" is the screen embedding model, "layout_encoder" is the screen layout autoencoder, and "visual_encoder" is our visual autoencoder baseline.
 
 
 ## Quick start

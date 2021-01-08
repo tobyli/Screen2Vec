@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+# Contains classes that define our screen embeddings
+
 class Screen2Vec(nn.Module):
 
     """

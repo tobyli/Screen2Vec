@@ -13,6 +13,8 @@ from prediction import TracePredictor
 from vocab import ScreenVocab
 from UI_embedding.plotter import plot_loss
 
+# main function for the screen2vec model:
+# handles training and saving the model
 
 def pad_collate(batch):
     """

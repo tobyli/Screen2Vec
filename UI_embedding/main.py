@@ -12,6 +12,7 @@ from dataset.vocab import BertScreenVocab
 from sentence_transformers import SentenceTransformer
 from plotter import plot_loss
 
+# Main function for training UI model
 
 parser = argparse.ArgumentParser()
 
