@@ -1,5 +1,7 @@
 # Screen2Vec
 
+Screen2Vec is a new self-supervised technique for generating more comprehensive semantic embeddings of GUI screensand components using their textual content, visual designand layout patterns, and app meta-data.
+
 This repository houses the files necessary to implement the Screen2Vec vector embedding process on screens from the [RICO dataset](http://interactionmining.org/rico).
 
 
