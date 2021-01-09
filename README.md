@@ -1,6 +1,6 @@
 # Screen2Vec
 
-Screen2Vec is a new self-supervised technique for generating more comprehensive semantic embeddings of GUI screensand components using their textual content, visual designand layout patterns, and app meta-data.
+Screen2Vec is a new self-supervised technique for generating more comprehensive semantic embeddings of GUI screensand components using their textual content, visual designand layout patterns, and app meta-data. Learn more about Screen2Vec in our [CHI 2021 paper](http://toby.li/files/li-screen2vec-chi2021.pdf).
 
 This repository houses the files necessary to implement the Screen2Vec vector embedding process on screens from the [RICO dataset](http://interactionmining.org/rico).
 
@@ -160,9 +160,7 @@ The following files were used in the testing infrastructure of our baseline mode
 
 ## Reference
 
-> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers.  
-> Screen2Vec: Semantic Embedding of GUI Screens and GUI Components  
-> Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)  
+> [Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers. Screen2Vec: Semantic Embedding of GUI Screens and GUI Components. Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)](http://toby.li/files/li-screen2vec-chi2021.pdf)
 
 
 
