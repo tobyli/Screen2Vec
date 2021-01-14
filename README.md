@@ -160,7 +160,7 @@ The following files were used in the testing infrastructure of our baseline mode
 
 ## Reference
 
-> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers. [Screen2Vec: Semantic Embedding of GUI Screens and GUI Components](http://toby.li/files/li-screen2vec-chi2021.pdf). Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021)]
+> Toby Jia-Jun Li*, Lindsay Popowski*, Tom M. Mitchell, and Brad A. Myers. [Screen2Vec: Semantic Embedding of GUI Screens and GUI Components](http://toby.li/files/li-screen2vec-chi2021.pdf). Proceedings of the ACM Conference on Human Factors in Computing Systems (CHI 2021).
 
 
 
