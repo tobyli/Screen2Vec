@@ -3,3 +3,5 @@ torch
 tqdm
 argparse
 scipy
+sentence-transformers
+play-scraper
