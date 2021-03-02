@@ -34,7 +34,7 @@ def get_embedding(screen, ui_model, screen_model, layout_model, num_predictors, 
     bert_size = 768
 
     loaded_ui_model = HiddenLabelPredictorModel(bert, bert_size, 16)
-    loaded_ui_model.load_state_dict(torch.load(ui_model))
+    loaded_ui_model.load_state_dict(torch.load(ui_model), strict=False)
 
     ui_class = torch.tensor([UI[1] for UI in labeled_text])
     ui_text = [UI[0] for UI in labeled_text]
