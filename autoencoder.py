@@ -24,7 +24,7 @@ class ScreenLayout():
 
     def load_screen(self, screen_path):
         with open(screen_path) as f:
-            hierarchy = json.load(f, encoding='utf-8')
+            hierarchy = json.load(f)
         try:
             root = hierarchy["activity"]["root"]
             self.load_screen_contents(root)
