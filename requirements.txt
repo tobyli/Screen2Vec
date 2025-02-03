@@ -4,4 +4,4 @@ tqdm
 argparse
 scipy
 sentence-transformers
-play-scraper
+google-play-scraper
