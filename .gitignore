@@ -1,0 +1,16 @@
+# Data
+traces.tar.gz
+unique_uis.tar.gz
+filtered_traces/
+combined/
+
+# Models
+*.ep120
+*.ep800
+
+# IDEs
+.idea/
+.vscode/
+
+# OS
+.DS_Store
